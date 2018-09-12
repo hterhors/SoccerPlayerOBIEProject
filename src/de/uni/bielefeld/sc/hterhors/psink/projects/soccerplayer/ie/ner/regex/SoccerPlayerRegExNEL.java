@@ -17,7 +17,7 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.ie.ner.regex.AbstractRegExNER;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.ner.regex.BasicRegExPattern;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
-import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.dtinterpreter.SoccerPlayerInterpreter;
+import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.dtinterpreter.SoccerPlayerInterpreterProvider;
 
 public class SoccerPlayerRegExNEL extends AbstractRegExNER<ISoccerPlayerThing> {
 
@@ -98,7 +98,7 @@ public class SoccerPlayerRegExNEL extends AbstractRegExNER<ISoccerPlayerThing> {
 	@Override
 	protected IDatatypeInterpretation getSemanticInterpretation(Class<? extends ISoccerPlayerThing> dataTypeClass,
 			Matcher matcher) {
-		return SoccerPlayerInterpreter.getInstance().interpret(dataTypeClass, matcher);
+		return SoccerPlayerInterpreterProvider.getInstance().interpret(dataTypeClass, matcher);
 	}
 
 	@Override

@@ -9,15 +9,16 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.ie.dtinterpreter.IInterpreter;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.dtinterpreter.INumericInterpreter;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.BirthYear;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
+import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.dtinterpreter.impl.BirthYearInterpreter;
 
-public class SoccerPlayerInterpreter implements IInterpreter<ISoccerPlayerThing> {
+public class SoccerPlayerInterpreterProvider implements IInterpreter<ISoccerPlayerThing> {
 
-	private static SoccerPlayerInterpreter instance = null;
+	private static SoccerPlayerInterpreterProvider instance = null;
 
-	public static SoccerPlayerInterpreter getInstance() {
+	public static SoccerPlayerInterpreterProvider getInstance() {
 
 		if (instance == null)
-			instance = new SoccerPlayerInterpreter();
+			instance = new SoccerPlayerInterpreterProvider();
 
 		return instance;
 	}

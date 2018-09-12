@@ -1,4 +1,4 @@
-package de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.dtinterpreter;
+package de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.dtinterpreter.impl;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

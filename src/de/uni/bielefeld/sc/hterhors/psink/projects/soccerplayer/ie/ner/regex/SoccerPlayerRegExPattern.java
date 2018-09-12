@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.ner.regex.BasicRegExPattern;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.BirthYear;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
-import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.dtinterpreter.BirthYearInterpreter;
+import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.dtinterpreter.impl.BirthYearInterpreter;
 
 public class SoccerPlayerRegExPattern extends BasicRegExPattern {
 
@@ -24,12 +24,10 @@ public class SoccerPlayerRegExPattern extends BasicRegExPattern {
 			return handMadepattern;
 		}
 
-		/*
-		 * AnimalModel
-		 */
 		handMadepattern = new HashMap<Class<? extends ISoccerPlayerThing>, Set<Pattern>>();
 
 		handMadepattern.put(BirthYear.class, SoccerPlayerRegExPattern.BIRTH_YEAR_REG_EXP);
+		
 		return handMadepattern;
 	}
 

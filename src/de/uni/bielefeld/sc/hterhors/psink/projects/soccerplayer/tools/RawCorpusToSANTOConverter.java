@@ -7,7 +7,7 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.core.tools.annodb.OWLToAnnoDBConf
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.SoccerPlayerProjectEnvironment;
 
 /**
- * Loads the raw corpus and transforms it into an SANTO format for file writing.
+ * Loads the raw corpus and transforms it into a SANTO format for file writing.
  * 
  * @author hterhors
  *
