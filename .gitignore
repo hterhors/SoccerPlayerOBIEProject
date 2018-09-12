@@ -3,3 +3,7 @@
 /bin/
 /gen/
 /target/
+/.classpath
+/.project
+/tmpresults
+/.settings/
