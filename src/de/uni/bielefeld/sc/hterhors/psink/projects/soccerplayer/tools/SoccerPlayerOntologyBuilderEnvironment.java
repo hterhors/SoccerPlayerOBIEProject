@@ -22,11 +22,11 @@ public class SoccerPlayerOntologyBuilderEnvironment extends AbstractOntologyBuil
 
 	final public static int version = 1;
 	public static final File ONTOLOGY_FILE = new File(
-			"/home/hterhors/photon_workspace/SoccerPlayerOntology/owl/soccer_player_v" + version + ".owl");
+			"/home/hterhors/git/SoccerPlayerOntology/owl/soccer_player_v" + version + ".owl");
 	public static final String DEFAULT_NAMESPACE = "http://dbpedia.org/ontology/";
 	public static final String ONTOLOGY_NAME = "SoccerPlayer";
 
-	public final String ONTOLOGY_SRC_LOCATION = "/home/hterhors/photon_workspace/SoccerPlayerOntology/src/"
+	public final String ONTOLOGY_SRC_LOCATION = "/home/hterhors/git/SoccerPlayerOntology/src/"
 			+ getBasePackage().replaceAll("\\.", "/");
 
 	@Override
