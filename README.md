@@ -1,35 +1,79 @@
 # SoccerPlayerOBIEProject
 
-The SoccerPlayerOBIE Project (Generated with OWL2JavaBinary)
+The SoccerPlayerOBIE Project 
 
-Simple Example project that uses the automatically generated SoccerPlayerOntology.
+**NOTE** This project is stilll under heavy development!
+
+**Dependiecies**
+You need the following dependent projects:
+
+1)  OBIECore https://github.com/hterhors/OBIECore
+2)  BIRE https://github.com/ag-sc/BIRE  (**simplified-api branch**)
+3)  OBIEMLFramework https://github.com/hterhors/OBIEMachineLearningFrameWork
+4)  OWL2JavaBin https://github.com/hterhors/OWL2JavaBin
+5)  SoccerPlayerOntology https://github.com/hterhors/SoccerPlayerOntology
+
+**Related Projects, Implementations / Examples**
+1) OWL2JavaBin https://github.com/hterhors/OWL2JavaBin is a tool taht can be used to convert ontologies written in OWL into java binaries which are used in the OBIE-ML-Framework.
+2) SoccerPlayerOntology https://github.com/hterhors/SoccerPlayerOntology is an example ontology that was generated with OWL2javaBin. It contains the OWL file and the resulting java binaries. 
+3) SoccerPlayerOBIEProject https://github.com/hterhors/SoccerPlayerOBIEProject is a project that works with the generated SoccerPalyerOntology. It contains example source code for
+  i) the information extraction task using the OBIE MachineLearningFramework (incl. template / feature generation), 
+  ii) how to convert an OWL to java binaries. 
+  It further, contains an examplary annotated data set that was automatically generated from Wikipedia/dbpedia data using the DBPediaDatasetExtraction project.
+4)  OBIECore https://github.com/hterhors/OBIECore contains core source code for all OBIE-related projects. 
+
+**Description**
+
+This is a simple example project that uses the automatically generated SoccerPlayerOntology for information extraction using the OBIEMLFramework.
 
 This projects contains example classes to create the SoccerPlayerOntology and use it in the OBIE Machine Learning Framework.
 
-The class SoccerPlayerProjectEnvironment determines all necessary properties such as corpus locations, ontology version etc. 
+The class *StartExtraction* is the main class to start the relation extraction. It depends on a parameter providing class *SoccerPlayerParameterQuickAccess* and on the project environment *SoccerPlayerProjectEnvironment*. 
 
-The class StartExtraction is the main class for the MachineLearning FrameWork. It depends on a ParameterClass (SoccerPlayerParameterQuickAccess) and on the project environment. 
+The class *SoccerPlayerProjectEnvironment* determines all necessary properties such as corpus locations, ontology version etc. 
 
-The class SoccerPlayerParameterQuickAccess contains various parameter that can be set for the machine learning tool such as used templates (features), exploration strategies, number of epochs scoring functions and so on. Changing parameter in this class in particular often requires advanced knowledge of the ML Tool and is not recommended for beginner. 
+The class *SoccerPlayerParameterQuickAccess* contains various parameter that can be set for the machine learning tool such as  exploration strategies, number of epochs scoring functions and so on. Changing parameter in this class often requires advanced knowledge of the ML tool and is not recommended for beginner. Running this project does not require any changes in this class. 
 
-Templates (Features) can be found in the template package. In this example project only 2 templates exists: 
-BirthYearTemplate and PriorTemplate. The functionality and features are directly described in the class itself. 
+Templates (features) can be found in the template package. In this example project only 2 templates exist: 
+*BirthYearTemplate* and *PriorTemplate*. The functionality and features are directly described in classes. 
 
 In OBIE, we distinguish between two types of properties that needs to be filled.
 
-ObjectProeprties (cf. OWL-definition) can be filled with ontology Classes, or NamedIndividuals.
-E.g. the playing position of a soccer player is limited and can be easily expressed as classes/NamedIndividuals in the ontology directly. For instance with Defender, Center-Back, Wing-Back etc.
+1)  ObjectProeprties (cf. OWL-definition) can be filled with ontology classes, or NamedIndividuals. Occurrences of classes and named individuals can be provided by some named entity recognition framework. 
 
-DatatypeProperties refer to some arbitrary String in the document and thus should not (can not) be expressed in the ontology. Filler for such properties needs to be found in the first place. A simple example DTproperty might be the birth year of a soccer player. 
+2)  DatatypeProperties (cf. OWL-definition) refer to some arbitrary string in the document and thus can not be expressed in the ontology. Filler for such properties need to be found in the first place using some named enitty recognition and linking framework. 
 
-Such SlotFiller candidates can be found with the SoccerPlayerRegExNEL class which uses the SoccerPlayerRegExPattern as pattern dictionary. While for ObjectProperties-Filler some regular expressions are automatically generated (Based on the name of the class. When designing a new ontology it is useful to have proper naming for classes, individuals and properties.) regular expressions for DatatypeProperties need to be defined manually! In OBIE, filler for DatatypeProperties should be (need to be) defined as AbstractInterpreter (compare NumericInterpreter vs. StringInterpreter). Interpreter offer the possibility of evaluating two different Strings as equal e.g. "300 g" = "0.3kg" = "300g" ...
+One very simple, but genericly applicable for all ontologies, named entitiy recognition and linking framework is based on regular expressions. 
 
-A simple example interpreter for the BirthYear can be found in the dtinterpreter package. 
-As this example ontology has just one datatype property it is not necessary to implement further ones. 
+The implementation of this class can be found in *SoccerPlayerRegExNEL* which uses the SoccerPlayerRegExPattern as pattern dictionary:
 
-This project comes with a small raw corpus containing wikipedia article about soccer player and slotfilling annotations in form of the java classes. However, this corpus can not be used in the OBIE-ML-FrameWork as a NamedEntityRecognition and Linking needs to be done. The class BigramCorpusCreator applies a NEL-Tool (In this case the simple Regular Expression) to all documents and stores it into a new format that can be used by the OBIE-ML-FrameWork. (using the given RegExNEL-Tool, the size of this corpus is approx 10 mb)
+1)  Filler for object properties (properties that are filled by ontological classes and named individuals) some regular expressions are automatically generated (based on the name of the class. **When designing a new ontology it is useful to have proper naming for classes, individuals and properties.**)
+2) Regular expressions for datatype properties need to be defined manually! In OBIE, filler for datatype properties need to be implemneted as *AbstractInterpreter* (compare NumericInterpreter vs. StringInterpreter). Interpreter offer the possibility of evaluating two different Strings as equal e.g. "300 g" = "0.3kg" = "300g" by separating and interpreting the actual value and the unit if any. A simple example interpreter for the datatype property hasBirthYear can be found in the dtinterpreter package in the class *BirthYear*.
 
-the OBIE-ML-Framework comes with some very simple baseline models. How to use this is explained in the HighFreqBaseline class. 
+**Usage**
+
+This project comes with a small (automatically and thus probabily not perfect) annotated dataset. This raw corpus contains 
+1)  text from Wikipedia articles about soccer player
+2)  slot-filling annotations in form of the fully implemented java classes.
+However, the corpus in its downloadable form can not be used in the OBIE-ML-FrameWork as a named entity recognition and linking tool needs to be applied first.
+
+The class *BigramCorpusCreator* (Bigram = BIRE) applies a provided NEL-tool (In this case the simple regular expression tool that was described before) to all documents and stores the new created annotations into a new format that can be used by the OBIE-ML-FrameWork. (Using the given RegExNEL-Tool, the size of this corpus should be approx. 10 mb)
+
+After all dependencies are resolved and the project compiles you need to adjust parameter in the environment before running the system! After all configurations such as pathes to corpora models etc. are updated the system can be run.
+
+Simply start the *StartExtraction* class that contains the main class. 
+
+
+**Output**
+In the first run (if all patehes are set correctly) the system should generate a model for each epoch which is written to the hard drive. A model is simply a directory containing a file for each used template. Each template-file contains a list of features and their parameter-value that were learned during training. 
+
+When starting the system again the model can be loaded from the hard drive for prediction. 
+The model name is automatically generated by some parameter, templates and the number of epochs. 
+If you want to load a model from a different epoch just set the epoch variable to the desired one. 
+
+**Integrated Baseline**
+
+The OBIE-ML-Framework comes with some very simple baseline models. How to use this is explained in the *HighFreqBaseline* class. 
 
 
 
