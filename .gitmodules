@@ -13,3 +13,4 @@
 [submodule "lib/BIRE"]
 	path = lib/BIRE
 	url = https://github.com/ag-sc/BIRE.git
+	branch = simplified-api
