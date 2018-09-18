@@ -27,18 +27,18 @@ E.g: Given the text from the article linked above:
 
 ----------------------------------------------------------------------------
 
-The goal would be to find that the player the article is talking about is http://psink.de/dbpedia/HerbieWilliams (artifical namespace).
-.
-Herbie Williams was born in 1940.
-Herbie Williams was born in Wales.
-Herbie Williams plays at position inside forward.
-Herbie Williams was member of team Swansea City
-Herbie Williams was member of team Wales National Team
+The goal would be to find that the player the article is talking about is http://psink.de/dbpedia/HerbieWilliams (artifical namespace) and the properties that are defined by the ontology can be filled with: 
 
-etc.
-
+1)  Herbie Williams was born in 1940.
+2)  Herbie Williams was born in Wales.
+3)  Herbie Williams plays at position inside forward.
+4)  Herbie Williams was member of team Swansea City
+5)  Herbie Williams was member of team Wales National Team
 
 **Dependencies**
+
+Dependencies are part of git submodule and are cloned automatically.
+
 You need the following dependent projects:
 
 1)  OBIECore https://github.com/hterhors/OBIECore
