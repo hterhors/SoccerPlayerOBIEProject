@@ -4,6 +4,40 @@ The SoccerPlayerOBIE Project
 
 **NOTE** This project is still under heavy development!
 
+**Goals of this project**
+
+This project is an example of how to use the ontology based information extraction machine learning framework for a data set about soccer player.
+
+The data set contains Wikipedia article such as https://en.wikipedia.org/wiki/Herbie_Williams that are about soccer player. 
+The goal is to extract information of these articles that belong to the soccer player mentioned in the text.
+The information that needs to be extracted is described in a corresponding ontolongy. The ontology describes the structure of information but also provides information of possible property-values.  
+
+E.g: Given the text from the article linked above: 
+
+----------------------------------------------------------------------------
+
+*Herbert John Williams, Jr. (born 6 October 1940) is a Welsh former footballer who played at both professional and international levels as an inside forward.*
+
+*Career*
+*Born in Swansea, Williams spent his entire professional career with hometown club Swansea City, making 513 appearances in the Football League between 1958 and 1975.*
+
+*After leaving Swansea, Williams spent the 1975 season as player-coach of Australian side Balgownie Rangers.*
+
+*He also earned three international caps for Wales,[3] appearing in two FIFA World Cup qualifying matches.*
+
+----------------------------------------------------------------------------
+
+The goal would be to find that the player the article is talking about is http://psink.de/dbpedia/HerbieWilliams (artifical namespace).
+.
+Herbie Williams was born in 1940.
+Herbie Williams was born in Wales.
+Herbie Williams plays at position inside forward.
+Herbie Williams was member of team Swansea City
+Herbie Williams was member of team Wales National Team
+
+etc.
+
+
 **Dependencies**
 You need the following dependent projects:
 
