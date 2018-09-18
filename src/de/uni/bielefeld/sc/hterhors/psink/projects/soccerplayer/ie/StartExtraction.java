@@ -11,11 +11,8 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.StandardRERunner;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter.OBIEParameterBuilder;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.AbstractOBIETemplate;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.InBetweenContextTemplate;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.InterTokenTemplate;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.LocalTemplate;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.SlotIsFilledTemplate;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.TokenContextTemplate;
+import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.BirthYearTemplate;
+import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.PriorTemplate;
 
 /**
  * 
@@ -110,19 +107,19 @@ public class StartExtraction {
 		/**
 		 * Add your own templates:
 		 */
-//		templates.add(BirthYearTemplate.class);
-//		templates.add(PriorTemplate.class);
+		templates.add(BirthYearTemplate.class);
+		templates.add(PriorTemplate.class);
 
 		/**
 		 * Predefined and generic template:
 		 */
 //		templates.add(FrequencyTemplate.class);
 
-		templates.add(TokenContextTemplate.class);
-		templates.add(InterTokenTemplate.class);
-		templates.add(SlotIsFilledTemplate.class);
-		templates.add(InBetweenContextTemplate.class);
-		templates.add(LocalTemplate.class);
+//		templates.add(TokenContextTemplate.class);
+//		templates.add(InterTokenTemplate.class);
+//		templates.add(SlotIsFilledTemplate.class);
+//		templates.add(InBetweenContextTemplate.class);
+//		templates.add(LocalTemplate.class);
 
 		/**
 		 * Templates that capture the cardinality of slots

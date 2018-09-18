@@ -1,10 +1,11 @@
-package de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.tools;
+package de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.tools.santo;
 
 import java.io.File;
 
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.tools.annodb.ConvertRawCorpusToSANTOFormat;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.tools.annodb.OWLToAnnoDBConfigurationConverter;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.SoccerPlayerProjectEnvironment;
+import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.tools.SoccerPlayerOntologyBuilderEnvironment;
 
 /**
  * Loads the raw corpus and transforms it into a SANTO format for file writing.
