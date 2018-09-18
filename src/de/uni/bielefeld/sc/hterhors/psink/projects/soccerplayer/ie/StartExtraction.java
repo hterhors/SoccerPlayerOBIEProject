@@ -39,7 +39,8 @@ public class StartExtraction {
 	 * The runID. This serves as an identifier for locating and saving the model. If
 	 * anything was changed during the development the runID should be reset.
 	 */
-	private final static String runID = "-birthYearTemplate2";
+	private final static String runID = "test";
+
 	/**
 	 * The systems environment.
 	 */

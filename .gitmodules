@@ -1,0 +1,15 @@
+[submodule "lib/SoccerPlayerOntology"]
+	path = lib/SoccerPlayerOntology
+	url = https://github.com/hterhors/SoccerPlayerOntology.git
+[submodule "lib/OBIECore"]
+	path = lib/OBIECore
+	url = https://github.com/hterhors/OBIECore.git
+[submodule "lib/OBIEMachineLearningFramework"]
+	path = lib/OBIEMachineLearningFramework
+	url = https://github.com/hterhors/OBIEMachineLearningFramework.git
+[submodule "lib/OWL2JavaBin"]
+	path = lib/OWL2JavaBin
+	url = https://github.com/hterhors/OWL2JavaBin.git
+[submodule "lib/BIRE"]
+	path = lib/BIRE
+	url = https://github.com/ag-sc/BIRE.git
