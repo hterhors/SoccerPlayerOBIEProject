@@ -65,6 +65,7 @@ Simply start the *StartExtraction* class that contains the main class.
 
 
 **Output**
+
 In the first run (if all patehes are set correctly) the system should generate a model for each epoch which is written to the hard drive. A model is simply a directory containing a file for each used template. Each template-file contains a list of features and their parameter-value that were learned during training. 
 
 When starting the system again the model can be loaded from the hard drive for prediction. 
