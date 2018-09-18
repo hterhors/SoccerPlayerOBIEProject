@@ -2,7 +2,7 @@
 
 The SoccerPlayerOBIE Project 
 
-**NOTE** This project is stilll under heavy development!
+**NOTE** This project is still under heavy development!
 
 **Dependiecies**
 You need the following dependent projects:
