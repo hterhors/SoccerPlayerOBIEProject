@@ -5,6 +5,7 @@
 	<groupId>de.uni.bielefeld.sc.hterhors.psink.obie</groupId>
 	<artifactId>SoccerPlayerOBIEProject</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.apache.jena/apache-jena-libs -->
