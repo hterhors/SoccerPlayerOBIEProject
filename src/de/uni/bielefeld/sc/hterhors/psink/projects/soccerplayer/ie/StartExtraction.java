@@ -163,9 +163,19 @@ public class StartExtraction {
 		 * Evaluate the trained model on the test data. This is equal to predictOnTest
 		 * and apply the results to an evaluator.
 		 */
-		final PRF1Container pfr1 = runner.evaluateOnTest();
+		final PRF1Container overallPRF1 = runner.evaluateOnTest();
 
-		System.out.println("Evaluation results on test data:\n" + pfr1);
+		System.out.println("Evaluation results on test data:\n" + overallPRF1);
+
+		/**
+		 * Whether the output for each slot should be shown detailed or not. (Might
+		 * generate large output)
+		 */
+		boolean detailedOutput = false;
+		/**
+		 * Evaluate the trained model on the test data for each slot individually.
+		 */
+		runner.evaluatePerSlotOnTest(detailedOutput);
 
 	}
 
