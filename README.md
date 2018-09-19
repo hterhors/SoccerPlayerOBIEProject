@@ -4,6 +4,26 @@ The SoccerPlayerOBIE Project
 
 **NOTE** This project is still under heavy development!
 
+**Quick Start**
+
+1)  Clone necessary projects:
+
+git clone https://github.com/hterhors/SoccerPlayerOBIEProject.git;
+
+git clone https://github.com/hterhors/OBIECore.git;
+
+git clone https://github.com/hterhors/SoccerPlayerOntology.git;
+
+git clone https://github.com/hterhors/OWL2JavaBin.git;
+
+git clone https://github.com/hterhors/OBIEMachineLearningFramework.git
+
+2)  Start IDE of choice (e.g. Eclipse)
+
+Import Maven projects...
+
+
+
 **Goals of this project**
 
 This project is an example of how to use the ontology based information extraction machine learning framework for a data set about soccer player.
