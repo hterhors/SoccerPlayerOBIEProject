@@ -6,7 +6,7 @@ The SoccerPlayerOBIE Project
 
 **Quick Start**
 
-1)  Clone necessary projects:
+1)  Clone necessary projects (e.g. in terminal) :
 
 git clone https://github.com/hterhors/SoccerPlayerOBIEProject.git;
 
@@ -16,13 +16,27 @@ git clone https://github.com/hterhors/SoccerPlayerOntology.git;
 
 git clone https://github.com/hterhors/OWL2JavaBin.git;
 
-git clone https://github.com/hterhors/OBIEMachineLearningFramework.git
+git clone https://github.com/hterhors/OBIEMachineLearningFramework.git;
 
-2)  Start IDE of choice (e.g. Eclipse)
+git clone https://github.com/ag-sc/BIRE.git -b simplified-api;
 
-Import Maven projects...
+2)  Start IDE of choice (e.g. Eclipse):
 
+Make sure that maven is installed (per default in many IDEs). 
 
+3)  Import Maven projects:
+
+Right-click "Import..." -> Existing Maven Projects. Browse for git folder -> Select all 6 projects 
+
+4)  Update all maven projects:
+
+In Eclipse right-click -> Maven -> "Update Project..." select all projects.
+
+5)  **Convert provided raw-corpus into bigram-corpus by running *ie.corpus.BigramCorpusCreator.java***
+
+  This needs to be done only once becuase the provided corpus does not contain any entity annotations on textual level.
+
+6)  Execute main in *ie.StartExtraction.java* 
 
 **Goals of this project**
 
