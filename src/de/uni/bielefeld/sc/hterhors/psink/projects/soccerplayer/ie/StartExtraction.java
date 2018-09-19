@@ -1,16 +1,22 @@
 package de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import corpus.SampledInstance;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.evaluation.PRF1Container;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.projects.AbstractOBIEProjectEnvironment;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.distributor.AbstractCorpusDistributor;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.AbstractOBIERunner;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.StandardRERunner;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.eval.EvaluatePrediction;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter.OBIEParameterBuilder;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.AbstractOBIETemplate;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.InstanceEntityAnnotations;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEInstance;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEState;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.BirthYearTemplate;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.PriorTemplate;
 
@@ -163,7 +169,16 @@ public class StartExtraction {
 		 * Evaluate the trained model on the test data. This is equal to predictOnTest
 		 * and apply the results to an evaluator.
 		 */
-		final PRF1Container overallPRF1 = runner.evaluateOnTest();
+//		final PRF1Container overallPRF1 = runner.evaluateOnTest();
+
+		/**
+		 * Get predictions that can be used for full evaluation and perSlotEvaluation.
+		 */
+		final List<SampledInstance<OBIEInstance, InstanceEntityAnnotations, OBIEState>> predictions = runner
+				.predictOnTest();
+
+		final PRF1Container overallPRF1 = EvaluatePrediction.evaluateREPredictions(runner.objectiveFunction,
+				predictions, runner.parameter.evaluator);
 
 		System.out.println("Evaluation results on test data:\n" + overallPRF1);
 
@@ -172,11 +187,17 @@ public class StartExtraction {
 		 * generate large output)
 		 */
 		boolean detailedOutput = false;
+
+		/**
+		 * Evaluate per slot.
+		 */
+		EvaluatePrediction.evaluatePerSlotPredictions(runner.objectiveFunction, predictions, runner.parameter.evaluator,
+				detailedOutput);
+
 		/**
 		 * Evaluate the trained model on the test data for each slot individually.
 		 */
-		runner.evaluatePerSlotOnTest(detailedOutput);
-
+//		runner.evaluatePerSlotOnTest(detailedOutput);
 	}
 
 }
