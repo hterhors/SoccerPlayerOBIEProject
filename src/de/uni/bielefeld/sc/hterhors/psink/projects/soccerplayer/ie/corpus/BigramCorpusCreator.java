@@ -13,13 +13,14 @@ import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.ner.regex.Soc
 
 public class BigramCorpusCreator {
 
-	final private static String corpusPrefix = "small";
+	final private static String corpusPrefix = "rwss2018";
 
 	protected static Logger log = LogManager.getFormatterLogger(BigramCorpusCreator.class);
 
 	public static void main(String[] args) throws Exception {
 
 		Set<Class<? extends INamedEntitityLinker>> linker = new HashSet<>();
+	
 		linker.add(SoccerPlayerRegExNEL.class);
 
 		new BigramCorpusBuilder(SoccerPlayerProjectEnvironment.getInstance(), linker, corpusPrefix);

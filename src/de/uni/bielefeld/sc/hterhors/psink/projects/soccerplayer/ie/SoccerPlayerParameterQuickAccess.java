@@ -61,9 +61,9 @@ public class SoccerPlayerParameterQuickAccess {
 		final File rootDirectory = new File("./");
 
 		/**
-		 * The prefix name of the corpus. TODO: handle different.
+		 * The prefix name of the corpus.
 		 */
-		final String corpusNamePrefix = "small";
+		final String corpusNamePrefix = "rwss2018";
 
 		/**
 		 * The type of the instantiated main templates. Use empty if the templates
