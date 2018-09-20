@@ -34,19 +34,18 @@ In Eclipse right-click -> Maven -> "Update Project..." select all projects.
 
 5)  **Convert provided raw-corpus into bigram-corpus by running *ie.corpus.BigramCorpusCreator.java***
 
-  This needs to be done only once becuase the provided corpus does not contain any entity annotations on textual level.
+  This needs to be done only once because the provided corpus does not contain any entity annotations on textual level.
 
 6)  Execute main in *ie.StartExtraction.java* 
 
 **Goals of this project**
 
-This project is an example of how to use the ontology based information extraction machine learning framework for a data set about soccer player.
+This project is an example of how to use the ontology based information extraction machine learning framework for a data set about soccer players.
 
-The data set contains Wikipedia article such as https://en.wikipedia.org/wiki/Herbie_Williams that are about soccer player. 
-The goal is to extract information of these articles that belong to the soccer player mentioned in the text.
-The information that needs to be extracted is described in a corresponding ontolongy. The ontology describes the structure of information but also provides information of possible property-values.  
+The data set contains Wikipedia articles such as https://en.wikipedia.org/wiki/Herbie_Williams that are about soccer players. The goal is to extract information of these articles that belong to the soccer player(s) mentioned in the text.
+The information that needs to be extracted is described in a corresponding ontology. The ontology describes the structure of information (ontological template / schema) but also provides possible property-values in form of calsses, named individuals, etc.  
 
-E.g: Given the text from the article linked above: 
+For instance: given the text from the article linked above: 
 
 ----------------------------------------------------------------------------
 
@@ -61,13 +60,14 @@ E.g: Given the text from the article linked above:
 
 ----------------------------------------------------------------------------
 
-The goal would be to find that the player the article is talking about is http://psink.de/dbpedia/HerbieWilliams (artifical namespace) and the properties that are defined by the ontology can be filled with: 
+The goal is to find the player, this article is talking about http://psink.de/dbpedia/HerbieWilliams (**artifical namespace, thus does not resolve**) and its properties that are defined by the ontology. 
+For instance: 
 
-1)  Herbie Williams was born in 1940.
-2)  Herbie Williams was born in Wales.
-3)  Herbie Williams plays at position inside forward.
-4)  Herbie Williams was member of team Swansea City
-5)  Herbie Williams was member of team Wales National Team
+1)  Herbie Williams - born (hasBirthYear) - **"1940"** (datatype proeperty thus literal).
+2)  Herbie Williams - born in (hasBirthPlace) - **Wales** (object property thus class / named individual).
+3)  Herbie Williams - position (hasPosition) - **inside forward** (object property thus class / named individual).
+4)  Herbie Williams - member of team (hasTeam) - **Swansea City** (object property thus class / named individual).
+5)  Herbie Williams - member of team (hasTeam) -  **Wales National Team** (object property thus class / named individual).
 
 **Dependencies**
 
@@ -82,7 +82,7 @@ You need the following dependent projects:
 5)  SoccerPlayerOntology https://github.com/hterhors/SoccerPlayerOntology
 
 **Related Projects, Implementations / Examples**
-1) OWL2JavaBin https://github.com/hterhors/OWL2JavaBin is a tool taht can be used to convert ontologies written in OWL into java binaries which are used in the OBIE-ML-Framework.
+1) OWL2JavaBin https://github.com/hterhors/OWL2JavaBin is a tool that can be used to convert ontologies written in OWL into java binaries which are used in the OBIE-ML-Framework.
 2) SoccerPlayerOntology https://github.com/hterhors/SoccerPlayerOntology is an example ontology that was generated with OWL2javaBin. It contains the OWL file and the resulting java binaries. 
 3) SoccerPlayerOBIEProject https://github.com/hterhors/SoccerPlayerOBIEProject is a project that works with the generated SoccerPalyerOntology. It contains example source code for
   i) the information extraction task using the OBIE MachineLearningFramework (incl. template / feature generation), 
@@ -98,38 +98,41 @@ This projects contains example classes to create the SoccerPlayerOntology and us
 
 The class *StartExtraction* is the main class to start the relation extraction. It depends on a parameter providing class *SoccerPlayerParameterQuickAccess* and on the project environment *SoccerPlayerProjectEnvironment*. 
 
-The class *SoccerPlayerProjectEnvironment* determines all necessary properties such as corpus locations, ontology version etc. 
+The class *SoccerPlayerProjectEnvironment* determines all environment-parameters such as corpus locations, ontology version etc. 
 
-The class *SoccerPlayerParameterQuickAccess* contains various parameter that can be set for the machine learning tool such as  exploration strategies, number of epochs scoring functions and so on. Changing parameter in this class often requires advanced knowledge of the ML tool and is not recommended for beginner. Running this project does not require any changes in this class. 
+The class *SoccerPlayerParameterQuickAccess* contains various parameters that can be set in the machine learning tool such as exploration strategies, number of epochs, scoring functions, and so on. Changing parameters in this class often requires advanced knowledge of the ML tool and is not recommended for beginners. Running this project does not require any changes in this parameter set. 
 
 Templates (features) can be found in the template package. In this example project only 2 templates exist: 
 *BirthYearTemplate* and *PriorTemplate*. The functionality and features are directly described in classes. 
 
 In OBIE, we distinguish between two types of properties that needs to be filled.
 
-1)  ObjectProeprties (cf. OWL-definition) can be filled with ontology classes, or NamedIndividuals. Occurrences of classes and named individuals can be provided by some named entity recognition framework. 
+1)  ObjectProperties (cf. OWL-definition https://www.w3.org/TR/owl-ref/#ObjectProperty-def) can be filled with ontology classes, or NamedIndividuals. Occurrences of classes and named individuals can be provided by some named entity recognition framework. 
 
-2)  DatatypeProperties (cf. OWL-definition) refer to some arbitrary string in the document and thus can not be expressed in the ontology. Filler for such properties need to be found in the first place using some named enitty recognition and linking framework. 
+2)  DatatypeProperties (cf. OWL-definition https://www.w3.org/TR/owl-ref/#DatatypeProperty-def) refer to some arbitrary string in the document and thus can not be expressed in the ontology. Filler for such properties need to be found in the first place using some named enitty recognition and linking framework. 
 
-One very simple, but genericly applicable for all ontologies, named entitiy recognition and linking framework is based on regular expressions. 
 
-The implementation of this class can be found in *SoccerPlayerRegExNEL* which uses the SoccerPlayerRegExPattern as pattern dictionary:
+The class *SoccerPlayerRegExNEL* implements a simple NER and NEL framework that is based on regular expressions and can be generically applied to all ontologies. *SoccerPlayerRegExPattern* is used as an additional pattern dictionary for generating regular expressions:
 
 1)  Filler for object properties (properties that are filled by ontological classes and named individuals) some regular expressions are automatically generated (based on the name of the class. **When designing a new ontology it is useful to have proper naming for classes, individuals and properties.**)
-2) Regular expressions for datatype properties need to be defined manually! In OBIE, filler for datatype properties need to be implemneted as *AbstractInterpreter* (compare NumericInterpreter vs. StringInterpreter). Interpreter offer the possibility of evaluating two different Strings as equal e.g. "300 g" = "0.3kg" = "300g" by separating and interpreting the actual value and the unit if any. A simple example interpreter for the datatype property hasBirthYear can be found in the dtinterpreter package in the class *BirthYear*.
+
+2)  Regular expressions for datatype properties need to be defined manually! In OBIE, filler for datatype properties need to be implemented as *AbstractInterpreter* (compare NumericInterpreter vs. StringInterpreter). An interpreter-class separats the actual value and the corresponding unit, if any from a given String. For instance: We want to find the weight of something. The found string is: "0.3 kg". However, the training data requests "300 g" which is semantically equal. Thus, each interpreter needs to implement a normalization function that is applied to the value and the unit. The normalized form is used when comparing values for datatype properties. This offers the possibility of evaluating different Strings as equal.
+E.g., "0.3kg" = "300g" = "300 gram" = "300gram"...
+
+A very simple example interpreter for the datatype property *hasBirthYear* can be found in the *dtinterpreter*-package: *BirthYearInterpreter*.
 
 **Usage**
 
-This project comes with a small (automatically and thus probabily not perfect) annotated dataset. This raw corpus contains 
+This project comes with a small (automatically and thus probabily not perfectly) annotated dataset. This raw corpus contains 
 1)  text from Wikipedia articles about soccer player
 2)  slot-filling annotations in form of the fully implemented java classes.
 However, the corpus in its downloadable form can not be used in the OBIE-ML-FrameWork as a named entity recognition and linking tool needs to be applied first.
 
-The class *BigramCorpusCreator* (Bigram = BIRE) applies a provided NEL-tool (In this case the simple regular expression tool that was described before) to all documents and stores the new created annotations into a new format that can be used by the OBIE-ML-FrameWork. (Using the given RegExNEL-Tool, the size of this corpus should be approx. 10 mb)
+The class *BigramCorpusCreator* (Bigram = BIRE) applies a provided NEL-tool (In this case the simple regular expression tool that was described before) to all documents and stores the newly created annotations into a new format that can be used by the OBIE-ML-FrameWork. (Using the given RegExNEL-Tool, the size of this corpus should be approx. 10 mb)
 
-After all dependencies are resolved and the project compiles you need to adjust parameter in the environment before running the system! After all configurations such as pathes to corpora models etc. are updated the system can be run.
+After all dependencies are resolved and the project compiles, you need to adjust parameter in the environment before running the system! After all configurations such as paths to corpora models, etc. are updated the system can be run.
 
-Simply start the *StartExtraction* class that contains the main class. 
+Simply start the *StartExtraction* class that contains the main-method. 
 
 
 **Output**
