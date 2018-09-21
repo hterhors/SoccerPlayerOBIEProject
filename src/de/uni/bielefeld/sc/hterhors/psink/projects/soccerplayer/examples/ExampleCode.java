@@ -33,15 +33,16 @@ public class ExampleCode {
 
 	public static void main(String[] args) {
 
-		printRawCorpus();
+//		printRawCorpus();
 
 //		exploreEntities();
 
-//		evaluateEntities();
+		evaluateEntities();
 
 	}
 
 	private static void printRawCorpus() {
+		
 		OBIECorpus rawCorpus = OBIECorpus
 				.readRawCorpusData(SoccerPlayerProjectEnvironment.getInstance().getRawCorpusFile());
 
@@ -71,6 +72,7 @@ public class ExampleCode {
 		goldHerbie.setPosition(new GoalkeeperAssociationFootball());
 		goldHerbie.setBirthYear(new BirthYear("2000"));
 
+		
 		/**
 		 * Predicted Herbie
 		 */
@@ -79,6 +81,7 @@ public class ExampleCode {
 		predictedHerbie.setBirthYear(new BirthYear("1999"));
 		predictedHerbie.addBirthPlace(new Wales());
 
+		
 		/**
 		 * Predicted Robbie
 		 */
@@ -92,7 +95,7 @@ public class ExampleCode {
 		 */
 		CartesianSearchEvaluator evaluator = new CartesianSearchEvaluator();
 
-		System.out.println(evaluator.prf1(goldHerbie, predictedHerbie));
+//		System.out.println(evaluator.prf1(goldHerbie, predictedHerbie));
 		System.out.println(evaluator.prf1(goldHerbie, predictedRobbie));
 	}
 
@@ -104,6 +107,7 @@ public class ExampleCode {
 		 */
 		paramBuilder.setInitializer(EInstantiationType.EMPTY);
 
+		
 		OBIERunParameter param = paramBuilder.build();
 
 		BigramCorpusProvider corpusProvider = BigramCorpusProvider.loadCorpusFromFile(param);
