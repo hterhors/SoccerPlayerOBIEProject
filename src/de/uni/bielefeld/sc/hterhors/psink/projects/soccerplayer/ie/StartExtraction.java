@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import corpus.SampledInstance;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.evaluation.PRF1Container;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.projects.AbstractOBIEProjectEnvironment;
@@ -35,6 +38,8 @@ import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.Pri
  */
 public class StartExtraction {
 
+	protected static Logger log = LogManager.getRootLogger();
+
 	public static void main(String[] args) throws Exception {
 
 		new StartExtraction();
@@ -53,6 +58,8 @@ public class StartExtraction {
 	private final AbstractOBIEProjectEnvironment environment = SoccerPlayerProjectEnvironment.getInstance();
 
 	public StartExtraction() throws Exception {
+
+		log.info("Current run id = " + runID);
 
 		/**
 		 * This parameterBuilder contains standard configurations of the system that are
@@ -118,7 +125,7 @@ public class StartExtraction {
 		templates.add(PriorTemplate.class);
 
 		/**
-		 * Predefined and generic template:
+		 * Predefined generic templates:
 		 */
 //		templates.add(FrequencyTemplate.class);
 
@@ -132,8 +139,6 @@ public class StartExtraction {
 		 * Templates that capture the cardinality of slots
 		 */
 
-//		templates.add(MainSlotVarietyTemplate.class);
-
 		paramBuilder.setTemplates(templates);
 	}
 
@@ -145,14 +150,10 @@ public class StartExtraction {
 	 */
 	private static void run(AbstractOBIERunner runner) throws Exception {
 
-		final long time = System.currentTimeMillis();
-
 		if (runner.modelExists()) {
 			/*
 			 * If the model exists, load the model from the file system. The model location
 			 * is specified in the parameter and the environment.
-			 * 
-			 * TODO: unify!
 			 */
 			runner.loadModel();
 		} else {
@@ -160,27 +161,30 @@ public class StartExtraction {
 			 * If the model does not exists train. The model is automatically stored to the
 			 * file system to the given model location!
 			 */
+			final long time = System.currentTimeMillis();
 			runner.train();
+			log.info("Total training time: " + (System.currentTimeMillis() - time) + " ms.");
 		}
 
-		System.out.println("Time needed to train the model: " + (System.currentTimeMillis() - time) + " ms.");
+		/**
+		 * Get predictions that can be evaluated for full evaluation and
+		 * perSlotEvaluation.
+		 */
+		final List<SampledInstance<OBIEInstance, InstanceEntityAnnotations, OBIEState>> predictions = runner
+				.predictOnTest();
 
 		/**
 		 * Evaluate the trained model on the test data. This is equal to predictOnTest
 		 * and apply the results to an evaluator.
 		 */
-//		final PRF1Container overallPRF1 = runner.evaluateOnTest();
-
-		/**
-		 * Get predictions that can be used for full evaluation and perSlotEvaluation.
-		 */
-		final List<SampledInstance<OBIEInstance, InstanceEntityAnnotations, OBIEState>> predictions = runner
-				.predictOnTest();
-
 		final PRF1Container overallPRF1 = EvaluatePrediction.evaluateREPredictions(runner.objectiveFunction,
 				predictions, runner.parameter.evaluator);
+		/*
+		 * Same as:
+		 */
+		// final PRF1Container overallPRF1 = runner.evaluateOnTest();
 
-		System.out.println("Evaluation results on test data:\n" + overallPRF1);
+		log.info("Evaluation results on test data:\n" + overallPRF1);
 
 		/**
 		 * Whether the output for each slot should be shown detailed or not. (Might
@@ -188,16 +192,17 @@ public class StartExtraction {
 		 */
 		boolean detailedOutput = false;
 
-		/**
-		 * Evaluate per slot.
-		 */
-		EvaluatePrediction.evaluatePerSlotPredictions(runner.objectiveFunction, predictions, runner.parameter.evaluator,
-				detailedOutput);
-
+		log.info("Evaluate predictions per slot:");
 		/**
 		 * Evaluate the trained model on the test data for each slot individually.
 		 */
+		EvaluatePrediction.evaluatePerSlotPredictions(runner.objectiveFunction, predictions, runner.parameter.evaluator,
+				detailedOutput);
+		/*
+		 * Same as:
+		 */
 //		runner.evaluatePerSlotOnTest(detailedOutput);
+
 	}
 
 }

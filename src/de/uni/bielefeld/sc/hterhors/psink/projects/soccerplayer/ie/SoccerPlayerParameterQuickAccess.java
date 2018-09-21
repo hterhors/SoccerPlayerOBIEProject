@@ -14,7 +14,6 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.ie.evaluation.DatatypeOrListCondi
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.evaluation.evaluator.CartesianSearchEvaluator;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.evaluation.evaluator.IEvaluator;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.explorer.AbstractOBIEExplorer;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.explorer.IExplorationCondition;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.explorer.SlotCardinalityExplorer;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.explorer.TemplateExplorer;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.InvestigationRestriction;
