@@ -8,7 +8,19 @@
 	<packaging>jar</packaging>
 
 	<dependencies>
+
+
+
+		<dependency>
+			<groupId>de.uni.bielefeld.sc.hterhors.psink.obie</groupId>
+			<artifactId>SoccerPlayerOntology</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.apache.jena/apache-jena-libs -->
+
+
+
 		<dependency>
 			<groupId>org.apache.jena</groupId>
 			<artifactId>apache-jena-libs</artifactId>
@@ -23,17 +35,6 @@
 			<version>2.11.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>de.uni.bielefeld.sc.hterhors.psink.obie</groupId>
-			<artifactId>SoccerPlayerOntology</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-			<groupId>de.uni.bielefeld.sc.hterhors.psink.obie</groupId>
-			<artifactId>OBIECore</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 
 		<dependency>
 			<groupId>de.uni.bielefeld.sc.hterhors.psink.obie</groupId>
@@ -47,12 +48,19 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
+
+
 		<dependency>
 			<groupId>de.citec.sc</groupId>
 			<artifactId>BIRE</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
+		<dependency>
+			<groupId>de.uni.bielefeld.sc.hterhors.psink.obie</groupId>
+			<artifactId>OBIECore</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

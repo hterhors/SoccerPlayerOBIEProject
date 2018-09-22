@@ -32,8 +32,7 @@ public class SoccerPlayerInterpreterProvider implements IInterpreter<ISoccerPlay
 		 */
 		List<IDatatypeInterpretation> interpretations = new ArrayList<>();
 
-		INumericInterpreter semantics1 = new BirthYearInterpreter.Builder().interprete(textMention).build()
-				.normalize();
+		INumericInterpreter semantics1 = new BirthYearInterpreter.Builder().interprete(textMention).build().normalize();
 		if (semantics1.exists()) {
 			interpretations.add(semantics1);
 		}
