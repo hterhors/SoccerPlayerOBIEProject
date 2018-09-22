@@ -18,6 +18,7 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.cl
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.GoalkeeperAssociationFootball;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.HerbieWilliams;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.RobbieHaw;
+import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.SoccerPlayer;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.Wales;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.SoccerPlayerParameterQuickAccess;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.SoccerPlayerProjectEnvironment;
@@ -78,8 +79,7 @@ public class ExampleCode {
 		 */
 		HerbieWilliams predictedHerbie = new HerbieWilliams();
 		predictedHerbie.setPosition(new GoalkeeperAssociationFootball());
-		predictedHerbie.setBirthYear(new BirthYear("1999"));
-		predictedHerbie.addBirthPlace(new Wales());
+		predictedHerbie.setBirthYear(new BirthYear("2000"));
 
 		
 		/**
@@ -95,8 +95,8 @@ public class ExampleCode {
 		 */
 		CartesianSearchEvaluator evaluator = new CartesianSearchEvaluator();
 
-//		System.out.println(evaluator.prf1(goldHerbie, predictedHerbie));
-		System.out.println(evaluator.prf1(goldHerbie, predictedRobbie));
+		System.out.println(evaluator.prf1(goldHerbie, predictedHerbie));
+//		System.out.println(evaluator.prf1(goldHerbie, predictedRobbie));
 	}
 
 	private static void exploreEntities() {

@@ -20,7 +20,7 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.AbstractOBIETemplate
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.InstanceEntityAnnotations;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEInstance;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEState;
-import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.BirthYearTemplate;
+import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.BirthYearPriorTemplate;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.PriorTemplate;
 
 /**
@@ -50,7 +50,7 @@ public class StartExtraction {
 	 * The runID. This serves as an identifier for locating and saving the model. If
 	 * anything was changed during the development the runID should be reset.
 	 */
-	private final static String runID = "FirstRun";
+	private final static String runID = "firstRun";
 
 	/**
 	 * The systems environment.
@@ -117,12 +117,17 @@ public class StartExtraction {
 	private void addTemplates(OBIEParameterBuilder paramBuilder) {
 
 		final Set<Class<? extends AbstractOBIETemplate<?>>> templates = new HashSet<>();
+		/**
+		 * TODO: Add new templates or try existing ones. Copy EmptyTemplate as
+		 * code-template.
+		 */
 
 		/**
 		 * Add your own templates:
 		 */
-		templates.add(BirthYearTemplate.class);
 		templates.add(PriorTemplate.class);
+//		templates.add(BirthYearPriorTemplate.class);
+//		templates.add(BirthYearTemplate.class);
 
 		/**
 		 * Predefined generic templates:

@@ -11,8 +11,9 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.AbstractOBIETemplate
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.scope.OBIEFactorScope;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.EntityAnnotation;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEState;
+import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.BirthYear;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
-import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.EmptyTemplate.Scope;
+import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.BirthYearPriorTemplate.Scope;
 import factors.Factor;
 
 /**
@@ -21,16 +22,16 @@ import factors.Factor;
  * @author hterhors
  *
  */
-public class EmptyTemplate extends AbstractOBIETemplate<Scope> {
+public class BirthYearPriorTemplate extends AbstractOBIETemplate<Scope> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LogManager.getFormatterLogger(EmptyTemplate.class.getName());
+	private static Logger log = LogManager.getFormatterLogger(BirthYearPriorTemplate.class.getName());
 
-	public EmptyTemplate(OBIERunParameter parameter) {
+	public BirthYearPriorTemplate(OBIERunParameter parameter) {
 		super(parameter);
 	}
 
@@ -46,8 +47,11 @@ public class EmptyTemplate extends AbstractOBIETemplate<Scope> {
 		 * TODO: add variables for feature computation.
 		 */
 
-		public Scope(AbstractOBIETemplate<Scope> template) {
-			super(template);
+		int birthYear;
+
+		public Scope(AbstractOBIETemplate<Scope> template, int birthYear) {
+			super(template, birthYear);
+			this.birthYear = birthYear;
 		}
 
 	}
@@ -62,11 +66,19 @@ public class EmptyTemplate extends AbstractOBIETemplate<Scope> {
 		for (EntityAnnotation entityAnnotation : state.getCurrentPrediction().getEntityAnnotations()) {
 
 			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) entityAnnotation.getAnnotationInstance());
+
+			if (soccerPlayer == null)
+				break;
+
+			if (soccerPlayer.getBirthYear() == null)
+				break;
+
+			final int birthYear = Integer.valueOf(soccerPlayer.getBirthYear().getTextMention());
 			/*
 			 * TODO: get variables and pass it to the scope.
 			 */
 
-			final Scope scope = new Scope(this);
+			final Scope scope = new Scope(this, birthYear);
 
 			factors.add(scope);
 		}
@@ -79,12 +91,14 @@ public class EmptyTemplate extends AbstractOBIETemplate<Scope> {
 
 		Scope scope = factor.getFactorScope();
 
+		final int by = scope.birthYear;
+
 		/*
 		 * TODO: Get variables from scope and compute features. Add features to feature
 		 * vector.
 		 */
 
-//		factor.getFeatureVector().set(FEATURE NAME, TRUE/FALSE/DOUBLE);
+		factor.getFeatureVector().set("BirthYearPrior" + by, true);
 
 	}
 
