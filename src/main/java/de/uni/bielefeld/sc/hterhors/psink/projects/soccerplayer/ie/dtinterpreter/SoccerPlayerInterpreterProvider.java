@@ -63,7 +63,7 @@ public class SoccerPlayerInterpreterProvider implements IInterpreter<ISoccerPlay
 		if (textMention == null || textMention.isEmpty())
 			return null;
 
-		if (BirthYearInterpreter.class == classType) {
+		if (BirthYear.class == classType) {
 			semantics = new BirthYearInterpreter.Builder().interprete(textMention).build().normalize();
 		} else {
 			throw new IllegalArgumentException(
