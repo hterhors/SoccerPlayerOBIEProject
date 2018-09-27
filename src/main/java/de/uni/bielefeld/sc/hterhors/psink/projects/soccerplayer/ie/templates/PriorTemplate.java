@@ -11,8 +11,8 @@ import org.apache.logging.log4j.Logger;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.AbstractOBIETemplate;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.scope.OBIEFactorScope;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.EntityAnnotation;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEState;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.TemplateAnnotation;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.IBirthPlace;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.ITeam;
@@ -79,11 +79,11 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 		 * In the lecture corpus there is only one soccer player per document.
 		 *
 		 */
-		for (EntityAnnotation entityAnnotation : state.getCurrentPrediction().getEntityAnnotations()) {
+		for (TemplateAnnotation entityAnnotation : state.getCurrentPrediction().getTemplateAnnotations()) {
 
 			Map<String, List<String>> assignedClasses = new HashMap<>();
 
-			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) entityAnnotation.getAnnotationInstance());
+			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) entityAnnotation.get());
 
 			/*
 			 * If the observed soccerPlayer annotation is null we don't need to create any

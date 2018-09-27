@@ -1,5 +1,6 @@
 package de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.ner.regex;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -10,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.OntologyAnalyzer;
+import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.AbstractOBIEIndividual;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.annotations.DatatypeProperty;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.interfaces.IOBIEThing;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.dtinterpreter.IDatatypeInterpretation;
@@ -33,25 +35,22 @@ public class SoccerPlayerRegExNEL extends AbstractRegExNER<ISoccerPlayerThing> {
 		super(rootClasses);
 	}
 
-	protected Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> generateHandMadeCrossReferences(
+	protected Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> generateHandMadeCrossReferencesForClasses(
 			Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> regularExpressionPattern,
 			Class<? extends IOBIEThing> rootClassType) {
-
-		Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> patternDependendCrossReferencePattern = new HashMap<>();
 		/**
 		 * Add cross reference pattern. A cross reference pattern is used for extend
 		 * specific fields by pattern of other fields.
 		 */
-		return patternDependendCrossReferencePattern;
+		return Collections.emptyMap();
 	}
 
-	protected Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> generateCrossReferencePattern(
+	protected Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> generateCrossReferencePatternForClasses(
 			Class<? extends IOBIEThing> rootClassType) {
-		Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> patternDependendCrossReferencePattern = new HashMap<>();
-		return patternDependendCrossReferencePattern;
+		return Collections.emptyMap();
 	}
 
-	protected Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> addHandMadePattern(
+	protected Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> addHandMadePatternForClasses(
 			Class<? extends IOBIEThing> rootClassType) {
 
 		Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> relatedHandMadepattern = new HashMap<>();
@@ -85,14 +84,14 @@ public class SoccerPlayerRegExNEL extends AbstractRegExNER<ISoccerPlayerThing> {
 	}
 
 	@Override
-	protected Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> addFurtherPattern() {
-		return new HashMap<>();
+	protected Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> addFurtherPatternForClasses() {
+		return Collections.emptyMap();
 	}
 
 	@Override
-	protected Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> addPlainRegExPattern(
+	protected Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> addPlainRegExPatternForClasses(
 			Class<? extends IOBIEThing> interfaceClassType) {
-		return BasicRegExPattern.<ISoccerPlayerThing>autoGeneratePattern(interfaceClassType);
+		return BasicRegExPattern.<ISoccerPlayerThing>autoGeneratePatternForClasses(interfaceClassType);
 	}
 
 	@Override
@@ -105,5 +104,36 @@ public class SoccerPlayerRegExNEL extends AbstractRegExNER<ISoccerPlayerThing> {
 	protected int getMinNERLength() {
 		return MIN_NER_LENGTH;
 	}
+
+	@Override
+	protected Map<AbstractOBIEIndividual, Set<Pattern>> addHandMadePatternForIndividuals(
+			Class<? extends IOBIEThing> rootClassType) {
+		return Collections.emptyMap();
+	}
+
+	@Override
+	protected Map<AbstractOBIEIndividual, Set<Pattern>> addFurtherPatternForIndividuals() {
+		return Collections.emptyMap();
+	}
+
+	@Override
+	protected Map<AbstractOBIEIndividual, Set<Pattern>> generateHandMadeCrossReferencesForIndividuals(
+			Map<AbstractOBIEIndividual, Set<Pattern>> regularExpressionPattern,
+			Class<? extends IOBIEThing> rootClassType) {
+		return Collections.emptyMap();
+	}
+
+	@Override
+	protected Map<AbstractOBIEIndividual, Set<Pattern>> generateCrossReferencePatternForIndividuals(
+			Class<? extends IOBIEThing> rootClassType) {
+		return Collections.emptyMap();
+	}
+
+	@Override
+	protected Map<AbstractOBIEIndividual, Set<Pattern>> addPlainRegExPatternForIndividuals(
+			Class<? extends IOBIEThing> rootClassType) {
+		return BasicRegExPattern.<ISoccerPlayerThing>autoGeneratePatternForIndividuals(rootClassType);
+	}
+
 
 }

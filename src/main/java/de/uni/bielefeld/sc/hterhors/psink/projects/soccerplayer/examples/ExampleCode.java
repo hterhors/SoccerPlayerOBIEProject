@@ -2,24 +2,24 @@ package de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.examples;
 
 import java.util.List;
 
+import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.OntologyInitializer;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.interfaces.IOBIEThing;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.tools.corpus.OBIECorpus;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.tools.corpus.OBIECorpus.Instance;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.BigramCorpusProvider;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.evaluation.evaluator.CartesianSearchEvaluator;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.explorer.TemplateExplorer;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.explorer.SlotFillerExplorer;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.EInstantiationType;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter.OBIEParameterBuilder;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.utils.OBIEClassFormatter;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEInstance;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEState;
+import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.BirthPlace;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.BirthYear;
-import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.GoalkeeperAssociationFootball;
-import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.HerbieWilliams;
-import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.RobbieHaw;
+import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.Position;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.SoccerPlayer;
-import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.Wales;
+import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.SoccerPlayerOntologyEnvironment;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.SoccerPlayerParameterQuickAccess;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.SoccerPlayerProjectEnvironment;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.BirthYearTemplate;
@@ -34,6 +34,8 @@ public class ExampleCode {
 
 	public static void main(String[] args) {
 
+		OntologyInitializer.initializeOntology(SoccerPlayerOntologyEnvironment.getInstance());
+
 //		printRawCorpus();
 
 //		exploreEntities();
@@ -43,7 +45,7 @@ public class ExampleCode {
 	}
 
 	private static void printRawCorpus() {
-		
+
 		OBIECorpus rawCorpus = OBIECorpus
 				.readRawCorpusData(SoccerPlayerProjectEnvironment.getInstance().getRawCorpusFile());
 
@@ -65,38 +67,44 @@ public class ExampleCode {
 	}
 
 	private static void evaluateEntities() {
-
 		/**
 		 * Ground truth Herbie
 		 */
-		HerbieWilliams goldHerbie = new HerbieWilliams();
-		goldHerbie.setPosition(new GoalkeeperAssociationFootball());
+		SoccerPlayer goldHerbie = new SoccerPlayer("http://psink.de/dbpedia/SadokSassi", null, null);
+		goldHerbie.setPosition(new Position("http://psink.de/dbpedia/GoalkeeperAssociationFootball", null, null));
 		goldHerbie.setBirthYear(new BirthYear("2000"));
 
-		
+		/**
+		 * Perfect prediction
+		 */
+		SoccerPlayer perfectHerbie = new SoccerPlayer("http://psink.de/dbpedia/SadokSassi", null, null);
+		perfectHerbie.setPosition(new Position("http://psink.de/dbpedia/GoalkeeperAssociationFootball", null, null));
+		perfectHerbie.setBirthYear(new BirthYear("2000"));
+
 		/**
 		 * Predicted Herbie
 		 */
-		HerbieWilliams predictedHerbie = new HerbieWilliams();
-		predictedHerbie.setPosition(new GoalkeeperAssociationFootball());
-		predictedHerbie.setBirthYear(new BirthYear("2000"));
+		SoccerPlayer predictedHerbie = new SoccerPlayer("http://psink.de/dbpedia/HerbieWilliams", null, null);
+		predictedHerbie.setPosition(new Position("http://psink.de/dbpedia/GoalkeeperAssociationFootball", null, null));
+		predictedHerbie.setBirthYear(new BirthYear("1999"));
 
-		
 		/**
 		 * Predicted Robbie
 		 */
-		RobbieHaw predictedRobbie = new RobbieHaw();
-		predictedRobbie.setPosition(new GoalkeeperAssociationFootball());
-		predictedRobbie.setBirthYear(new BirthYear("1999"));
-		predictedRobbie.addBirthPlace(new Wales());
+		SoccerPlayer predictedRobbie = new SoccerPlayer("http://psink.de/dbpedia/SadokSassi", null, null);
+		predictedRobbie.setPosition(new Position("http://psink.de/dbpedia/GoalkeeperAssociationFootball", null, null));
+		predictedRobbie.setBirthYear(new BirthYear("2000"));
+		predictedRobbie.addBirthPlace(new BirthPlace("http://psink.de/dbpedia/Wales", null, null));
 
 		/**
 		 * Exact search
 		 */
 		CartesianSearchEvaluator evaluator = new CartesianSearchEvaluator();
 
+		System.out.println(evaluator.prf1(goldHerbie, goldHerbie));
+		System.out.println(evaluator.prf1(goldHerbie, perfectHerbie));
 		System.out.println(evaluator.prf1(goldHerbie, predictedHerbie));
-//		System.out.println(evaluator.prf1(goldHerbie, predictedRobbie));
+		System.out.println(evaluator.prf1(goldHerbie, predictedRobbie));
 	}
 
 	private static void exploreEntities() {
@@ -107,7 +115,6 @@ public class ExampleCode {
 		 */
 		paramBuilder.setInitializer(EInstantiationType.EMPTY);
 
-		
 		OBIERunParameter param = paramBuilder.build();
 
 		BigramCorpusProvider corpusProvider = BigramCorpusProvider.loadCorpusFromFile(param);
@@ -124,12 +131,12 @@ public class ExampleCode {
 		/*
 		 * print all birth years
 		 */
-		instance.getNamedEntityLinkingAnnotations().getAnnotations(BirthYear.class).forEach(System.out::println);
+		instance.getNamedEntityLinkingAnnotations().getClassAnnotations(BirthYear.class).forEach(System.out::println);
 
 		/**
 		 * Test explorer
 		 */
-		TemplateExplorer te = new TemplateExplorer(param);
+		SlotFillerExplorer te = new SlotFillerExplorer(param);
 //		TemplateCardinalityExplorer tce = new TemplateCardinalityExplorer(param);
 //		SlotCardinalityExplorer sce = new SlotCardinalityExplorer(param);
 
@@ -137,7 +144,7 @@ public class ExampleCode {
 		OBIEState state = new OBIEState(instance, param);
 		System.out.println("Current state:");
 		System.out.println(OBIEClassFormatter
-				.format(state.getCurrentPrediction().getEntityAnnotations().iterator().next().getAnnotationInstance()));
+				.format(state.getCurrentPrediction().getTemplateAnnotations().iterator().next().get()));
 		System.out.println("===========================");
 		int size = 0;
 		List<OBIEState> generatedClasses = te.getNextStates(state);
@@ -153,7 +160,7 @@ public class ExampleCode {
 	private static OBIEParameterBuilder getParameter() {
 		OBIEParameterBuilder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
 
-		paramBuilder.setEnvironment(SoccerPlayerProjectEnvironment.getInstance());
+		paramBuilder.setProjectEnvironment(SoccerPlayerProjectEnvironment.getInstance());
 		paramBuilder.setCorpusDistributor(SoccerPlayerParameterQuickAccess.preDefinedCorpusDistributor.originDist());
 		paramBuilder.addTemplate(BirthYearTemplate.class);
 

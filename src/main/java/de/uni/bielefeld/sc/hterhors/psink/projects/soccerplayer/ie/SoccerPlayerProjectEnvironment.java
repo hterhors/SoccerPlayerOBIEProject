@@ -6,10 +6,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.interfaces.IOBIEThing;
-import de.uni.bielefeld.sc.hterhors.psink.obie.core.projects.AbstractOBIEProjectEnvironment;
+import de.uni.bielefeld.sc.hterhors.psink.obie.core.projects.AbstractProjectEnvironment;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
 
-public class SoccerPlayerProjectEnvironment extends AbstractOBIEProjectEnvironment {
+public class SoccerPlayerProjectEnvironment extends AbstractProjectEnvironment {
 
 	/**
 	 * 
@@ -20,23 +20,9 @@ public class SoccerPlayerProjectEnvironment extends AbstractOBIEProjectEnvironme
 
 	private static SoccerPlayerProjectEnvironment instance = new SoccerPlayerProjectEnvironment();
 
-	private final String ontologyBasePackage = "de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.";
-
-	private final int ontologyVersion = 1;
-
 	private final File rawCorpusFile = new File("corpus/soccerplayer_4_props_v1.bin");
 
 	private final File projectCorpusDirectory = new File("bigram/corpus/");
-
-	@Override
-	public String getOntologyBasePackage() {
-		return ontologyBasePackage;
-	}
-
-	@Override
-	public int getOntologyVersion() {
-		return ontologyVersion;
-	}
 
 	public static SoccerPlayerProjectEnvironment getInstance() {
 		log.info("Return instance of " + SoccerPlayerProjectEnvironment.class.getName());

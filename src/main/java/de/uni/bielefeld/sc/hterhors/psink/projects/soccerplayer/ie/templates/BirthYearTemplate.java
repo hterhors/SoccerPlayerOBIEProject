@@ -10,10 +10,10 @@ import org.apache.logging.log4j.Logger;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.AbstractOBIETemplate;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.scope.OBIEFactorScope;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.EntityAnnotation;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.NELAnnotation;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.NERLClassAnnotation;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEInstance;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEState;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.TemplateAnnotation;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.classes.BirthYear;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.IBirthYear;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
@@ -75,9 +75,9 @@ public class BirthYearTemplate extends AbstractOBIETemplate<Scope> {
 		 * In the lecture corpus there is only one soccer player per document.
 		 *
 		 */
-		for (EntityAnnotation entityAnnotation : state.getCurrentPrediction().getEntityAnnotations()) {
+		for (TemplateAnnotation entityAnnotation : state.getCurrentPrediction().getTemplateAnnotations()) {
 
-			IBirthYear birthYear = ((ISoccerPlayer) entityAnnotation.getAnnotationInstance()).getBirthYear();
+			IBirthYear birthYear = ((ISoccerPlayer) entityAnnotation.get()).getBirthYear();
 
 			/*
 			 * If the birth year was not yet set, we don't need to generate any features
@@ -97,20 +97,20 @@ public class BirthYearTemplate extends AbstractOBIETemplate<Scope> {
 	@Override
 	public void computeFactor(Factor<Scope> factor) {
 
-		final Set<NELAnnotation> possibleBirthYearAnnotations = factor.getFactorScope().currentInstance
-				.getNamedEntityLinkingAnnotations().getAnnotationsBySemanticValues(BirthYear.class);
+		final Set<NERLClassAnnotation> possibleBirthYearAnnotations = factor.getFactorScope().currentInstance
+				.getNamedEntityLinkingAnnotations().getClassAnnotationsBySemanticValues(BirthYear.class);
 
 		final int assignedYear = Integer.parseInt(factor.getFactorScope().assignedYear);
 
 		boolean isEarliestMentionedYear = true;
 
-		for (NELAnnotation namedEntityLinkingAnnotation : possibleBirthYearAnnotations) {
+		for (NERLClassAnnotation namedEntityLinkingAnnotation : possibleBirthYearAnnotations) {
 
 			/*
 			 * Note, that we do not have to skip the comparison with itself as we check
 			 * less-or-equal.
 			 */
-			final int birthYearCandidate = Integer.parseInt(namedEntityLinkingAnnotation.textMention);
+			final int birthYearCandidate = Integer.parseInt(namedEntityLinkingAnnotation.text);
 
 			isEarliestMentionedYear &= assignedYear <= birthYearCandidate;
 

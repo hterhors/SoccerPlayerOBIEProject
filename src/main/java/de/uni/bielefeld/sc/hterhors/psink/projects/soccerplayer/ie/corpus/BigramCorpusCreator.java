@@ -3,11 +3,9 @@ package de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.corpus;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.ner.INamedEntitityLinker;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.tools.BigramCorpusBuilder;
+import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.SoccerPlayerOntologyEnvironment;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.SoccerPlayerProjectEnvironment;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.ner.regex.SoccerPlayerRegExNEL;
 
@@ -27,7 +25,9 @@ public class BigramCorpusCreator {
 
 		BigramCorpusBuilder.overrideCorpusFileIfExists = true;
 
-		new BigramCorpusBuilder(SoccerPlayerProjectEnvironment.getInstance(), linker, corpusPrefix);
+		int ontologyVersion = SoccerPlayerOntologyEnvironment.version;
+
+		new BigramCorpusBuilder(SoccerPlayerProjectEnvironment.getInstance(), linker, corpusPrefix, ontologyVersion);
 
 	}
 

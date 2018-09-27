@@ -9,7 +9,8 @@ import org.apache.logging.log4j.Logger;
 
 import corpus.SampledInstance;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.evaluation.PRF1Container;
-import de.uni.bielefeld.sc.hterhors.psink.obie.core.projects.AbstractOBIEProjectEnvironment;
+import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.AbstractOntologyEnvironment;
+import de.uni.bielefeld.sc.hterhors.psink.obie.core.projects.AbstractProjectEnvironment;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.distributor.AbstractCorpusDistributor;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.AbstractOBIERunner;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.StandardRERunner;
@@ -20,7 +21,6 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.AbstractOBIETemplate
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.InstanceEntityAnnotations;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEInstance;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEState;
-import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.BirthYearPriorTemplate;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.PriorTemplate;
 
 /**
@@ -55,7 +55,12 @@ public class StartExtraction {
 	/**
 	 * The systems environment.
 	 */
-	private final AbstractOBIEProjectEnvironment environment = SoccerPlayerProjectEnvironment.getInstance();
+	private final AbstractProjectEnvironment projectEnvironment = SoccerPlayerProjectEnvironment.getInstance();
+
+	/**
+	 * The ontology environment.
+	 */
+	private final AbstractOntologyEnvironment ontologyEnvironment = SoccerPlayerOntologyEnvironment.getInstance();
 
 	public StartExtraction() throws Exception {
 
@@ -88,7 +93,8 @@ public class StartExtraction {
 
 		paramBuilder.setCorpusDistributor(corpusDistributor);
 		paramBuilder.setRunID(runID);
-		paramBuilder.setEnvironment(environment);
+		paramBuilder.setProjectEnvironment(projectEnvironment);
+		paramBuilder.setOntologyEnvironment(ontologyEnvironment);
 		paramBuilder.setEpochs(epochs);
 
 		/*

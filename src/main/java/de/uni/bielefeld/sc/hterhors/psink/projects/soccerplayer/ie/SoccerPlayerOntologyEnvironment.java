@@ -1,22 +1,22 @@
-package de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.tools;
+package de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie;
 
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.AbstractOntologyBuilderEnvironment;
+import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.AbstractOntologyEnvironment;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.tools.owlreader.IClassFilter;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.tools.owlreader.container.OntologyClass;
 
-public class SoccerPlayerOntologyBuilderEnvironment extends AbstractOntologyBuilderEnvironment {
+public class SoccerPlayerOntologyEnvironment extends AbstractOntologyEnvironment {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static SoccerPlayerOntologyBuilderEnvironment instance = new SoccerPlayerOntologyBuilderEnvironment();
+	private static SoccerPlayerOntologyEnvironment instance = new SoccerPlayerOntologyEnvironment();
 
 	private final String ontologyBasePackage = "de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.";
 
@@ -26,7 +26,7 @@ public class SoccerPlayerOntologyBuilderEnvironment extends AbstractOntologyBuil
 	public static final String DEFAULT_NAMESPACE = "http://dbpedia.org/ontology/";
 	public static final String ONTOLOGY_NAME = "SoccerPlayer";
 
-	public final String ONTOLOGY_SRC_LOCATION = "/home/hterhors/git/SoccerPlayerOntology/src/"
+	public final String ONTOLOGY_SRC_LOCATION = "/home/hterhors/git/SoccerPlayerOntology/src/main/java/"
 			+ getBasePackage().replaceAll("\\.", "/");
 
 	@Override
@@ -44,7 +44,7 @@ public class SoccerPlayerOntologyBuilderEnvironment extends AbstractOntologyBuil
 		return ONTOLOGY_FILE;
 	}
 
-	public static SoccerPlayerOntologyBuilderEnvironment getInstance() {
+	public static SoccerPlayerOntologyEnvironment getInstance() {
 		return instance;
 	}
 

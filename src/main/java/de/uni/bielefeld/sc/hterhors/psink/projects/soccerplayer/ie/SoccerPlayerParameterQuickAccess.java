@@ -12,10 +12,10 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.distributor.OriginalCor
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.distributor.ShuffleCorpusDistributor;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.evaluation.DatatypeOrListConditon;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.evaluation.evaluator.CartesianSearchEvaluator;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.evaluation.evaluator.IEvaluator;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.evaluation.evaluator.IOBIEEvaluator;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.explorer.AbstractOBIEExplorer;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.explorer.SlotCardinalityExplorer;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.explorer.TemplateExplorer;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.explorer.SlotFillerExplorer;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.InvestigationRestriction;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.EInstantiationType;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.IInitializeNumberOfObjects;
@@ -153,7 +153,7 @@ public class SoccerPlayerParameterQuickAccess {
 		 * Try instead BeamSearchEvaluator or PurityEvaluator.
 		 *
 		 */
-		final IEvaluator evaluator = new CartesianSearchEvaluator(enableEvaluationCaching, maxEvaluationDepth,
+		final IOBIEEvaluator evaluator = new CartesianSearchEvaluator(enableEvaluationCaching, maxEvaluationDepth,
 				penalizeCardinality, investigationRestiction, new DatatypeOrListConditon(), maxNumberOfEntityElements,
 				ignoreEmptyInstancesOnEvaluation);
 
@@ -174,7 +174,7 @@ public class SoccerPlayerParameterQuickAccess {
 		 * The TemplateExplorer can be parameterized via the OBIEParamterBuilder!
 		 *
 		 */
-		explorerTypes.add(TemplateExplorer.class);
+		explorerTypes.add(SlotFillerExplorer.class);
 
 		/**
 		 * This explorer explores the cardinality of slots that can have more than one
