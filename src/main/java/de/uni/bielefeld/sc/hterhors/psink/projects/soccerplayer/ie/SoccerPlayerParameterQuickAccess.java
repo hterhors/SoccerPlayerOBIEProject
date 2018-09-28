@@ -108,14 +108,14 @@ public class SoccerPlayerParameterQuickAccess {
 		 * instances. This variable restricts the sampling procedure and needs to be
 		 * adjust to the dataset.
 		 */
-		final int maxNumberOfEntityElements = 5;
+		final int maxNumberOfEntityElements =3;
 
 		/**
 		 * Maximum number of datatype entities in a collection slot that takes datatype
 		 * entities as filler. This restricts the sampling procedure and needs to be
 		 * adjust to the dataset.
 		 */
-		final int maxNumberOfDataTypeElements = 5;
+		final int maxNumberOfDataTypeElements = 3;
 
 		/**
 		 * Use this class to specify a fine grained investigation restriction that
