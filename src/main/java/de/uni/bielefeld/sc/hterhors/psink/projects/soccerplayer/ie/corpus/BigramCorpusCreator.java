@@ -13,9 +13,9 @@ public class BigramCorpusCreator {
 
 	/**
 	 * The corpus name prefix. This can be arbitrary but should tell something about
-	 * the corpus.
+	 * the corpus. m5eps = max 5 elements per slot
 	 */
-	final private static String corpusPrefix = "rwss2018";
+	final private static String corpusPrefix = "m5eps";
 
 	public static void main(String[] args) throws Exception {
 
@@ -25,9 +25,9 @@ public class BigramCorpusCreator {
 
 		BigramCorpusBuilder.overrideCorpusFileIfExists = true;
 
-		int ontologyVersion = SoccerPlayerOntologyEnvironment.version;
 
-		new BigramCorpusBuilder(SoccerPlayerProjectEnvironment.getInstance(), linker, corpusPrefix, ontologyVersion);
+		new BigramCorpusBuilder(SoccerPlayerProjectEnvironment.getInstance(), linker, corpusPrefix,
+				SoccerPlayerOntologyEnvironment.getInstance());
 
 	}
 

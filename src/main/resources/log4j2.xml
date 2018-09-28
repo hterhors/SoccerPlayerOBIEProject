@@ -38,7 +38,19 @@
 			<AppenderRef ref="Console" />
 			<AppenderRef ref="LogFile" />
 		</Logger>
-	
+
+
+		<!-- ++++++++++++++++++++++++ -->
+		<!-- Loggers for BIRECore project -->
+		<!-- ++++++++++++++++++++++++ -->
+
+		<Logger
+			name="de.uni.bielefeld.sc.hterhors.psink.obie.core.owlreader.OWLReader"
+			level="DEBUG" additivity="false">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="LogFile" />
+		</Logger>
+
 		<!-- ++++++++++++++++++++++++ -->
 		<!-- Loggers for BIRE project -->
 		<!-- ++++++++++++++++++++++++ -->

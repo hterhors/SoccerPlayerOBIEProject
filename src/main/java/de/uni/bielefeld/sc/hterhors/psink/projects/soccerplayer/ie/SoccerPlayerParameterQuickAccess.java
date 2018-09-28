@@ -52,7 +52,7 @@ public class SoccerPlayerParameterQuickAccess {
 		/**
 		 * Some personal notes to this run.
 		 */
-		final String personalNote = "Reasoning Web Summer School 2018 Lecture";
+		final String personalNote = "Soccer player corpus wih max 5 elements per slot";
 
 		/**
 		 * the rott directory to where the model should be saved.
@@ -62,7 +62,7 @@ public class SoccerPlayerParameterQuickAccess {
 		/**
 		 * The prefix name of the corpus.
 		 */
-		final String corpusNamePrefix = "rwss2018";
+		final String corpusNamePrefix = "m5eps";
 
 		/**
 		 * The type of the instantiated main templates. Use empty if the templates
@@ -107,14 +107,14 @@ public class SoccerPlayerParameterQuickAccess {
 		 * instances. This variable restricts the sampling procedure and needs to be
 		 * adjust to the dataset.
 		 */
-		final int maxNumberOfEntityElements = 3;
+		final int maxNumberOfEntityElements = 5;
 
 		/**
 		 * Maximum number of datatype entities in a collection slot that takes datatype
 		 * entities as filler. This restricts the sampling procedure and needs to be
 		 * adjust to the dataset.
 		 */
-		final int maxNumberOfDataTypeElements = 3;
+		final int maxNumberOfDataTypeElements = 5;
 
 		/**
 		 * Use this class to specify a fine grained investigation restriction that

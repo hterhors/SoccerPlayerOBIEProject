@@ -8,14 +8,17 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.AbstractOBIEIndividual;
+import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.interfaces.IDatatype;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.AbstractOBIETemplate;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.scope.OBIEFactorScope;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEState;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.TemplateAnnotation;
-import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.IBirthPlace;
+import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.IPlace;
+import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.ISoccerClub;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
-import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.ITeam;
+import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.PriorTemplate.Scope;
 import factors.Factor;
 
@@ -39,6 +42,18 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 
 	private static Logger log = LogManager.getFormatterLogger(PriorTemplate.class.getName());
 
+	private static final String SOCCER_PLAYER_CLASS_IDENTIFIER = "soccerplayer_class";
+
+	private static final String SOCCER_PLAYER_INDIVIDUAL_IDENTIFIER = "soccerplayer_individual";
+
+	private static final String BIRTH_PLACE_PROPERTY_IDENTIFIER = "birthPlace";
+
+	private static final String TEAM_PROPERTY_IDENTIFIER = "teams";
+
+	private static final String POSITION_PROPERTY_IDENTIFIER = "position";
+
+	private static final String BIRTH_YEAR_PROPERTY_IDENTIFIER = "birthYear";
+
 	public PriorTemplate(OBIERunParameter parameter) {
 		super(parameter);
 	}
@@ -59,24 +74,14 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 
 	}
 
-	private static final String CLASS_TYPE_IDENTIFIER = "classType";
-
-	private static final String BIRTH_PLACE_PROPERTY_IDENTIFIER = "hasBirthPlaces";
-
-	private static final String TEAM_PROPERTY_IDENTIFIER = "hasTeams";
-
-	private static final String POSITION_PROPERTY_IDENTIFIER = "hasPosition";
-
-	private static final String BIRTH_YEAR_PROPERTY_IDENTIFIER = "hasBirthYear";
-
 	@Override
 	public List<Scope> generateFactorScopes(OBIEState state) {
 		List<Scope> factors = new ArrayList<>();
 
 		/*
-		 * For all soccer player in the document create an individual scope.
+		 * For all soccer player in the document create an individual factor scope.
 		 *
-		 * In the lecture corpus there is only one soccer player per document.
+		 * In the lecture corpus there is only one soccer player per document!
 		 *
 		 */
 		for (TemplateAnnotation entityAnnotation : state.getCurrentPrediction().getTemplateAnnotations()) {
@@ -92,36 +97,43 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 			if (soccerPlayer == null)
 				continue;
 
-			assignedClasses.putIfAbsent(CLASS_TYPE_IDENTIFIER, new ArrayList<>());
-			assignedClasses.get(CLASS_TYPE_IDENTIFIER).add(soccerPlayer.getClass().getSimpleName());
+			/**
+			 * If we are interested in the class type we can store this here. Usually the
+			 * class type is not important if the individual was found! However, in some
+			 * cases it might make sense.
+			 */
+			addClass(SOCCER_PLAYER_CLASS_IDENTIFIER, assignedClasses, soccerPlayer);
+
+			/**
+			 * If we are interested in the actual individual, we can store this here. We
+			 * assume that the name is sufficient enough to distinguish between all
+			 * individuals. This assumption might not hold. In that case the namespace
+			 * should also be part of the feature!
+			 */
+			addIndividual(SOCCER_PLAYER_INDIVIDUAL_IDENTIFIER, assignedClasses, soccerPlayer);
+
+			/**
+			 * Given the soccer player ontology we are not interested in any classes. As no
+			 * class contains any (important) sub classes.
+			 */
 
 			if (soccerPlayer.getBirthPlaces() != null)
-				for (IBirthPlace birthPlace : soccerPlayer.getBirthPlaces()) {
-					if (birthPlace != null) {
-						assignedClasses.putIfAbsent(BIRTH_PLACE_PROPERTY_IDENTIFIER, new ArrayList<>());
-						assignedClasses.get(BIRTH_PLACE_PROPERTY_IDENTIFIER).add(birthPlace.getClass().getSimpleName());
-					}
+				for (IPlace birthPlace : soccerPlayer.getBirthPlaces()) {
+					addIndividual(BIRTH_PLACE_PROPERTY_IDENTIFIER, assignedClasses, birthPlace);
 				}
 
 			if (soccerPlayer.getBirthYear() != null) {
-				assignedClasses.putIfAbsent(BIRTH_YEAR_PROPERTY_IDENTIFIER, new ArrayList<>());
-				assignedClasses.get(BIRTH_YEAR_PROPERTY_IDENTIFIER).add(soccerPlayer.getBirthYear().getTextMention());
-
+				addDatatype(BIRTH_YEAR_PROPERTY_IDENTIFIER, assignedClasses, soccerPlayer.getBirthYear());
 			}
 
-			if (soccerPlayer.getPosition() != null) {
-				assignedClasses.putIfAbsent(POSITION_PROPERTY_IDENTIFIER, new ArrayList<>());
-				assignedClasses.get(POSITION_PROPERTY_IDENTIFIER)
-						.add(soccerPlayer.getPosition().getClass().getSimpleName());
+			if (soccerPlayer.getPositionAmerican_football_positions() != null) {
+				addIndividual(POSITION_PROPERTY_IDENTIFIER, assignedClasses,
+						soccerPlayer.getPositionAmerican_football_positions());
 			}
 
-			if (soccerPlayer.getTeams() != null)
-				for (ITeam team : soccerPlayer.getTeams()) {
-					if (team != null) {
-						assignedClasses.putIfAbsent(TEAM_PROPERTY_IDENTIFIER, new ArrayList<>());
-						assignedClasses.get(TEAM_PROPERTY_IDENTIFIER).add(team.getClass().getSimpleName());
-					}
-
+			if (soccerPlayer.getTeamSoccerClubs() != null)
+				for (ISoccerClub team : soccerPlayer.getTeamSoccerClubs()) {
+					addIndividual(TEAM_PROPERTY_IDENTIFIER, assignedClasses, team);
 				}
 
 			final Scope scope = new Scope(this, assignedClasses);
@@ -129,6 +141,65 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 		}
 
 		return factors;
+	}
+
+	/**
+	 * If we are interested in capturing the datatype value of a datatype property
+	 * slot we can add this here.
+	 * 
+	 * @param birthYearPropertyIdentifier the identifier to store the value
+	 * @param assignedClasses             the map to store the value
+	 * @param birthYear                   the filler of the slot
+	 */
+	private void addDatatype(String birthYearPropertyIdentifier, Map<String, List<String>> assignedClasses,
+			IDatatype birthYear) {
+		assignedClasses.putIfAbsent(birthYearPropertyIdentifier, new ArrayList<>());
+		assignedClasses.get(birthYearPropertyIdentifier).add(birthYear.getSemanticValue());
+	}
+
+	/**
+	 * If we are interested in the actual individual, we can store this here. We
+	 * assume that the name is sufficient enough to distinguish between all
+	 * individuals. This assumption might not hold. In that case the namespace
+	 * should also be part of the feature!
+	 * 
+	 * @param classTypeIdentifier the identifier to store the value
+	 * @param assignedClasses     the map to store the value
+	 * @param soccerPlayerThing   the filler of the slot
+	 */
+	private void addIndividual(String classTypeIdentifier, Map<String, List<String>> assignedClasses,
+			ISoccerPlayerThing soccerPlayerThing) {
+
+		if (soccerPlayerThing == null)
+			return;
+
+		final AbstractOBIEIndividual spi = soccerPlayerThing.getIndividual();
+
+		if (spi == null)
+			return;
+
+		assignedClasses.putIfAbsent(classTypeIdentifier, new ArrayList<>());
+		assignedClasses.get(classTypeIdentifier).add(// spi.nameSpace +
+				spi.name);
+	}
+
+	/**
+	 * If we are interested in the class type we can store this here. Usually the
+	 * class type is not important if the individual was found! However, in some
+	 * cases it might make sense.
+	 * 
+	 * @param identifier        the identifier to store the value
+	 * @param assignedClasses   the map to store the value
+	 * @param soccerPlayerThing the filler of the slot
+	 */
+	private void addClass(final String identifier, Map<String, List<String>> assignedClasses,
+			ISoccerPlayerThing soccerPlayerThing) {
+
+		if (soccerPlayerThing == null)
+			return;
+
+		assignedClasses.putIfAbsent(identifier, new ArrayList<>());
+		assignedClasses.get(identifier).add(soccerPlayerThing.getClass().getSimpleName());
 	}
 
 	@Override

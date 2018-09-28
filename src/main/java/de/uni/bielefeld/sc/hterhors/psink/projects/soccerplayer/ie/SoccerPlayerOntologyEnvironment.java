@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.AbstractOntologyEnvironment;
-import de.uni.bielefeld.sc.hterhors.psink.obie.core.tools.owlreader.IClassFilter;
-import de.uni.bielefeld.sc.hterhors.psink.obie.core.tools.owlreader.container.OntologyClass;
+import de.uni.bielefeld.sc.hterhors.psink.obie.core.owlreader.IClassFilter;
+import de.uni.bielefeld.sc.hterhors.psink.obie.core.owlreader.container.OntologyClass;
 
 public class SoccerPlayerOntologyEnvironment extends AbstractOntologyEnvironment {
 
@@ -23,7 +23,7 @@ public class SoccerPlayerOntologyEnvironment extends AbstractOntologyEnvironment
 	final public static int version = 1;
 	public static final File ONTOLOGY_FILE = new File(
 			"/home/hterhors/git/SoccerPlayerOntology/owl/soccer_player_v" + version + ".owl");
-	public static final String DEFAULT_NAMESPACE = "http://dbpedia.org/ontology/";
+	public static final String DEFAULT_DATA_NAMESPACE = "http://psink/soccerplayer/";
 	public static final String ONTOLOGY_NAME = "SoccerPlayer";
 
 	public final String ONTOLOGY_SRC_LOCATION = "/home/hterhors/git/SoccerPlayerOntology/src/main/java/"
@@ -36,7 +36,7 @@ public class SoccerPlayerOntologyEnvironment extends AbstractOntologyEnvironment
 
 	@Override
 	public String getDataNameSpace() {
-		return DEFAULT_NAMESPACE;
+		return DEFAULT_DATA_NAMESPACE;
 	}
 
 	@Override

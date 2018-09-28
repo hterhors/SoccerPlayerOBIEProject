@@ -56,8 +56,7 @@ public class BirthYearTemplate extends AbstractOBIETemplate<Scope> {
 		 */
 		final OBIEInstance currentInstance;
 
-		public Scope(AbstractOBIETemplate<Scope> template, OBIEInstance currentInstance,
-				final String semanticValue) {
+		public Scope(AbstractOBIETemplate<Scope> template, OBIEInstance currentInstance, final String semanticValue) {
 			super(template, currentInstance, semanticValue);
 			this.currentInstance = currentInstance;
 			this.assignedYear = semanticValue;

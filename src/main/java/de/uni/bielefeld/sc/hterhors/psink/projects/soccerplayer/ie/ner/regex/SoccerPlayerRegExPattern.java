@@ -18,6 +18,12 @@ public class SoccerPlayerRegExPattern extends BasicRegExPattern {
 
 	private static final Set<Pattern> BIRTH_YEAR_REG_EXP = new HashSet<>(Arrays.asList(BirthYearInterpreter.PATTERN));
 
+	/**
+	 * Common words that appears very often in many different contexts.
+	 */
+	private static final Set<String> SOCCER_PLAYER_STOP_WORDS = new HashSet<>(
+			Arrays.asList("F.C.", "F.", "C.", "A.", "FC"));
+
 	public static Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> getHandMadePattern() {
 
 		if (handMadepattern != null) {
@@ -27,8 +33,18 @@ public class SoccerPlayerRegExPattern extends BasicRegExPattern {
 		handMadepattern = new HashMap<Class<? extends ISoccerPlayerThing>, Set<Pattern>>();
 
 		handMadepattern.put(BirthYear.class, SoccerPlayerRegExPattern.BIRTH_YEAR_REG_EXP);
-		
+
 		return handMadepattern;
+	}
+
+	@Override
+	public Set<String> getAdditionalStopWords() {
+		return SOCCER_PLAYER_STOP_WORDS;
+	}
+
+	@Override
+	public int getMinTokenlength() {
+		return 3;
 	}
 
 }

@@ -91,7 +91,7 @@ public class SoccerPlayerRegExNEL extends AbstractRegExNER<ISoccerPlayerThing> {
 	@Override
 	protected Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> addPlainRegExPatternForClasses(
 			Class<? extends IOBIEThing> interfaceClassType) {
-		return BasicRegExPattern.<ISoccerPlayerThing>autoGeneratePatternForClasses(interfaceClassType);
+		return new SoccerPlayerRegExPattern().autoGeneratePatternForClasses(interfaceClassType);
 	}
 
 	@Override
@@ -132,8 +132,7 @@ public class SoccerPlayerRegExNEL extends AbstractRegExNER<ISoccerPlayerThing> {
 	@Override
 	protected Map<AbstractOBIEIndividual, Set<Pattern>> addPlainRegExPatternForIndividuals(
 			Class<? extends IOBIEThing> rootClassType) {
-		return BasicRegExPattern.<ISoccerPlayerThing>autoGeneratePatternForIndividuals(rootClassType);
+		return  new SoccerPlayerRegExPattern().autoGeneratePatternForIndividuals(rootClassType);
 	}
-
 
 }

@@ -21,6 +21,7 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.AbstractOBIETemplate
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.InstanceEntityAnnotations;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEInstance;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEState;
+import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.BirthYearTemplate;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.PriorTemplate;
 
 /**
@@ -50,10 +51,10 @@ public class StartExtraction {
 	 * The runID. This serves as an identifier for locating and saving the model. If
 	 * anything was changed during the development the runID should be reset.
 	 */
-	private final static String runID = "firstRun";
+	private final static String runID = "+sd";
 
 	/**
-	 * The systems environment.
+	 * The project environment.
 	 */
 	private final AbstractProjectEnvironment projectEnvironment = SoccerPlayerProjectEnvironment.getInstance();
 
@@ -132,8 +133,7 @@ public class StartExtraction {
 		 * Add your own templates:
 		 */
 		templates.add(PriorTemplate.class);
-//		templates.add(BirthYearPriorTemplate.class);
-//		templates.add(BirthYearTemplate.class);
+		templates.add(BirthYearTemplate.class);
 
 		/**
 		 * Predefined generic templates:
