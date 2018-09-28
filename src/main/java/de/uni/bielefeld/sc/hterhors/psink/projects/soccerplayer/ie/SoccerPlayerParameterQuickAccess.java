@@ -11,6 +11,7 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.distributor.FoldCrossCo
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.distributor.OriginalCorpusDistributor;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.distributor.ShuffleCorpusDistributor;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.evaluation.DatatypeOrListConditon;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.evaluation.evaluator.BeamSearchEvaluator;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.evaluation.evaluator.CartesianSearchEvaluator;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.evaluation.evaluator.IOBIEEvaluator;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.explorer.AbstractOBIEExplorer;
@@ -107,14 +108,14 @@ public class SoccerPlayerParameterQuickAccess {
 		 * instances. This variable restricts the sampling procedure and needs to be
 		 * adjust to the dataset.
 		 */
-		final int maxNumberOfEntityElements = 3;
+		final int maxNumberOfEntityElements = 5;
 
 		/**
 		 * Maximum number of datatype entities in a collection slot that takes datatype
 		 * entities as filler. This restricts the sampling procedure and needs to be
 		 * adjust to the dataset.
 		 */
-		final int maxNumberOfDataTypeElements = 3;
+		final int maxNumberOfDataTypeElements = 5;
 
 		/**
 		 * Use this class to specify a fine grained investigation restriction that
@@ -153,6 +154,10 @@ public class SoccerPlayerParameterQuickAccess {
 		 * Try instead BeamSearchEvaluator or PurityEvaluator.
 		 *
 		 */
+//		final IOBIEEvaluator evaluator = new BeamSearchEvaluator(5, enableEvaluationCaching, maxEvaluationDepth,
+//				penalizeCardinality, investigationRestiction, new DatatypeOrListConditon(), maxNumberOfEntityElements,
+//				ignoreEmptyInstancesOnEvaluation);
+
 		final IOBIEEvaluator evaluator = new CartesianSearchEvaluator(enableEvaluationCaching, maxEvaluationDepth,
 				penalizeCardinality, investigationRestiction, new DatatypeOrListConditon(), maxNumberOfEntityElements,
 				ignoreEmptyInstancesOnEvaluation);
@@ -178,7 +183,7 @@ public class SoccerPlayerParameterQuickAccess {
 
 		/**
 		 * This explorer explores the cardinality of slots that can have more than one
-		 * entry. Such slots (java class fields) are makred with the
+		 * entry. Such slots (java class fields) are marked with the
 		 * annotation @RelationTypeCollection.java
 		 */
 		explorerTypes.add(SlotCardinalityExplorer.class);

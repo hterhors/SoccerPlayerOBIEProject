@@ -53,7 +53,7 @@ public class StartExtraction {
 	 * The runID. This serves as an identifier for locating and saving the model. If
 	 * anything was changed during the development the runID should be reset.
 	 */
-	private final static String runID = "prior+birthyear3";
+	private final static String runID = "prior+birthyear";
 
 	/**
 	 * The project environment.
@@ -162,12 +162,6 @@ public class StartExtraction {
 	 * @throws Exception
 	 */
 	private static void run(AbstractOBIERunner runner) throws Exception {
-		/**
-		 * Whether the output for each slot should be shown detailed or not. (Might
-		 * generate large output)
-		 */
-		boolean detailedOutput = false;
-
 		final long testTime;
 		final long trainingTime;
 		final long trt;
@@ -211,6 +205,13 @@ public class StartExtraction {
 		log.info("Evaluation results on test data:\n" + overallPRF1);
 
 		log.info("Evaluate predictions per slot:");
+
+		/**
+		 * Whether the output for each slot should be shown detailed or not. (Might
+		 * generate large output)
+		 */
+		boolean detailedOutput = false;
+
 		/**
 		 * Evaluate the trained model on the test data for each slot individually.
 		 */
@@ -226,8 +227,7 @@ public class StartExtraction {
 		log.info("Total training time: " + trt + " ms.");
 		log.info("Total test time: " + tet + " ms.");
 		log.info("Total time: "
-				+ Duration.between(Instant.now(), Instant.ofEpochMilli(System.currentTimeMillis() + (trt + tet)))
-				+ " ms.");
+				+ Duration.between(Instant.now(), Instant.ofEpochMilli(System.currentTimeMillis() + (trt + tet))));
 
 	}
 
