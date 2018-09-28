@@ -1,5 +1,7 @@
 package de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -51,7 +53,7 @@ public class StartExtraction {
 	 * The runID. This serves as an identifier for locating and saving the model. If
 	 * anything was changed during the development the runID should be reset.
 	 */
-	private final static String runID = "+sd";
+	private final static String runID = "prior+birthyear3";
 
 	/**
 	 * The project environment.
@@ -160,23 +162,34 @@ public class StartExtraction {
 	 * @throws Exception
 	 */
 	private static void run(AbstractOBIERunner runner) throws Exception {
+		/**
+		 * Whether the output for each slot should be shown detailed or not. (Might
+		 * generate large output)
+		 */
+		boolean detailedOutput = false;
 
+		final long testTime;
+		final long trainingTime;
+		final long trt;
 		if (runner.modelExists()) {
 			/*
 			 * If the model exists, load the model from the file system. The model location
 			 * is specified in the parameter and the environment.
 			 */
 			runner.loadModel();
+			trt = 0;
 		} else {
 			/*
 			 * If the model does not exists train. The model is automatically stored to the
 			 * file system to the given model location!
 			 */
-			final long time = System.currentTimeMillis();
+			trainingTime = System.currentTimeMillis();
 			runner.train();
-			log.info("Total training time: " + (System.currentTimeMillis() - time) + " ms.");
+			trt = (System.currentTimeMillis() - trainingTime);
+			log.info("Total training time: " + trt + " ms.");
 		}
 
+		testTime = System.currentTimeMillis();
 		/**
 		 * Get predictions that can be evaluated for full evaluation and
 		 * perSlotEvaluation.
@@ -197,12 +210,6 @@ public class StartExtraction {
 
 		log.info("Evaluation results on test data:\n" + overallPRF1);
 
-		/**
-		 * Whether the output for each slot should be shown detailed or not. (Might
-		 * generate large output)
-		 */
-		boolean detailedOutput = false;
-
 		log.info("Evaluate predictions per slot:");
 		/**
 		 * Evaluate the trained model on the test data for each slot individually.
@@ -213,6 +220,14 @@ public class StartExtraction {
 		 * Same as:
 		 */
 //		runner.evaluatePerSlotOnTest(detailedOutput);
+
+		final long tet = (System.currentTimeMillis() - testTime);
+
+		log.info("Total training time: " + trt + " ms.");
+		log.info("Total test time: " + tet + " ms.");
+		log.info("Total time: "
+				+ Duration.between(Instant.now(), Instant.ofEpochMilli(System.currentTimeMillis() + (trt + tet)))
+				+ " ms.");
 
 	}
 
