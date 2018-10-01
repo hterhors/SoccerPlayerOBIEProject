@@ -23,7 +23,8 @@ public class HighFreqBaseline {
 
 		OBIEParameterBuilder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
 
-		paramBuilder.setCorpusDistributor(SoccerPlayerParameterQuickAccess.preDefinedCorpusDistributor.foldCrossDist());
+		paramBuilder
+				.setCorpusDistributor(SoccerPlayerParameterQuickAccess.preDefinedCorpusDistributor.foldCrossDist(1F));
 
 		OBIERunParameter param = paramBuilder.build();
 		AbstractOBIERunner runner = new StandardRERunner(param);

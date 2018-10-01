@@ -1,7 +1,12 @@
 package de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,6 +28,8 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.AbstractOBIETemplate
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.InstanceEntityAnnotations;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEInstance;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEState;
+import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
+import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.ner.regex.SoccerPlayerRegExNEL;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.BirthYearTemplate;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.PriorTemplate;
 
@@ -53,7 +60,7 @@ public class StartExtraction {
 	 * The runID. This serves as an identifier for locating and saving the model. If
 	 * anything was changed during the development the runID should be reset.
 	 */
-	private final static String runID = "prior+birthyear";
+	private final static String runID = "0.1prior+birthyear";
 
 	/**
 	 * The project environment.
@@ -92,7 +99,7 @@ public class StartExtraction {
 		 * may change that distribution by building your own distributor...
 		 */
 		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.preDefinedCorpusDistributor
-				.originDist();
+				.originDist(1F);
 
 		paramBuilder.setCorpusDistributor(corpusDistributor);
 		paramBuilder.setRunID(runID);
@@ -115,7 +122,23 @@ public class StartExtraction {
 		 */
 		AbstractOBIERunner runner = new StandardRERunner(parameter);
 
-		run(runner);
+		/**
+		 * Whether you want to run the prediction of new texts or train and test a model
+		 * on a given corpus.
+		 */
+		boolean predict = false;
+
+		if (!predict) {
+			/*
+			 * train and/or test on existing corpus.
+			 */
+			trainTest(runner);
+		} else {
+			/*
+			 * predict on a new documents.
+			 */
+			predict(runner, Arrays.asList(new File("predict/predict01.txt"), new File("predict/predict02.txt")));
+		}
 	}
 
 	/**
@@ -155,13 +178,49 @@ public class StartExtraction {
 		paramBuilder.setTemplates(templates);
 	}
 
+	private void predict(AbstractOBIERunner runner, final List<File> filesToPredict) throws IOException {
+		log.info("Start prediction of new documents...");
+		/*
+		 * Load model if exists
+		 */
+		if (!runner.modelExists()) {
+			log.warn("Model does not exists, abort prediction!");
+			return;
+		}
+		try {
+			runner.loadModel();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		/**
+		 * Build instances...
+		 */
+		final List<OBIEInstance> instancesToPredict = new ArrayList<>();
+
+		for (File file : filesToPredict) {
+			OBIEInstance i = new OBIEInstance(file.getName(), Files.lines(file.toPath()).reduce("", String::concat),
+					null, new HashSet<>(Arrays.asList(ISoccerPlayer.class)));
+			instancesToPredict.add(i);
+		}
+
+		/**
+		 * Start prediction...
+		 */
+		List<OBIEState> finalStates = runner.predictInstancesBatch(instancesToPredict,
+				new HashSet<>(Arrays.asList(SoccerPlayerRegExNEL.class)));
+
+	}
+
 	/**
 	 * Run the system with the specifications and configurations.
 	 * 
 	 * @param runner
 	 * @throws Exception
 	 */
-	private static void run(AbstractOBIERunner runner) throws Exception {
+	private static void trainTest(AbstractOBIERunner runner) throws Exception {
+		log.info("Start training / testing of a model with a given corpus...");
+
 		final long testTime;
 		final long trainingTime;
 		final long trt;
@@ -189,7 +248,7 @@ public class StartExtraction {
 		 * perSlotEvaluation.
 		 */
 		final List<SampledInstance<OBIEInstance, InstanceEntityAnnotations, OBIEState>> predictions = runner
-				.predictOnTest();
+				.testOnTest();
 
 		/**
 		 * Evaluate the trained model on the test data. This is equal to predictOnTest

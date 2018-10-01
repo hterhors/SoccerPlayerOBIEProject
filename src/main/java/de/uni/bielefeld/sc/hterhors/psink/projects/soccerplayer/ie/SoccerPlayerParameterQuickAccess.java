@@ -108,7 +108,7 @@ public class SoccerPlayerParameterQuickAccess {
 		 * instances. This variable restricts the sampling procedure and needs to be
 		 * adjust to the dataset.
 		 */
-		final int maxNumberOfEntityElements =3;
+		final int maxNumberOfEntityElements = 3;
 
 		/**
 		 * Maximum number of datatype entities in a collection slot that takes datatype
@@ -154,7 +154,7 @@ public class SoccerPlayerParameterQuickAccess {
 		 * Try instead BeamSearchEvaluator or PurityEvaluator.
 		 *
 		 */
-//		final IOBIEEvaluator evaluator = new BeamSearchEvaluator(5, enableEvaluationCaching, maxEvaluationDepth,
+//		final IOBIEEvaluator evaluator = new BeamSearchEvaluator(3, enableEvaluationCaching, maxEvaluationDepth,
 //				penalizeCardinality, investigationRestiction, new DatatypeOrListConditon(), maxNumberOfEntityElements,
 //				ignoreEmptyInstancesOnEvaluation);
 
@@ -201,22 +201,52 @@ public class SoccerPlayerParameterQuickAccess {
 
 	public static class preDefinedCorpusDistributor {
 
-		public static AbstractCorpusDistributor shuffleDist() {
+		/**
+		 * The size of the corpus. For development reasons you may want to reduce the
+		 * total number of instances.
+		 * 
+		 * @param fraction
+		 * @return
+		 */
+		public static AbstractCorpusDistributor shuffleDist(final float fraction) {
 			return new ShuffleCorpusDistributor.Builder().setTrainingProportion(80).setDevelopmentProportion(0)
 					.setTestProportion(20).build();
 		}
 
-		public static AbstractCorpusDistributor originDist() {
-			return new OriginalCorpusDistributor.Builder().build();
+		/**
+		 * The size of the corpus. For development reasons you may want to reduce the
+		 * total number of instances.
+		 * 
+		 * @param fraction
+		 * @return
+		 */
+		public static AbstractCorpusDistributor originDist(final float fraction) {
+			return new OriginalCorpusDistributor.Builder().setCorpusSizeFraction(fraction).build();
 		}
 
-		public static AbstractCorpusDistributor foldCrossDist() {
+		/**
+		 * The size of the corpus. For development reasons you may want to reduce the
+		 * total number of instances.
+		 * 
+		 * @param fraction
+		 * @return
+		 */
+
+		public static AbstractCorpusDistributor foldCrossDist(final float fraction) {
 			return new FoldCrossCorpusDistributor.Builder().setN(10).setSeed(12345L).build();
 		}
 
-		public static AbstractCorpusDistributor activeLearningDist() {
+		/**
+		 * The size of the corpus. For development reasons you may want to reduce the
+		 * total number of instances.
+		 * 
+		 * @param fraction
+		 * @return
+		 */
+
+		public static AbstractCorpusDistributor activeLearningDist(final float fraction) {
 			return new ActiveLearningDistributor.Builder().setB(1).setSeed(100L)
-					.setInitialTrainingSelectionFraction(0.01).setTrainingProportion(80).setTestProportion(20).build();
+					.setInitialTrainingSelectionFraction(0.01f).setTrainingProportion(80).setTestProportion(20).build();
 		}
 	}
 }

@@ -165,7 +165,7 @@ public class ExampleCode {
 		OBIEParameterBuilder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
 
 		paramBuilder.setProjectEnvironment(SoccerPlayerProjectEnvironment.getInstance());
-		paramBuilder.setCorpusDistributor(SoccerPlayerParameterQuickAccess.preDefinedCorpusDistributor.originDist());
+		paramBuilder.setCorpusDistributor(SoccerPlayerParameterQuickAccess.preDefinedCorpusDistributor.originDist(1F));
 		paramBuilder.addTemplate(BirthYearTemplate.class);
 
 		return paramBuilder;
