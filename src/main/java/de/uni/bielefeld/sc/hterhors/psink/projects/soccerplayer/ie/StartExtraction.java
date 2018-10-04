@@ -25,8 +25,6 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.eval.EvaluatePrediction;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter.OBIEParameterBuilder;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.AbstractOBIETemplate;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.FrequencyTemplate;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.SlotIsFilledTemplate;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.InstanceEntityAnnotations;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEInstance;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEState;
@@ -36,6 +34,8 @@ import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.Bir
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.templates.PriorTemplate;
 
 /**
+ * 
+ * Prepare for active learning
  * 
  * Read README.md for more and detailed information.
  * 
