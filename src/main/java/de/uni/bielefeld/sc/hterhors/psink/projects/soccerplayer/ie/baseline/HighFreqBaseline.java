@@ -7,7 +7,9 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.StandardRERunner;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter.OBIEParameterBuilder;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.tools.baseline.HighFrequencyBaseline;
+import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.SoccerPlayerOntologyEnvironment;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.SoccerPlayerParameterQuickAccess;
+import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.SoccerPlayerProjectEnvironment;
 
 public class HighFreqBaseline {
 
@@ -25,6 +27,9 @@ public class HighFreqBaseline {
 
 		paramBuilder
 				.setCorpusDistributor(SoccerPlayerParameterQuickAccess.preDefinedCorpusDistributor.foldCrossDist(1F));
+
+		paramBuilder.setOntologyEnvironment(SoccerPlayerOntologyEnvironment.getInstance());
+		paramBuilder.setProjectEnvironment(SoccerPlayerProjectEnvironment.getInstance());
 
 		OBIERunParameter param = paramBuilder.build();
 		AbstractOBIERunner runner = new StandardRERunner(param);

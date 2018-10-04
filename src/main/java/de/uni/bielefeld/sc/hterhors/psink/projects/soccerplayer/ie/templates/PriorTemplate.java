@@ -88,7 +88,7 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 
 			Map<String, List<String>> assignedClasses = new HashMap<>();
 
-			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) entityAnnotation.get());
+			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) entityAnnotation.getTemplateAnnotation());
 
 			/*
 			 * If the observed soccerPlayer annotation is null we don't need to create any

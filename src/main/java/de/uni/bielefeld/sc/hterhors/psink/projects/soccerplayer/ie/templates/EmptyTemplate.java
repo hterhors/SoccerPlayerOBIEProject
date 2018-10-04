@@ -61,7 +61,7 @@ public class EmptyTemplate extends AbstractOBIETemplate<Scope> {
 		 */
 		for (TemplateAnnotation templateAnnotation : state.getCurrentPrediction().getTemplateAnnotations()) {
 
-			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) templateAnnotation.get());
+			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) templateAnnotation.getTemplateAnnotation());
 			/*
 			 * TODO: get variables and pass it to the scope.
 			 */
