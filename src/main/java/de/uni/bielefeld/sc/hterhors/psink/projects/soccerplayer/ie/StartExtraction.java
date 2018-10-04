@@ -25,6 +25,8 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.eval.EvaluatePrediction;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter.OBIEParameterBuilder;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.AbstractOBIETemplate;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.FrequencyTemplate;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.SlotIsFilledTemplate;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.InstanceEntityAnnotations;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEInstance;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEState;
@@ -60,7 +62,7 @@ public class StartExtraction {
 	 * The runID. This serves as an identifier for locating and saving the model. If
 	 * anything was changed during the development the runID should be reset.
 	 */
-	private final static String runID = "prior+birthyear";
+	private final static String runID = "setRunID";
 
 	/**
 	 * The project environment.
@@ -164,11 +166,11 @@ public class StartExtraction {
 		 * Predefined generic templates:
 		 */
 //		templates.add(FrequencyTemplate.class);
-
 //		templates.add(TokenContextTemplate.class);
 //		templates.add(InterTokenTemplate.class);
 //		templates.add(SlotIsFilledTemplate.class);
 //		templates.add(InBetweenContextTemplate.class);
+
 //		templates.add(LocalTemplate.class);
 
 		/**
