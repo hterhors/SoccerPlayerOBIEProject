@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.OntologyAnalyzer;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.AbstractOBIEIndividual;
+import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.OntologyInitializer;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.annotations.DatatypeProperty;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.interfaces.IOBIEThing;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.dtinterpreter.IDatatypeInterpretation;
@@ -19,6 +20,7 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.ie.ner.regex.AbstractRegExNER;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.ner.regex.BasicRegExPattern;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
 import de.uni.bielefeld.sc.hterhors.psink.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
+import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.SoccerPlayerOntologyEnvironment;
 import de.uni.bielefeld.sc.hterhors.psink.projects.soccerplayer.ie.dtinterpreter.SoccerPlayerInterpreterProvider;
 
 public class SoccerPlayerRegExNEL extends AbstractRegExNER<ISoccerPlayerThing> {
@@ -58,7 +60,7 @@ public class SoccerPlayerRegExNEL extends AbstractRegExNER<ISoccerPlayerThing> {
 		Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> allHandMadepattern = SoccerPlayerRegExPattern
 				.getHandMadePattern();
 
-		for (Class<? extends IOBIEThing> classType : OntologyAnalyzer.getRelatedClassesTypesUnderRoot(rootClassType)) {
+		for (Class<? extends IOBIEThing> classType : OntologyAnalyzer.getRelatedClassTypesUnderRoot(rootClassType)) {
 
 			if (classType.isAnnotationPresent(DatatypeProperty.class) && !allHandMadepattern.containsKey(classType)) {
 				log.warn("WARN!!! No hand made pattern for data type property: " + classType.getSimpleName());
@@ -76,7 +78,7 @@ public class SoccerPlayerRegExNEL extends AbstractRegExNER<ISoccerPlayerThing> {
 			 */
 			log.warn("STOP PROCESS! Unknown class for handmade pattern: " + rootClassType.getSimpleName());
 			OntologyAnalyzer.debug = true;
-			OntologyAnalyzer.getRelatedClassesTypesUnderRoot(rootClassType);
+			OntologyAnalyzer.getRelatedClassTypesUnderRoot(rootClassType);
 			throw new IllegalArgumentException(
 					"STOP PROCESS! Unknown class for handmade pattern: " + rootClassType.getSimpleName());
 		}
@@ -132,7 +134,7 @@ public class SoccerPlayerRegExNEL extends AbstractRegExNER<ISoccerPlayerThing> {
 	@Override
 	protected Map<AbstractOBIEIndividual, Set<Pattern>> addPlainRegExPatternForIndividuals(
 			Class<? extends IOBIEThing> rootClassType) {
-		return  new SoccerPlayerRegExPattern().autoGeneratePatternForIndividuals(rootClassType);
+		return new SoccerPlayerRegExPattern().autoGeneratePatternForIndividuals(rootClassType);
 	}
 
 }

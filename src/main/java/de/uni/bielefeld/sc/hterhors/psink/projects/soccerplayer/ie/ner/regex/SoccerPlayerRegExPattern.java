@@ -22,7 +22,7 @@ public class SoccerPlayerRegExPattern extends BasicRegExPattern {
 	 * Common words that appears very often in many different contexts.
 	 */
 	private static final Set<String> SOCCER_PLAYER_STOP_WORDS = new HashSet<>(
-			Arrays.asList("F.C.", "F.", "C.", "A.", "FC"));
+			Arrays.asList("F.C.", "F.", "C.", "A.", "FC","American","football","positions","association","sports",""));
 
 	public static Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> getHandMadePattern() {
 
