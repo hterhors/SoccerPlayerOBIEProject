@@ -147,8 +147,8 @@ public class ExampleCode {
 		System.out.println("===========================");
 		OBIEState state = new OBIEState(instance, param);
 		System.out.println("Current state:");
-		System.out.println(OBIEClassFormatter
-				.format(state.getCurrentPrediction().getTemplateAnnotations().iterator().next().get()));
+		System.out.println(OBIEClassFormatter.format(
+				state.getCurrentPrediction().getTemplateAnnotations().iterator().next().getTemplateAnnotation()));
 		System.out.println("===========================");
 		int size = 0;
 		List<OBIEState> generatedClasses = te.getNextStates(state);
@@ -165,7 +165,8 @@ public class ExampleCode {
 		OBIEParameterBuilder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
 
 		paramBuilder.setProjectEnvironment(SoccerPlayerProjectEnvironment.getInstance());
-		paramBuilder.setCorpusDistributor(SoccerPlayerParameterQuickAccess.preDefinedCorpusDistributor.originDist(1F));
+		paramBuilder
+				.setCorpusDistributor(SoccerPlayerParameterQuickAccess.preDefinedCorpusDistributor.originDist(1.0F));
 		paramBuilder.addTemplate(BirthYearTemplate.class);
 
 		return paramBuilder;
