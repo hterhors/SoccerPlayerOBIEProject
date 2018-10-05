@@ -23,17 +23,25 @@
 		</Root>
 
 		<!-- ++++++++++++++++++++++++ -->
+		<!-- Loggers for this project -->
+		<!-- ++++++++++++++++++++++++ -->
+
+		<!-- ++++++++++++++++++++++++ -->
 		<!-- Loggers for OBIEMachineLearningFramework project -->
 		<!-- ++++++++++++++++++++++++ -->
+		<Logger name="de.hterhors.obie.ml.run.AbstractOBIERunner"
+			level="INFO" additivity="false">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="LogFile" />
+		</Logger>
 		<Logger
-			name="de.uni.bielefeld.sc.hterhors.psink.obie.ie.tools.BigramCorpusBuilder"
+			name="de.hterhors.obie.tools.ml.tools.BigramCorpusBuilder"
 			level="INFO" additivity="false">
 			<AppenderRef ref="Console" />
 			<AppenderRef ref="LogFile" />
 		</Logger>
 
-		<Logger
-			name="de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.BigramCorpusProvider"
+		<Logger name="de.hterhors.obie.ml.corpus.BigramCorpusProvider"
 			level="INFO" additivity="false">
 			<AppenderRef ref="Console" />
 			<AppenderRef ref="LogFile" />
@@ -44,8 +52,7 @@
 		<!-- Loggers for BIRECore project -->
 		<!-- ++++++++++++++++++++++++ -->
 
-		<Logger
-			name="de.uni.bielefeld.sc.hterhors.psink.obie.core.owlreader.OWLReader"
+		<Logger name="de.hterhors.obie.core.owlreader.OWLReader"
 			level="DEBUG" additivity="false">
 			<AppenderRef ref="Console" />
 			<AppenderRef ref="LogFile" />

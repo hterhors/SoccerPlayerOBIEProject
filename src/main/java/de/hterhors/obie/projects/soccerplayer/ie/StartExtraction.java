@@ -18,29 +18,30 @@ import corpus.SampledInstance;
 import de.hterhors.obie.core.evaluation.PRF1Container;
 import de.hterhors.obie.core.ontology.AbstractOntologyEnvironment;
 import de.hterhors.obie.core.projects.AbstractProjectEnvironment;
+import de.hterhors.obie.ml.activelearning.FullDocumentEntropyRanker;
+import de.hterhors.obie.ml.activelearning.FullDocumentModelScoreRanker;
+import de.hterhors.obie.ml.activelearning.FullDocumentRandomRanker;
+import de.hterhors.obie.ml.activelearning.IActiveLearningDocumentRanker;
+import de.hterhors.obie.ml.corpus.distributor.AbstractCorpusDistributor;
+import de.hterhors.obie.ml.run.AbstractOBIERunner;
+import de.hterhors.obie.ml.run.StandardRERunner;
+import de.hterhors.obie.ml.run.eval.EvaluatePrediction;
+import de.hterhors.obie.ml.run.param.OBIERunParameter;
+import de.hterhors.obie.ml.run.param.OBIERunParameter.OBIEParameterBuilder;
+import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
+import de.hterhors.obie.ml.templates.FrequencyTemplate;
+import de.hterhors.obie.ml.templates.InBetweenContextTemplate;
+import de.hterhors.obie.ml.templates.InterTokenTemplate;
+import de.hterhors.obie.ml.templates.LocalTemplate;
+import de.hterhors.obie.ml.templates.SlotIsFilledTemplate;
+import de.hterhors.obie.ml.templates.TokenContextTemplate;
+import de.hterhors.obie.ml.variables.InstanceEntityAnnotations;
+import de.hterhors.obie.ml.variables.OBIEInstance;
+import de.hterhors.obie.ml.variables.OBIEState;
 import de.hterhors.obie.projects.soccerplayer.ie.ner.regex.SoccerPlayerRegExNEL;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.BirthYearTemplate;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.PriorTemplate;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
-import de.hterhors.obie.tools.ml.activelearning.FullDocumentEntropyRanker;
-import de.hterhors.obie.tools.ml.activelearning.FullDocumentModelScoreRanker;
-import de.hterhors.obie.tools.ml.activelearning.FullDocumentRandomRanker;
-import de.hterhors.obie.tools.ml.activelearning.IActiveLearningDocumentRanker;
-import de.hterhors.obie.tools.ml.corpus.distributor.AbstractCorpusDistributor;
-import de.hterhors.obie.tools.ml.run.AbstractOBIERunner;
-import de.hterhors.obie.tools.ml.run.StandardRERunner;
-import de.hterhors.obie.tools.ml.run.eval.EvaluatePrediction;
-import de.hterhors.obie.tools.ml.run.param.OBIERunParameter;
-import de.hterhors.obie.tools.ml.run.param.OBIERunParameter.OBIEParameterBuilder;
-import de.hterhors.obie.tools.ml.templates.AbstractOBIETemplate;
-import de.hterhors.obie.tools.ml.templates.FrequencyTemplate;
-import de.hterhors.obie.tools.ml.templates.InBetweenContextTemplate;
-import de.hterhors.obie.tools.ml.templates.InterTokenTemplate;
-import de.hterhors.obie.tools.ml.templates.SlotIsFilledTemplate;
-import de.hterhors.obie.tools.ml.templates.TokenContextTemplate;
-import de.hterhors.obie.tools.ml.variables.InstanceEntityAnnotations;
-import de.hterhors.obie.tools.ml.variables.OBIEInstance;
-import de.hterhors.obie.tools.ml.variables.OBIEState;
 
 /**
  * 
@@ -71,7 +72,7 @@ public class StartExtraction {
 	 * The runID. This serves as an identifier for locating and saving the model. If
 	 * anything was changed during the development the runID should be reset.
 	 */
-	private final static String runID = "allFea1";
+	private final static String runID = "ac";
 	/**
 	 * The project environment.
 	 */
@@ -100,7 +101,7 @@ public class StartExtraction {
 		/**
 		 * The number of epochs that the system should be trained.
 		 */
-		final int epochs = 10;
+		final int epochs = 1;
 
 		/**
 		 * The distribution of the documents in the corpus. Origin takes training ,
@@ -139,7 +140,7 @@ public class StartExtraction {
 		boolean predict = false;
 
 		if (!predict) {
-			
+
 			/**
 			 * Whether you want to start active learning procedure or normal training
 			 */
@@ -188,14 +189,13 @@ public class StartExtraction {
 		templates.add(FrequencyTemplate.class);
 		templates.add(TokenContextTemplate.class);
 		templates.add(InterTokenTemplate.class);
-		templates.add(SlotIsFilledTemplate.class);
 		templates.add(InBetweenContextTemplate.class);
-
-//		templates.add(LocalTemplate.class);
+		templates.add(LocalTemplate.class);
 
 		/**
 		 * Templates that capture the cardinality of slots
 		 */
+		templates.add(SlotIsFilledTemplate.class);
 
 		paramBuilder.setTemplates(templates);
 	}
