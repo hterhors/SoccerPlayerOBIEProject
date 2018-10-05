@@ -11,13 +11,13 @@ import de.hterhors.obie.projects.soccerplayer.ie.templates.BirthYearTemplate.Sco
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.BirthYear;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IBirthYear;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.AbstractOBIETemplate;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.scope.OBIEFactorScope;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.NERLClassAnnotation;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEInstance;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEState;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.TemplateAnnotation;
+import de.hterhors.obie.tools.ml.run.param.OBIERunParameter;
+import de.hterhors.obie.tools.ml.templates.AbstractOBIETemplate;
+import de.hterhors.obie.tools.ml.templates.scope.OBIEFactorScope;
+import de.hterhors.obie.tools.ml.variables.NERLClassAnnotation;
+import de.hterhors.obie.tools.ml.variables.OBIEInstance;
+import de.hterhors.obie.tools.ml.variables.OBIEState;
+import de.hterhors.obie.tools.ml.variables.TemplateAnnotation;
 import factors.Factor;
 
 /**

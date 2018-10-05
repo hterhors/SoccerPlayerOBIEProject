@@ -2,6 +2,10 @@ package de.hterhors.obie.projects.soccerplayer.examples;
 
 import java.util.List;
 
+import de.hterhors.obie.core.ontology.OntologyInitializer;
+import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
+import de.hterhors.obie.core.tools.corpus.OBIECorpus;
+import de.hterhors.obie.core.tools.corpus.OBIECorpus.Instance;
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerOntologyEnvironment;
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerParameterQuickAccess;
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerProjectEnvironment;
@@ -10,19 +14,15 @@ import de.hterhors.obie.projects.soccerplayer.ontology.classes.American_football
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.BirthYear;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.Place;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.SoccerPlayer;
-import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.OntologyInitializer;
-import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.interfaces.IOBIEThing;
-import de.uni.bielefeld.sc.hterhors.psink.obie.core.tools.corpus.OBIECorpus;
-import de.uni.bielefeld.sc.hterhors.psink.obie.core.tools.corpus.OBIECorpus.Instance;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.BigramCorpusProvider;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.evaluation.evaluator.CartesianSearchEvaluator;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.explorer.SlotFillerExplorer;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.EInstantiationType;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter.OBIEParameterBuilder;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.utils.OBIEClassFormatter;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEInstance;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEState;
+import de.hterhors.obie.tools.ml.corpus.BigramCorpusProvider;
+import de.hterhors.obie.tools.ml.evaluation.evaluator.CartesianSearchEvaluator;
+import de.hterhors.obie.tools.ml.explorer.SlotFillerExplorer;
+import de.hterhors.obie.tools.ml.run.param.EInstantiationType;
+import de.hterhors.obie.tools.ml.run.param.OBIERunParameter;
+import de.hterhors.obie.tools.ml.run.param.OBIERunParameter.OBIEParameterBuilder;
+import de.hterhors.obie.tools.ml.utils.OBIEClassFormatter;
+import de.hterhors.obie.tools.ml.variables.OBIEInstance;
+import de.hterhors.obie.tools.ml.variables.OBIEState;
 
 /**
  * TODO: write documentation and comments!

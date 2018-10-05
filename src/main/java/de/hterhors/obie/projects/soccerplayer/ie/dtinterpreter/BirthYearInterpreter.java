@@ -3,9 +3,9 @@ package de.hterhors.obie.projects.soccerplayer.ie.dtinterpreter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.dtinterpreter.AbstractInterpreterBuilder;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.dtinterpreter.AbstractNumericInterpreter;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.dtinterpreter.ISingleUnit;
+import de.hterhors.obie.tools.ml.dtinterpreter.AbstractInterpreterBuilder;
+import de.hterhors.obie.tools.ml.dtinterpreter.AbstractNumericInterpreter;
+import de.hterhors.obie.tools.ml.dtinterpreter.ISingleUnit;
 
 public class BirthYearInterpreter extends AbstractNumericInterpreter {
 	/**

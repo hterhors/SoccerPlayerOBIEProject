@@ -7,21 +7,21 @@ import java.util.Set;
 
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.distributor.AbstractCorpusDistributor;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.distributor.ActiveLearningDistributor;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.distributor.FoldCrossCorpusDistributor;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.distributor.OriginalCorpusDistributor;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.distributor.ShuffleCorpusDistributor;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.evaluation.DatatypeOrListConditon;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.evaluation.evaluator.CartesianSearchEvaluator;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.evaluation.evaluator.IOBIEEvaluator;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.explorer.AbstractOBIEExplorer;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.explorer.SlotCardinalityExplorer;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.explorer.SlotFillerExplorer;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.InvestigationRestriction;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.EInstantiationType;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.IInitializeNumberOfObjects;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter.OBIEParameterBuilder;
+import de.hterhors.obie.tools.ml.corpus.distributor.AbstractCorpusDistributor;
+import de.hterhors.obie.tools.ml.corpus.distributor.ActiveLearningDistributor;
+import de.hterhors.obie.tools.ml.corpus.distributor.FoldCrossCorpusDistributor;
+import de.hterhors.obie.tools.ml.corpus.distributor.OriginalCorpusDistributor;
+import de.hterhors.obie.tools.ml.corpus.distributor.ShuffleCorpusDistributor;
+import de.hterhors.obie.tools.ml.evaluation.DatatypeOrListConditon;
+import de.hterhors.obie.tools.ml.evaluation.evaluator.CartesianSearchEvaluator;
+import de.hterhors.obie.tools.ml.evaluation.evaluator.IOBIEEvaluator;
+import de.hterhors.obie.tools.ml.explorer.AbstractOBIEExplorer;
+import de.hterhors.obie.tools.ml.explorer.SlotCardinalityExplorer;
+import de.hterhors.obie.tools.ml.explorer.SlotFillerExplorer;
+import de.hterhors.obie.tools.ml.run.InvestigationRestriction;
+import de.hterhors.obie.tools.ml.run.param.EInstantiationType;
+import de.hterhors.obie.tools.ml.run.param.IInitializeNumberOfObjects;
+import de.hterhors.obie.tools.ml.run.param.OBIERunParameter.OBIEParameterBuilder;
 
 public class SoccerPlayerParameterQuickAccess {
 

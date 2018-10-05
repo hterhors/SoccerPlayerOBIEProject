@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import de.hterhors.obie.projects.soccerplayer.ie.dtinterpreter.impl.BirthYearInterpreter;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.BirthYear;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.ner.regex.BasicRegExPattern;
+import de.hterhors.obie.tools.ml.ner.regex.BasicRegExPattern;
 
 public class SoccerPlayerRegExPattern extends BasicRegExPattern {
 

@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.AbstractOntologyEnvironment;
-import de.uni.bielefeld.sc.hterhors.psink.obie.core.owlreader.IClassFilter;
-import de.uni.bielefeld.sc.hterhors.psink.obie.core.owlreader.container.OntologyClass;
+import de.hterhors.obie.core.ontology.AbstractOntologyEnvironment;
+import de.hterhors.obie.core.owlreader.IClassFilter;
+import de.hterhors.obie.core.owlreader.container.OntologyClass;
 
 public class SoccerPlayerOntologyEnvironment extends AbstractOntologyEnvironment {
 

@@ -1,7 +1,7 @@
 package de.hterhors.obie.projects.soccerplayer.tools;
 
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerOntologyEnvironment;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ontology.owl2javabin.OWLToJavaBinaries;
+import de.hterhors.obie.tools.owl2javabin.OWLToJavaBinaries;
 
 public class CreateSoccerPlayerOntologyJavaBinaries {
 

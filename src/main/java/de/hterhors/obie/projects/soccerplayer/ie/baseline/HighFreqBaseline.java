@@ -1,15 +1,15 @@
 package de.hterhors.obie.projects.soccerplayer.ie.baseline;
 
+import de.hterhors.obie.core.evaluation.PRF1Container;
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerOntologyEnvironment;
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerParameterQuickAccess;
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerProjectEnvironment;
-import de.uni.bielefeld.sc.hterhors.psink.obie.core.evaluation.PRF1Container;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.distributor.FoldCrossCorpusDistributor;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.AbstractOBIERunner;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.StandardRERunner;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter.OBIEParameterBuilder;
-import de.uni.bielefeld.sc.hterhors.psink.obie.ie.tools.baseline.HighFrequencyBaseline;
+import de.hterhors.obie.tools.ml.corpus.distributor.FoldCrossCorpusDistributor;
+import de.hterhors.obie.tools.ml.run.AbstractOBIERunner;
+import de.hterhors.obie.tools.ml.run.StandardRERunner;
+import de.hterhors.obie.tools.ml.run.param.OBIERunParameter;
+import de.hterhors.obie.tools.ml.run.param.OBIERunParameter.OBIEParameterBuilder;
+import de.hterhors.obie.tools.ml.tools.baseline.HighFrequencyBaseline;
 
 public class HighFreqBaseline {
 
