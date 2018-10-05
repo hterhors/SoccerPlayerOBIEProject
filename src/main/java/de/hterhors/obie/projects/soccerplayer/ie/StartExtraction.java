@@ -137,9 +137,14 @@ public class StartExtraction {
 		 * on a given corpus.
 		 */
 		boolean predict = false;
-		boolean activeLearning = true;
 
 		if (!predict) {
+			
+			/**
+			 * Whether you want to start active learning procedure or normal training
+			 */
+			boolean activeLearning = true;
+
 			/*
 			 * train and/or test on existing corpus.
 			 */
