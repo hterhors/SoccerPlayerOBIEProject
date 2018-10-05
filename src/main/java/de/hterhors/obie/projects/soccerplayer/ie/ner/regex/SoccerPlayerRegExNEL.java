@@ -14,11 +14,11 @@ import de.hterhors.obie.core.OntologyAnalyzer;
 import de.hterhors.obie.core.ontology.AbstractOBIEIndividual;
 import de.hterhors.obie.core.ontology.annotations.DatatypeProperty;
 import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
+import de.hterhors.obie.ml.dtinterpreter.IDatatypeInterpretation;
+import de.hterhors.obie.ml.ner.regex.AbstractRegExNER;
 import de.hterhors.obie.projects.soccerplayer.ie.dtinterpreter.SoccerPlayerInterpreterProvider;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
-import de.hterhors.obie.tools.ml.dtinterpreter.IDatatypeInterpretation;
-import de.hterhors.obie.tools.ml.ner.regex.AbstractRegExNER;
 
 public class SoccerPlayerRegExNEL extends AbstractRegExNER<ISoccerPlayerThing> {
 

@@ -3,11 +3,11 @@ package de.hterhors.obie.projects.soccerplayer.ie.corpus;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.hterhors.obie.ml.ner.INamedEntitityLinker;
+import de.hterhors.obie.ml.tools.BigramCorpusBuilder;
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerOntologyEnvironment;
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerProjectEnvironment;
 import de.hterhors.obie.projects.soccerplayer.ie.ner.regex.SoccerPlayerRegExNEL;
-import de.hterhors.obie.tools.ml.ner.INamedEntitityLinker;
-import de.hterhors.obie.tools.ml.tools.BigramCorpusBuilder;
 
 public class BigramCorpusCreator {
 

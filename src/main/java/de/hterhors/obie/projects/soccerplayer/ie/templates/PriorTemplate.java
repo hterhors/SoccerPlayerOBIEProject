@@ -10,16 +10,16 @@ import org.apache.logging.log4j.Logger;
 
 import de.hterhors.obie.core.ontology.AbstractOBIEIndividual;
 import de.hterhors.obie.core.ontology.interfaces.IDatatype;
+import de.hterhors.obie.ml.run.param.OBIERunParameter;
+import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
+import de.hterhors.obie.ml.templates.scope.OBIEFactorScope;
+import de.hterhors.obie.ml.variables.OBIEState;
+import de.hterhors.obie.ml.variables.TemplateAnnotation;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.PriorTemplate.Scope;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IPlace;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerClub;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
-import de.hterhors.obie.tools.ml.run.param.OBIERunParameter;
-import de.hterhors.obie.tools.ml.templates.AbstractOBIETemplate;
-import de.hterhors.obie.tools.ml.templates.scope.OBIEFactorScope;
-import de.hterhors.obie.tools.ml.variables.OBIEState;
-import de.hterhors.obie.tools.ml.variables.TemplateAnnotation;
 import factors.Factor;
 
 /**

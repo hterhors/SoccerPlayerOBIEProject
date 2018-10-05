@@ -6,13 +6,13 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import de.hterhors.obie.ml.run.param.OBIERunParameter;
+import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
+import de.hterhors.obie.ml.templates.scope.OBIEFactorScope;
+import de.hterhors.obie.ml.variables.OBIEState;
+import de.hterhors.obie.ml.variables.TemplateAnnotation;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.EmptyTemplate.Scope;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
-import de.hterhors.obie.tools.ml.run.param.OBIERunParameter;
-import de.hterhors.obie.tools.ml.templates.AbstractOBIETemplate;
-import de.hterhors.obie.tools.ml.templates.scope.OBIEFactorScope;
-import de.hterhors.obie.tools.ml.variables.OBIEState;
-import de.hterhors.obie.tools.ml.variables.TemplateAnnotation;
 import factors.Factor;
 
 /**

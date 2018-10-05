@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
+import de.hterhors.obie.ml.dtinterpreter.IDatatypeInterpretation;
+import de.hterhors.obie.ml.dtinterpreter.IInterpreter;
+import de.hterhors.obie.ml.dtinterpreter.INumericInterpreter;
 import de.hterhors.obie.projects.soccerplayer.ie.dtinterpreter.impl.BirthYearInterpreter;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.BirthYear;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
-import de.hterhors.obie.tools.ml.dtinterpreter.IDatatypeInterpretation;
-import de.hterhors.obie.tools.ml.dtinterpreter.IInterpreter;
-import de.hterhors.obie.tools.ml.dtinterpreter.INumericInterpreter;
 
 public class SoccerPlayerInterpreterProvider implements IInterpreter<ISoccerPlayerThing> {
 

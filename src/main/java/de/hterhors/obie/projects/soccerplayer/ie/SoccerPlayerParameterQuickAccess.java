@@ -5,23 +5,23 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import de.hterhors.obie.ml.corpus.distributor.AbstractCorpusDistributor;
+import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor;
+import de.hterhors.obie.ml.corpus.distributor.FoldCrossCorpusDistributor;
+import de.hterhors.obie.ml.corpus.distributor.OriginalCorpusDistributor;
+import de.hterhors.obie.ml.corpus.distributor.ShuffleCorpusDistributor;
+import de.hterhors.obie.ml.evaluation.DatatypeOrListConditon;
+import de.hterhors.obie.ml.evaluation.evaluator.CartesianSearchEvaluator;
+import de.hterhors.obie.ml.evaluation.evaluator.IOBIEEvaluator;
+import de.hterhors.obie.ml.explorer.AbstractOBIEExplorer;
+import de.hterhors.obie.ml.explorer.SlotCardinalityExplorer;
+import de.hterhors.obie.ml.explorer.SlotFillerExplorer;
+import de.hterhors.obie.ml.run.InvestigationRestriction;
+import de.hterhors.obie.ml.run.param.EInstantiationType;
+import de.hterhors.obie.ml.run.param.IInitializeNumberOfObjects;
+import de.hterhors.obie.ml.run.param.OBIERunParameter.OBIEParameterBuilder;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
-import de.hterhors.obie.tools.ml.corpus.distributor.AbstractCorpusDistributor;
-import de.hterhors.obie.tools.ml.corpus.distributor.ActiveLearningDistributor;
-import de.hterhors.obie.tools.ml.corpus.distributor.FoldCrossCorpusDistributor;
-import de.hterhors.obie.tools.ml.corpus.distributor.OriginalCorpusDistributor;
-import de.hterhors.obie.tools.ml.corpus.distributor.ShuffleCorpusDistributor;
-import de.hterhors.obie.tools.ml.evaluation.DatatypeOrListConditon;
-import de.hterhors.obie.tools.ml.evaluation.evaluator.CartesianSearchEvaluator;
-import de.hterhors.obie.tools.ml.evaluation.evaluator.IOBIEEvaluator;
-import de.hterhors.obie.tools.ml.explorer.AbstractOBIEExplorer;
-import de.hterhors.obie.tools.ml.explorer.SlotCardinalityExplorer;
-import de.hterhors.obie.tools.ml.explorer.SlotFillerExplorer;
-import de.hterhors.obie.tools.ml.run.InvestigationRestriction;
-import de.hterhors.obie.tools.ml.run.param.EInstantiationType;
-import de.hterhors.obie.tools.ml.run.param.IInitializeNumberOfObjects;
-import de.hterhors.obie.tools.ml.run.param.OBIERunParameter.OBIEParameterBuilder;
 
 public class SoccerPlayerParameterQuickAccess {
 
@@ -191,7 +191,7 @@ public class SoccerPlayerParameterQuickAccess {
 		 * There are many more parameter to check out:
 		 */
 		return new OBIEParameterBuilder().setCorpusNamePrefix(corpusNamePrefix).setExplorers(explorerTypes)
-				.setInitializer(initializer).setNumberOfInitializedObjects(numberOfInitializedObjects)
+				.setInstantiationType(initializer).setNumberOfInitializedObjects(numberOfInitializedObjects)
 				.setPersonalNotes(personalNote).setRootDirectory(rootDirectory).addRootSearchType(searchType)
 				.setEvaluator(evaluator).setMaxNumberOfEntityElements(maxNumberOfEntityElements)
 				.setMaxNumberOfDataTypeElements(maxNumberOfDataTypeElements).setRandomForSampling(rndForSampling);
