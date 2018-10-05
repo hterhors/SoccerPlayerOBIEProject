@@ -13,7 +13,6 @@ import de.hterhors.obie.core.ontology.annotations.RelationTypeCollection;
 import de.hterhors.obie.core.ontology.annotations.SuperRootClasses;
 import de.hterhors.obie.core.ontology.annotations.TextMention;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.*;
-
 import org.apache.jena.rdf.model.Model;
 /**
 *

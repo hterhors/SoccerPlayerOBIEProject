@@ -15,7 +15,6 @@ import de.hterhors.obie.core.ontology.annotations.TextMention;
 import de.hterhors.obie.core.ontology.interfaces.IDatatype;
 import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.*;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
