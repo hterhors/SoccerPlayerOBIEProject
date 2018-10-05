@@ -18,6 +18,10 @@ import corpus.SampledInstance;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.evaluation.PRF1Container;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.ontology.AbstractOntologyEnvironment;
 import de.uni.bielefeld.sc.hterhors.psink.obie.core.projects.AbstractProjectEnvironment;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.activelearning.FullDocumentEntropyRanker;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.activelearning.FullDocumentModelScoreRanker;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.activelearning.FullDocumentRandomRanker;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.activelearning.IActiveLearningDocumentRanker;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.corpus.distributor.AbstractCorpusDistributor;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.AbstractOBIERunner;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.StandardRERunner;
@@ -25,6 +29,11 @@ import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.eval.EvaluatePrediction;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.run.param.OBIERunParameter.OBIEParameterBuilder;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.AbstractOBIETemplate;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.FrequencyTemplate;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.InBetweenContextTemplate;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.InterTokenTemplate;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.SlotIsFilledTemplate;
+import de.uni.bielefeld.sc.hterhors.psink.obie.ie.templates.TokenContextTemplate;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.InstanceEntityAnnotations;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEInstance;
 import de.uni.bielefeld.sc.hterhors.psink.obie.ie.variables.OBIEState;
@@ -62,8 +71,7 @@ public class StartExtraction {
 	 * The runID. This serves as an identifier for locating and saving the model. If
 	 * anything was changed during the development the runID should be reset.
 	 */
-	private final static String runID = "setRunID";
-
+	private final static String runID = "allFea1";
 	/**
 	 * The project environment.
 	 */
@@ -101,7 +109,7 @@ public class StartExtraction {
 		 * may change that distribution by building your own distributor...
 		 */
 		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.preDefinedCorpusDistributor
-				.originDist(1F);
+				.activeLearningDist(1F);
 
 		paramBuilder.setCorpusDistributor(corpusDistributor);
 		paramBuilder.setRunID(runID);
@@ -129,12 +137,19 @@ public class StartExtraction {
 		 * on a given corpus.
 		 */
 		boolean predict = false;
+		boolean activeLearning = true;
 
 		if (!predict) {
 			/*
 			 * train and/or test on existing corpus.
 			 */
-			trainTest(runner);
+
+			if (activeLearning) {
+				activeLearning(runner);
+			} else {
+				trainTest(runner);
+			}
+
 		} else {
 			/*
 			 * predict on a new documents.
@@ -165,11 +180,11 @@ public class StartExtraction {
 		/**
 		 * Predefined generic templates:
 		 */
-//		templates.add(FrequencyTemplate.class);
-//		templates.add(TokenContextTemplate.class);
-//		templates.add(InterTokenTemplate.class);
-//		templates.add(SlotIsFilledTemplate.class);
-//		templates.add(InBetweenContextTemplate.class);
+		templates.add(FrequencyTemplate.class);
+		templates.add(TokenContextTemplate.class);
+		templates.add(InterTokenTemplate.class);
+		templates.add(SlotIsFilledTemplate.class);
+		templates.add(InBetweenContextTemplate.class);
 
 //		templates.add(LocalTemplate.class);
 
@@ -289,6 +304,67 @@ public class StartExtraction {
 		log.info("Total test time: " + tet + " ms.");
 		log.info("Total time: "
 				+ Duration.between(Instant.now(), Instant.ofEpochMilli(System.currentTimeMillis() + (trt + tet))));
+
+	}
+
+	private void activeLearning(AbstractOBIERunner runner) throws Exception {
+
+		List<PRF1Container> performances = new ArrayList<>();
+
+		long allTime = System.currentTimeMillis();
+
+		int i = 1;
+
+		final IActiveLearningDocumentRanker documentEntropyRanker = new FullDocumentEntropyRanker();
+		final IActiveLearningDocumentRanker documentModelScoreRanker = new FullDocumentModelScoreRanker();
+		final IActiveLearningDocumentRanker documentRandomRanker = new FullDocumentRandomRanker();
+
+		do {
+
+			log.info("#############################");
+			log.info("New active learning iteration: " + (i));
+			long time = System.currentTimeMillis();
+
+			log.info("Set training instances to("
+					+ runner.corpusProvider.getTrainingCorpus().getInternalInstances().size() + "):");
+//			runner.corpusProvider.getTrainingCorpus().getInternalInstances().forEach(System.out::println);
+			log.info("Remaining training instances ("
+					+ runner.corpusProvider.getDevelopCorpus().getInternalInstances().size() + "):");
+//			runner.corpusProvider.getDevelopCorpus().getInternalInstances().forEach(System.out::println);
+			log.info("#############################");
+
+			if (runner.modelExists()) {
+				/*
+				 * If the model exists, load the model from the file system. The model location
+				 * is specified in the parameter and the environment.
+				 */
+				runner.loadModel();
+			} else {
+				/*
+				 * If the model does not exists train. The model is automatically stored to the
+				 * file system to the given model location!
+				 */
+				runner.train();
+			}
+
+			List<SampledInstance<OBIEInstance, InstanceEntityAnnotations, OBIEState>> predictions = runner.testOnTest();
+
+			PRF1Container pfr1 = EvaluatePrediction.evaluateREPredictions(runner.getObjectiveFunction(), predictions,
+					runner.parameter.evaluator);
+
+			performances.add(pfr1);
+
+			log.info("############Active Learning performances############");
+			performances.forEach(log::info);
+
+			log.info("Time needed: " + (System.currentTimeMillis() - time));
+
+		} while (runner.corpusProvider.updateActiveLearning(runner, documentEntropyRanker));
+
+		log.info("############Active Learning performances############");
+		performances.forEach(log::info);
+
+		log.info("Total time needed: " + (System.currentTimeMillis() - allTime));
 
 	}
 

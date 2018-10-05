@@ -210,7 +210,7 @@ public class SoccerPlayerParameterQuickAccess {
 		 */
 		public static AbstractCorpusDistributor shuffleDist(final float fraction) {
 			return new ShuffleCorpusDistributor.Builder().setTrainingProportion(80).setDevelopmentProportion(0)
-					.setTestProportion(20).build();
+					.setCorpusSizeFraction(fraction).setTestProportion(20).build();
 		}
 
 		/**
@@ -233,7 +233,8 @@ public class SoccerPlayerParameterQuickAccess {
 		 */
 
 		public static AbstractCorpusDistributor foldCrossDist(final float fraction) {
-			return new FoldCrossCorpusDistributor.Builder().setN(10).setSeed(12345L).build();
+			return new FoldCrossCorpusDistributor.Builder().setN(10).setSeed(12345L).setCorpusSizeFraction(fraction)
+					.build();
 		}
 
 		/**
@@ -245,8 +246,8 @@ public class SoccerPlayerParameterQuickAccess {
 		 */
 
 		public static AbstractCorpusDistributor activeLearningDist(final float fraction) {
-			return new ActiveLearningDistributor.Builder().setB(1).setSeed(100L)
-					.setInitialTrainingSelectionFraction(0.01f).setTrainingProportion(80).setTestProportion(20).build();
+			return new ActiveLearningDistributor.Builder().setB(1).setSeed(100L).setCorpusSizeFraction(fraction)
+					.setInitialTrainingSelectionFraction(0.1f).setTrainingProportion(80).setTestProportion(20).build();
 		}
 	}
 }
