@@ -1,48 +1,46 @@
 package de.hterhors.obie.projects.soccerplayer.ontology.classes;
 
-import java.lang.NoSuchMethodException;
-import de.hterhors.obie.core.ontology.interfaces.IDatatype;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.*;
-import de.hterhors.obie.core.ontology.annotations.SuperRootClasses;
-import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
-import java.util.HashMap;
-import de.hterhors.obie.core.ontology.annotations.OntologyModelContent;
-import java.util.ArrayList;
-import org.apache.jena.rdf.model.Model;
-import de.hterhors.obie.core.ontology.annotations.AssignableSubInterfaces;
-import de.hterhors.obie.core.ontology.annotations.ImplementationClass;
-import org.apache.jena.rdf.model.Resource;
-import java.util.Map;
-import java.lang.InstantiationException;
-import java.lang.SecurityException;
-import de.hterhors.obie.core.ontology.annotations.DirectSiblings;
-import java.lang.IllegalAccessException;
-import de.hterhors.obie.core.ontology.annotations.AssignableSubClasses;
-import de.hterhors.obie.core.ontology.IndividualFactory;
-import de.hterhors.obie.core.ontology.annotations.DirectInterface;
-import de.hterhors.obie.core.ontology.annotations.RelationTypeCollection;
-import de.hterhors.obie.core.ontology.annotations.DatatypeProperty;
-import java.lang.IllegalArgumentException;
-import de.hterhors.obie.core.ontology.annotations.TextMention;
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import de.hterhors.obie.core.ontology.AbstractOBIEIndividual;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
+
+import de.hterhors.obie.core.ontology.AbstractOBIEIndividual;
+import de.hterhors.obie.core.ontology.IndividualFactory;
+import de.hterhors.obie.core.ontology.annotations.AssignableSubClasses;
+import de.hterhors.obie.core.ontology.annotations.DatatypeProperty;
+import de.hterhors.obie.core.ontology.annotations.DirectInterface;
+import de.hterhors.obie.core.ontology.annotations.DirectSiblings;
+import de.hterhors.obie.core.ontology.annotations.OntologyModelContent;
+import de.hterhors.obie.core.ontology.annotations.RelationTypeCollection;
+import de.hterhors.obie.core.ontology.annotations.SuperRootClasses;
+import de.hterhors.obie.core.ontology.annotations.TextMention;
+import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IAmerican_football_positions;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IBirthYear;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IPlace;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerClub;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
 
 /**
  *
  * @author hterhors
  *
  *
- *         Oct 5, 2018
+ *         Oct 9, 2018
  */
 
-@DirectSiblings(get = {})
+@SuperRootClasses(get = { SoccerPlayer.class, })
 
 @AssignableSubClasses(get = {})
 
-@SuperRootClasses(get = { SoccerPlayer.class, })
+@DirectSiblings(get = {})
 
 @DirectInterface(get = ISoccerPlayer.class)
 public class SoccerPlayer implements ISoccerPlayer {
@@ -78,11 +76,11 @@ public class SoccerPlayer implements ISoccerPlayer {
 
 	final static public String ONTOLOGY_NAME = "http://dbpedia.org/ontology/SoccerPlayer";
 	final public String annotationID;
-	@RelationTypeCollection
 	@OntologyModelContent(ontologyName = "http://dbpedia.org/ontology/birthPlace")
+	@RelationTypeCollection
 	private List<IPlace> birthPlaces = new ArrayList<>();
-	@DatatypeProperty
 	@OntologyModelContent(ontologyName = "http://dbpedia.org/ontology/birthYear")
+	@DatatypeProperty
 	private IBirthYear birthYear;
 	private Integer characterOffset;
 	private Integer characterOnset;
@@ -96,12 +94,6 @@ public class SoccerPlayer implements ISoccerPlayer {
 	@TextMention
 	final private String textMention;
 
-	public SoccerPlayer(String individualURI, String annotationID, String textMention) {
-		this.individual = SoccerPlayer.individualFactory.getIndividualByURI(individualURI);
-		this.annotationID = annotationID;
-		this.textMention = textMention;
-	}
-
 	public SoccerPlayer() {
 		this.individual = null;
 		this.annotationID = null;
@@ -114,33 +106,36 @@ public class SoccerPlayer implements ISoccerPlayer {
 		this.annotationID = soccerPlayer.getAnnotationID();
 		for (int j = 0; j < soccerPlayer.getBirthPlaces().size(); j++) {
 			if (soccerPlayer.getBirthPlaces().get(j) != null) {
-				birthPlaces.add(soccerPlayer.getBirthPlaces().get(j).getClass()
-						.getDeclaredConstructor(soccerPlayer.getBirthPlaces().get(j).getClass())
+				birthPlaces.add((IPlace) IOBIEThing.getCloneConstructor(soccerPlayer.getBirthPlaces().get(j).getClass())
 						.newInstance(soccerPlayer.getBirthPlaces().get(j)));
 			} else {
 				birthPlaces.add(null);
 			}
 		}
 		if (soccerPlayer.getBirthYear() != null)
-			this.birthYear = soccerPlayer.getBirthYear().getClass()
-					.getDeclaredConstructor(soccerPlayer.getBirthYear().getClass())
-					.newInstance(soccerPlayer.getBirthYear());
+			this.birthYear = new BirthYear((BirthYear) soccerPlayer.getBirthYear());
 		this.characterOffset = soccerPlayer.getCharacterOffset();
 		this.characterOnset = soccerPlayer.getCharacterOnset();
 		if (soccerPlayer.getPositionAmerican_football_positions() != null)
-			this.positionAmerican_football_positions = soccerPlayer.getPositionAmerican_football_positions().getClass()
-					.getDeclaredConstructor(soccerPlayer.getPositionAmerican_football_positions().getClass())
+			this.positionAmerican_football_positions = (IAmerican_football_positions) IOBIEThing
+					.getCloneConstructor(soccerPlayer.getPositionAmerican_football_positions().getClass())
 					.newInstance(soccerPlayer.getPositionAmerican_football_positions());
 		for (int j = 0; j < soccerPlayer.getTeamSoccerClubs().size(); j++) {
 			if (soccerPlayer.getTeamSoccerClubs().get(j) != null) {
-				teamSoccerClubs.add(soccerPlayer.getTeamSoccerClubs().get(j).getClass()
-						.getDeclaredConstructor(soccerPlayer.getTeamSoccerClubs().get(j).getClass())
+				teamSoccerClubs.add((ISoccerClub) IOBIEThing
+						.getCloneConstructor(soccerPlayer.getTeamSoccerClubs().get(j).getClass())
 						.newInstance(soccerPlayer.getTeamSoccerClubs().get(j)));
 			} else {
 				teamSoccerClubs.add(null);
 			}
 		}
 		this.textMention = soccerPlayer.getTextMention();
+	}
+
+	public SoccerPlayer(String individualURI, String annotationID, String textMention) {
+		this.individual = SoccerPlayer.individualFactory.getIndividualByURI(individualURI);
+		this.annotationID = annotationID;
+		this.textMention = textMention;
 	}
 
 	/***/
@@ -172,45 +167,45 @@ public class SoccerPlayer implements ISoccerPlayer {
 				return false;
 		} else if (!individual.equals(other.individual))
 			return false;
-		if (teamSoccerClubs == null) {
-			if (other.teamSoccerClubs != null)
+		if (characterOnset == null) {
+			if (other.characterOnset != null)
 				return false;
-		} else if (!teamSoccerClubs.equals(other.teamSoccerClubs))
+		} else if (!characterOnset.equals(other.characterOnset))
 			return false;
-		if (birthYear == null) {
-			if (other.birthYear != null)
+		if (textMention == null) {
+			if (other.textMention != null)
 				return false;
-		} else if (!birthYear.equals(other.birthYear))
-			return false;
-		if (annotationID == null) {
-			if (other.annotationID != null)
-				return false;
-		} else if (!annotationID.equals(other.annotationID))
-			return false;
-		if (birthPlaces == null) {
-			if (other.birthPlaces != null)
-				return false;
-		} else if (!birthPlaces.equals(other.birthPlaces))
+		} else if (!textMention.equals(other.textMention))
 			return false;
 		if (characterOffset == null) {
 			if (other.characterOffset != null)
 				return false;
 		} else if (!characterOffset.equals(other.characterOffset))
 			return false;
-		if (characterOnset == null) {
-			if (other.characterOnset != null)
+		if (birthYear == null) {
+			if (other.birthYear != null)
 				return false;
-		} else if (!characterOnset.equals(other.characterOnset))
+		} else if (!birthYear.equals(other.birthYear))
+			return false;
+		if (teamSoccerClubs == null) {
+			if (other.teamSoccerClubs != null)
+				return false;
+		} else if (!teamSoccerClubs.equals(other.teamSoccerClubs))
+			return false;
+		if (annotationID == null) {
+			if (other.annotationID != null)
+				return false;
+		} else if (!annotationID.equals(other.annotationID))
 			return false;
 		if (positionAmerican_football_positions == null) {
 			if (other.positionAmerican_football_positions != null)
 				return false;
 		} else if (!positionAmerican_football_positions.equals(other.positionAmerican_football_positions))
 			return false;
-		if (textMention == null) {
-			if (other.textMention != null)
+		if (birthPlaces == null) {
+			if (other.birthPlaces != null)
 				return false;
-		} else if (!textMention.equals(other.textMention))
+		} else if (!birthPlaces.equals(other.birthPlaces))
 			return false;
 		return true;
 	}
@@ -297,15 +292,15 @@ public class SoccerPlayer implements ISoccerPlayer {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((this.individual == null) ? 0 : this.individual.hashCode());
-		result = prime * result + ((this.teamSoccerClubs == null) ? 0 : this.teamSoccerClubs.hashCode());
-		result = prime * result + ((this.birthYear == null) ? 0 : this.birthYear.hashCode());
-		result = prime * result + ((this.annotationID == null) ? 0 : this.annotationID.hashCode());
-		result = prime * result + ((this.birthPlaces == null) ? 0 : this.birthPlaces.hashCode());
-		result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
 		result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
+		result = prime * result + ((this.textMention == null) ? 0 : this.textMention.hashCode());
+		result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
+		result = prime * result + ((this.birthYear == null) ? 0 : this.birthYear.hashCode());
+		result = prime * result + ((this.teamSoccerClubs == null) ? 0 : this.teamSoccerClubs.hashCode());
+		result = prime * result + ((this.annotationID == null) ? 0 : this.annotationID.hashCode());
 		result = prime * result + ((this.positionAmerican_football_positions == null) ? 0
 				: this.positionAmerican_football_positions.hashCode());
-		result = prime * result + ((this.textMention == null) ? 0 : this.textMention.hashCode());
+		result = prime * result + ((this.birthPlaces == null) ? 0 : this.birthPlaces.hashCode());
 		return result;
 	}
 

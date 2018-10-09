@@ -1,36 +1,23 @@
 package de.hterhors.obie.projects.soccerplayer.ontology.interfaces;
 
-import de.hterhors.obie.core.ontology.AbstractOBIEIndividual;
-import de.hterhors.obie.core.ontology.IndividualFactory;
-import de.hterhors.obie.core.ontology.annotations.AssignableSubClasses;
 import de.hterhors.obie.core.ontology.annotations.AssignableSubInterfaces;
 import de.hterhors.obie.core.ontology.annotations.DatatypeProperty;
-import de.hterhors.obie.core.ontology.annotations.DirectInterface;
-import de.hterhors.obie.core.ontology.annotations.DirectSiblings;
 import de.hterhors.obie.core.ontology.annotations.ImplementationClass;
-import de.hterhors.obie.core.ontology.annotations.OntologyModelContent;
-import de.hterhors.obie.core.ontology.annotations.RelationTypeCollection;
-import de.hterhors.obie.core.ontology.annotations.SuperRootClasses;
-import de.hterhors.obie.core.ontology.annotations.TextMention;
 import de.hterhors.obie.core.ontology.interfaces.IDatatype;
-import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
-import de.hterhors.obie.projects.soccerplayer.ontology.classes.*;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import de.hterhors.obie.projects.soccerplayer.ontology.classes.BirthYear;
+
 /**
-*
-* @author hterhors
-*
-*
-*Oct 5, 2018
-*/
+ *
+ * @author hterhors
+ *
+ *
+ *         Oct 9, 2018
+ */
+
+@AssignableSubInterfaces(get = {})
 
 @DatatypeProperty
-@ImplementationClass(get=BirthYear.class)
-
-@AssignableSubInterfaces(get={})
- public interface IBirthYear
- extends IDatatype, ISoccerPlayerThing{
+@ImplementationClass(get = BirthYear.class)
+public interface IBirthYear extends IDatatype, ISoccerPlayerThing {
 
 }
