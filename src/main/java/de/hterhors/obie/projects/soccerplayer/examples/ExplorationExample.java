@@ -7,7 +7,7 @@ import de.hterhors.obie.ml.corpus.BigramCorpusProvider;
 import de.hterhors.obie.ml.explorer.SlotFillerExplorer;
 import de.hterhors.obie.ml.run.param.EInstantiationType;
 import de.hterhors.obie.ml.run.param.OBIERunParameter;
-import de.hterhors.obie.ml.run.param.OBIERunParameter.OBIEParameterBuilder;
+import de.hterhors.obie.ml.run.param.OBIERunParameter.Builder;
 import de.hterhors.obie.ml.utils.OBIEClassFormatter;
 import de.hterhors.obie.ml.variables.OBIEInstance;
 import de.hterhors.obie.ml.variables.OBIEState;
@@ -49,7 +49,7 @@ public class ExplorationExample {
 		 * Get some standard parameter. These are not important for this example. the
 		 * more important parameter follow below:
 		 */
-		final OBIEParameterBuilder paramBuilder = getStandardParameter();
+		final Builder paramBuilder = getStandardParameter();
 
 		/*
 		 * Initialize new templates emptily! For more values see: EInstantiationType
@@ -62,12 +62,12 @@ public class ExplorationExample {
 		 * true each possible slot filler type is explored only once. If set to false,
 		 * slot filler types are based on the found entities in the text. E.g. Entity A
 		 * was found in two different positions in the text. Both appearances are as
-		 * slot filler.
+		 * slot filler. Datatype slots are always filled by textual evidence.
 		 */
 		paramBuilder.setExploreOnOntologyLevel(true);
 
 		/**
-		 * Set to true if the exploration should be guided by entities that were
+		 * Set to true if the exploration should be filtered by entities that were
 		 * previously found in the document rather than on all entities of the ontology.
 		 */
 		paramBuilder.setRestrictExplorationToFoundConcepts(true);
@@ -101,8 +101,8 @@ public class ExplorationExample {
 		System.out.println("___________________________");
 
 		/*
-		 * Print all entity annotations for a specific class. In this case BorthYear.
-		 * Those BirthYear will we find in the proposal states that are generated during
+		 * Print all entity annotations for a specific class. In this case BirthYear.
+		 * We will find those BirthYear in the proposal states that are generated during
 		 * exploration.
 		 */
 		instance.getNamedEntityLinkingAnnotations().getClassAnnotations(BirthYear.class).forEach(System.out::println);
@@ -162,8 +162,8 @@ public class ExplorationExample {
 	 * 
 	 * @return
 	 */
-	private static OBIEParameterBuilder getStandardParameter() {
-		OBIEParameterBuilder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
+	private static Builder getStandardParameter() {
+		Builder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
 
 		paramBuilder.setProjectEnvironment(SoccerPlayerProjectEnvironment.getInstance());
 		paramBuilder.setOntologyEnvironment(SoccerPlayerOntologyEnvironment.getInstance());
