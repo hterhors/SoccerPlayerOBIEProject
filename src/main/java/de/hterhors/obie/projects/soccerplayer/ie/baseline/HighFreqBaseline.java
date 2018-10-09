@@ -5,7 +5,7 @@ import de.hterhors.obie.ml.corpus.distributor.FoldCrossCorpusDistributor;
 import de.hterhors.obie.ml.run.AbstractOBIERunner;
 import de.hterhors.obie.ml.run.StandardRERunner;
 import de.hterhors.obie.ml.run.param.OBIERunParameter;
-import de.hterhors.obie.ml.run.param.OBIERunParameter.OBIEParameterBuilder;
+import de.hterhors.obie.ml.run.param.OBIERunParameter.Builder;
 import de.hterhors.obie.ml.tools.baseline.HighFrequencyBaseline;
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerOntologyEnvironment;
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerParameterQuickAccess;
@@ -23,7 +23,7 @@ public class HighFreqBaseline {
 
 		long allTime = System.currentTimeMillis();
 
-		OBIEParameterBuilder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
+		Builder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
 
 		paramBuilder
 				.setCorpusDistributor(SoccerPlayerParameterQuickAccess.preDefinedCorpusDistributor.foldCrossDist(1F));

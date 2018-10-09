@@ -2,6 +2,7 @@ package de.hterhors.obie.projects.soccerplayer.ie;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.time.Duration;
 import java.time.Instant;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,15 +21,15 @@ import de.hterhors.obie.core.evaluation.PRF1Container;
 import de.hterhors.obie.core.ontology.AbstractOntologyEnvironment;
 import de.hterhors.obie.core.projects.AbstractProjectEnvironment;
 import de.hterhors.obie.ml.activelearning.FullDocumentEntropyRanker;
-import de.hterhors.obie.ml.activelearning.FullDocumentModelScoreRanker;
 import de.hterhors.obie.ml.activelearning.FullDocumentRandomRanker;
 import de.hterhors.obie.ml.activelearning.IActiveLearningDocumentRanker;
 import de.hterhors.obie.ml.corpus.distributor.AbstractCorpusDistributor;
+import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor;
 import de.hterhors.obie.ml.run.AbstractOBIERunner;
 import de.hterhors.obie.ml.run.StandardRERunner;
 import de.hterhors.obie.ml.run.eval.EvaluatePrediction;
 import de.hterhors.obie.ml.run.param.OBIERunParameter;
-import de.hterhors.obie.ml.run.param.OBIERunParameter.OBIEParameterBuilder;
+import de.hterhors.obie.ml.run.param.OBIERunParameter.Builder;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
 import de.hterhors.obie.ml.templates.FrequencyTemplate;
 import de.hterhors.obie.ml.templates.InBetweenContextTemplate;
@@ -51,9 +53,13 @@ import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
  * 
  *
  * Preferred VM run-parameter: -Xmx12g -XX:+UseG1GC -XX:+UseStringDeduplication
+ * -XX:StringTableSize=100003
  * 
  * Main starting class for the information extraction task using the
  * SoccerPlayerOntology and SoccerPlayer-Wikipedia data set.
+ * 
+ * 
+ * For debug -XX:+PrintStringTableStatistics
  * 
  * @author hterhors
  *
@@ -64,7 +70,13 @@ public class StartExtraction {
 
 	public static void main(String[] args) throws Exception {
 
-		new StartExtraction();
+		log.info("1) argument: file to store results");
+		log.info("2) argument: mode of active learning, \"random\"(default) or \"entropy\"");
+
+		final File printResults = new File(args.length == 0 ? "tmpResultFile" : args[0]);
+		final String acMode = args.length < 2 ? "random" : args[1];
+
+		new StartExtraction(acMode, printResults);
 
 	}
 
@@ -72,7 +84,7 @@ public class StartExtraction {
 	 * The runID. This serves as an identifier for locating and saving the model. If
 	 * anything was changed during the development the runID should be reset.
 	 */
-	private final static String runID = "ac";
+	private final static String runID = "random" + new Random().nextInt();
 	/**
 	 * The project environment.
 	 */
@@ -83,7 +95,7 @@ public class StartExtraction {
 	 */
 	private final AbstractOntologyEnvironment ontologyEnvironment = SoccerPlayerOntologyEnvironment.getInstance();
 
-	public StartExtraction() throws Exception {
+	public StartExtraction(String acModus, File printResults) throws Exception {
 
 		log.info("Current run id = " + runID);
 
@@ -92,7 +104,7 @@ public class StartExtraction {
 		 * used for Relation Extraction tasks. You can but may not change the parameter
 		 * predefined in here unless you know what you are doing!
 		 */
-		final OBIEParameterBuilder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
+		final Builder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
 
 		/*
 		 * Add parameter...
@@ -101,7 +113,7 @@ public class StartExtraction {
 		/**
 		 * The number of epochs that the system should be trained.
 		 */
-		final int epochs = 1;
+		final int epochs = 100;
 
 		/**
 		 * The distribution of the documents in the corpus. Origin takes training ,
@@ -110,7 +122,7 @@ public class StartExtraction {
 		 * may change that distribution by building your own distributor...
 		 */
 		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.preDefinedCorpusDistributor
-				.activeLearningDist(1F);
+				.originDist(1F);
 
 		paramBuilder.setCorpusDistributor(corpusDistributor);
 		paramBuilder.setRunID(runID);
@@ -144,14 +156,14 @@ public class StartExtraction {
 			/**
 			 * Whether you want to start active learning procedure or normal training
 			 */
-			boolean activeLearning = true;
+			boolean activeLearning = parameter.corpusDistributor instanceof ActiveLearningDistributor;
 
 			/*
 			 * train and/or test on existing corpus.
 			 */
 
 			if (activeLearning) {
-				activeLearning(runner);
+				activeLearning(runner, acModus, printResults);
 			} else {
 				trainTest(runner);
 			}
@@ -169,7 +181,7 @@ public class StartExtraction {
 	 * 
 	 * @param paramBuilder
 	 */
-	private void addTemplates(OBIEParameterBuilder paramBuilder) {
+	private void addTemplates(Builder paramBuilder) {
 
 		final Set<Class<? extends AbstractOBIETemplate<?>>> templates = new HashSet<>();
 		/**
@@ -242,10 +254,10 @@ public class StartExtraction {
 	 */
 	private static void trainTest(AbstractOBIERunner runner) throws Exception {
 		log.info("Start training / testing of a model with a given corpus...");
-
 		final long testTime;
 		final long trainingTime;
 		final long trt;
+
 		if (runner.modelExists()) {
 			/*
 			 * If the model exists, load the model from the file system. The model location
@@ -312,7 +324,7 @@ public class StartExtraction {
 
 	}
 
-	private void activeLearning(AbstractOBIERunner runner) throws Exception {
+	private void activeLearning(AbstractOBIERunner runner, String acMode, File printResults) throws Exception {
 
 		List<PRF1Container> performances = new ArrayList<>();
 
@@ -320,9 +332,19 @@ public class StartExtraction {
 
 		int i = 1;
 
-		final IActiveLearningDocumentRanker documentEntropyRanker = new FullDocumentEntropyRanker();
-		final IActiveLearningDocumentRanker documentModelScoreRanker = new FullDocumentModelScoreRanker();
-		final IActiveLearningDocumentRanker documentRandomRanker = new FullDocumentRandomRanker();
+		final IActiveLearningDocumentRanker ranker;
+		if (acMode.equals("random")) {
+			ranker = new FullDocumentRandomRanker();
+		} else if (acMode.equals("entropy")) {
+			ranker = new FullDocumentEntropyRanker();
+		} else {
+			ranker = null;
+			log.error("unkown active learning mode");
+			System.exit(1);
+		}
+
+//		final IActiveLearningDocumentRanker documentModelScoreRanker = new FullDocumentModelScoreRanker();
+		PrintStream resultPrintStream = new PrintStream(printResults);
 
 		do {
 
@@ -354,22 +376,27 @@ public class StartExtraction {
 
 			List<SampledInstance<OBIEInstance, InstanceEntityAnnotations, OBIEState>> predictions = runner.testOnTest();
 
-			PRF1Container pfr1 = EvaluatePrediction.evaluateREPredictions(runner.getObjectiveFunction(), predictions,
+			PRF1Container prf1 = EvaluatePrediction.evaluateREPredictions(runner.getObjectiveFunction(), predictions,
 					runner.parameter.evaluator);
 
-			performances.add(pfr1);
+			performances.add(prf1);
+			resultPrintStream.println(prf1);
 
 			log.info("############Active Learning performances############");
 			performances.forEach(log::info);
 
 			log.info("Time needed: " + (System.currentTimeMillis() - time));
 
-		} while (runner.corpusProvider.updateActiveLearning(runner, documentEntropyRanker));
+		} while (runner.corpusProvider.updateActiveLearning(runner, ranker));
 
 		log.info("############Active Learning performances############");
 		performances.forEach(log::info);
 
 		log.info("Total time needed: " + (System.currentTimeMillis() - allTime));
+
+		log.info("Print results to: " + printResults);
+
+		resultPrintStream.close();
 
 	}
 

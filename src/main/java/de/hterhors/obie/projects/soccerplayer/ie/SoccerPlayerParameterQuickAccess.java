@@ -19,7 +19,7 @@ import de.hterhors.obie.ml.explorer.SlotFillerExplorer;
 import de.hterhors.obie.ml.run.InvestigationRestriction;
 import de.hterhors.obie.ml.run.param.EInstantiationType;
 import de.hterhors.obie.ml.run.param.IInitializeNumberOfObjects;
-import de.hterhors.obie.ml.run.param.OBIERunParameter.OBIEParameterBuilder;
+import de.hterhors.obie.ml.run.param.OBIERunParameter.Builder;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
 
@@ -47,7 +47,7 @@ public class SoccerPlayerParameterQuickAccess {
 	 */
 	final private static Class<? extends ISoccerPlayerThing> searchType = corpusType;
 
-	public static OBIEParameterBuilder getREParameter() {
+	public static Builder getREParameter() {
 
 		/**
 		 * Some personal notes to this run.
@@ -190,7 +190,7 @@ public class SoccerPlayerParameterQuickAccess {
 		/**
 		 * There are many more parameter to check out:
 		 */
-		return new OBIEParameterBuilder().setCorpusNamePrefix(corpusNamePrefix).setExplorers(explorerTypes)
+		return new Builder().setCorpusNamePrefix(corpusNamePrefix).setExplorers(explorerTypes)
 				.setInstantiationType(initializer).setNumberOfInitializedObjects(numberOfInitializedObjects)
 				.setPersonalNotes(personalNote).setRootDirectory(rootDirectory).addRootSearchType(searchType)
 				.setEvaluator(evaluator).setMaxNumberOfEntityElements(maxNumberOfEntityElements)
@@ -246,7 +246,7 @@ public class SoccerPlayerParameterQuickAccess {
 
 		public static AbstractCorpusDistributor activeLearningDist(final float fraction) {
 			return new ActiveLearningDistributor.Builder().setB(1).setSeed(100L).setCorpusSizeFraction(fraction)
-					.setInitialTrainingSelectionFraction(0.1f).setTrainingProportion(80).setTestProportion(20).build();
+					.setInitialTrainingSelectionFraction(0.01f).setTrainingProportion(80).setTestProportion(20).build();
 		}
 	}
 }

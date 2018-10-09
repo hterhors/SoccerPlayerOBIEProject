@@ -12,7 +12,6 @@ import de.hterhors.obie.core.ontology.AbstractOBIEIndividual;
 import de.hterhors.obie.core.ontology.interfaces.IDatatype;
 import de.hterhors.obie.ml.run.param.OBIERunParameter;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
-import de.hterhors.obie.ml.templates.scope.OBIEFactorScope;
 import de.hterhors.obie.ml.variables.OBIEState;
 import de.hterhors.obie.ml.variables.TemplateAnnotation;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.PriorTemplate.Scope;
@@ -21,6 +20,7 @@ import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerClub;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
 import factors.Factor;
+import factors.FactorScope;
 
 /**
  * This template creates a prior for each slot filler candidate given the
@@ -58,7 +58,7 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 		super(parameter);
 	}
 
-	class Scope extends OBIEFactorScope {
+	class Scope extends FactorScope {
 
 		/**
 		 * A map where the key is the property name and the value is a list of assigned

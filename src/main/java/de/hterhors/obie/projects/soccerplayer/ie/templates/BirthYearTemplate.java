@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 
 import de.hterhors.obie.ml.run.param.OBIERunParameter;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
-import de.hterhors.obie.ml.templates.scope.OBIEFactorScope;
 import de.hterhors.obie.ml.variables.NERLClassAnnotation;
 import de.hterhors.obie.ml.variables.OBIEInstance;
 import de.hterhors.obie.ml.variables.OBIEState;
@@ -19,6 +18,7 @@ import de.hterhors.obie.projects.soccerplayer.ontology.classes.BirthYear;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IBirthYear;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
 import factors.Factor;
+import factors.FactorScope;
 
 /**
  * This template creates features that tell whether the assigned birth year of a
@@ -44,7 +44,7 @@ public class BirthYearTemplate extends AbstractOBIETemplate<Scope> {
 		super(parameter);
 	}
 
-	class Scope extends OBIEFactorScope {
+	class Scope extends FactorScope {
 
 		/**
 		 * The currently assigned year.

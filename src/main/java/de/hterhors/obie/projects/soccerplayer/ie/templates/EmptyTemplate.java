@@ -8,12 +8,12 @@ import org.apache.logging.log4j.Logger;
 
 import de.hterhors.obie.ml.run.param.OBIERunParameter;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
-import de.hterhors.obie.ml.templates.scope.OBIEFactorScope;
 import de.hterhors.obie.ml.variables.OBIEState;
 import de.hterhors.obie.ml.variables.TemplateAnnotation;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.EmptyTemplate.Scope;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
 import factors.Factor;
+import factors.FactorScope;
 
 /**
  * This is an empty template that serves as code-template to create new ones.
@@ -40,7 +40,7 @@ public class EmptyTemplate extends AbstractOBIETemplate<Scope> {
 	 * @author hterhors
 	 *
 	 */
-	class Scope extends OBIEFactorScope {
+	class Scope extends FactorScope {
 
 		/*
 		 * TODO: add variables for feature computation.
