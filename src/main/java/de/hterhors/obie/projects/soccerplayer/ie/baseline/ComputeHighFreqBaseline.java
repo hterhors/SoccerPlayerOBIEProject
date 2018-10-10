@@ -11,7 +11,7 @@ import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerOntologyEnvironment
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerParameterQuickAccess;
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerProjectEnvironment;
 
-public class HighFreqBaseline {
+public class ComputeHighFreqBaseline {
 
 	public static void main(String[] args) throws Exception {
 
