@@ -26,7 +26,7 @@ public class ComputeHighFreqBaseline {
 		Builder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
 
 		paramBuilder
-				.setCorpusDistributor(SoccerPlayerParameterQuickAccess.preDefinedCorpusDistributor.foldCrossDist(1F));
+				.setCorpusDistributor(SoccerPlayerParameterQuickAccess.predefinedDistributor.foldCrossDist(1F));
 
 		paramBuilder.setOntologyEnvironment(SoccerPlayerOntologyEnvironment.getInstance());
 		paramBuilder.setProjectEnvironment(SoccerPlayerProjectEnvironment.getInstance());

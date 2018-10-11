@@ -48,7 +48,7 @@ public class UpperBoundExample {
 		paramBuilder.setProjectEnvironment(SoccerPlayerProjectEnvironment.getInstance());
 		paramBuilder.setOntologyEnvironment(SoccerPlayerOntologyEnvironment.getInstance());
 		paramBuilder
-				.setCorpusDistributor(SoccerPlayerParameterQuickAccess.preDefinedCorpusDistributor.originDist(1.0F));
+				.setCorpusDistributor(SoccerPlayerParameterQuickAccess.predefinedDistributor.originDist(1.0F));
 		paramBuilder.addTemplate(BirthYearTemplate.class);
 
 		return paramBuilder;

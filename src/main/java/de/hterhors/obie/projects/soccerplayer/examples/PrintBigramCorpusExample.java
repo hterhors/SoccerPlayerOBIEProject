@@ -34,7 +34,7 @@ public class PrintBigramCorpusExample {
 		 * documents before and redistribute to train (80%), dev(0%) and test(20%). (You
 		 * may change that distribution by building your own distributor...
 		 */
-		paramBuilder.setCorpusDistributor(SoccerPlayerParameterQuickAccess.preDefinedCorpusDistributor.originDist(1F));
+		paramBuilder.setCorpusDistributor(SoccerPlayerParameterQuickAccess.predefinedDistributor.originDist(1F));
 
 		/*
 		 * Build parameter.

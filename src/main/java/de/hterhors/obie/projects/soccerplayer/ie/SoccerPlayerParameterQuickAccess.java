@@ -198,7 +198,7 @@ public class SoccerPlayerParameterQuickAccess {
 
 	}
 
-	public static class preDefinedCorpusDistributor {
+	public static class predefinedDistributor {
 
 		/**
 		 * The size of the corpus. For development reasons you may want to reduce the
@@ -246,7 +246,7 @@ public class SoccerPlayerParameterQuickAccess {
 
 		public static AbstractCorpusDistributor activeLearningDist(final float fraction) {
 			return new ActiveLearningDistributor.Builder().setB(1).setSeed(100L).setCorpusSizeFraction(fraction)
-					.setInitialTrainingSelectionFraction(0.00f).setTrainingProportion(80).setTestProportion(20).build();
+					.setInitialTrainingSelectionFraction(0.18f).setTrainingProportion(80).setTestProportion(20).build();
 		}
 	}
 }

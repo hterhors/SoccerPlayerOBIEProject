@@ -147,7 +147,7 @@ public class StartExtraction {
 		 * documents before and redistribute to train (80%), dev(0%) and test(20%). (You
 		 * may change that distribution by building your own distributor...
 		 */
-		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.preDefinedCorpusDistributor
+		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.predefinedDistributor
 				.activeLearningDist(1F);
 
 		paramBuilder.setCorpusDistributor(corpusDistributor);
@@ -359,6 +359,7 @@ public class StartExtraction {
 		int i = 1;
 
 		final IActiveLearningDocumentRanker ranker;
+
 		if (acMode.equals("random")) {
 			ranker = new FullDocumentRandomRanker();
 		} else if (acMode.equals("entropy")) {
