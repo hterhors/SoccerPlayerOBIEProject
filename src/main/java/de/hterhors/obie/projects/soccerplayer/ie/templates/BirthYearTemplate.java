@@ -74,9 +74,9 @@ public class BirthYearTemplate extends AbstractOBIETemplate<Scope> {
 		 * In the lecture corpus there is only one soccer player per document.
 		 *
 		 */
-		for (TemplateAnnotation entityAnnotation : state.getCurrentPrediction().getTemplateAnnotations()) {
+		for (TemplateAnnotation entityAnnotation : state.getCurrentTemplateAnnotations().getTemplateAnnotations()) {
 
-			IBirthYear birthYear = ((ISoccerPlayer) entityAnnotation.getTemplateAnnotation()).getBirthYear();
+			IBirthYear birthYear = ((ISoccerPlayer) entityAnnotation.get()).getBirthYear();
 
 			/*
 			 * If the birth year was not yet set, we don't need to generate any features

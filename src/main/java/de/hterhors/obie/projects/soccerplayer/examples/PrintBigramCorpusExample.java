@@ -1,13 +1,9 @@
 package de.hterhors.obie.projects.soccerplayer.examples;
 
-import java.util.List;
-
 import de.hterhors.obie.core.ontology.AbstractOBIEIndividual;
 import de.hterhors.obie.core.ontology.OntologyInitializer;
 import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
-import de.hterhors.obie.core.tools.corpus.OBIECorpus.Instance;
 import de.hterhors.obie.ml.corpus.BigramCorpusProvider;
-import de.hterhors.obie.ml.corpus.distributor.AbstractCorpusDistributor;
 import de.hterhors.obie.ml.run.param.OBIERunParameter;
 import de.hterhors.obie.ml.run.param.OBIERunParameter.Builder;
 import de.hterhors.obie.ml.utils.OBIEClassFormatter;
@@ -76,7 +72,7 @@ public class PrintBigramCorpusExample {
 			}
 
 			for (TemplateAnnotation templateAnnotation : instance.getGoldAnnotation().getTemplateAnnotations()) {
-				System.out.println(OBIEClassFormatter.format(templateAnnotation.getTemplateAnnotation()));
+				System.out.println(OBIEClassFormatter.format(templateAnnotation.get()));
 			}
 			break;
 

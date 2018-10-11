@@ -101,8 +101,8 @@ public class ExplorationExample {
 		System.out.println("___________________________");
 
 		/*
-		 * Print all entity annotations for a specific class. In this case BirthYear.
-		 * We will find those BirthYear in the proposal states that are generated during
+		 * Print all entity annotations for a specific class. In this case BirthYear. We
+		 * will find those BirthYear in the proposal states that are generated during
 		 * exploration.
 		 */
 		instance.getNamedEntityLinkingAnnotations().getClassAnnotations(BirthYear.class).forEach(System.out::println);
@@ -125,7 +125,7 @@ public class ExplorationExample {
 		System.out.println("===========================");
 		OBIEState state = new OBIEState(instance, param);
 		System.out.println(OBIEClassFormatter.format(
-				state.getCurrentPrediction().getTemplateAnnotations().iterator().next().getTemplateAnnotation()));
+				state.getCurrentTemplateAnnotations().getTemplateAnnotations().iterator().next().get()));
 		System.out.println("===========================");
 
 		/**

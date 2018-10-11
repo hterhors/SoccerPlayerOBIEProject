@@ -59,9 +59,9 @@ public class EmptyTemplate extends AbstractOBIETemplate<Scope> {
 		/*
 		 * For all soccer player in the document create a new scope.
 		 */
-		for (TemplateAnnotation templateAnnotation : state.getCurrentPrediction().getTemplateAnnotations()) {
+		for (TemplateAnnotation templateAnnotation : state.getCurrentTemplateAnnotations().getTemplateAnnotations()) {
 
-			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) templateAnnotation.getTemplateAnnotation());
+			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) templateAnnotation.get());
 			/*
 			 * TODO: get variables and pass it to the scope.
 			 */

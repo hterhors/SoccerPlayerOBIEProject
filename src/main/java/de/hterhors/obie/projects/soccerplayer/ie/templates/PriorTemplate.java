@@ -84,11 +84,11 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 		 * In the lecture corpus there is only one soccer player per document!
 		 *
 		 */
-		for (TemplateAnnotation entityAnnotation : state.getCurrentPrediction().getTemplateAnnotations()) {
+		for (TemplateAnnotation entityAnnotation : state.getCurrentTemplateAnnotations().getTemplateAnnotations()) {
 
 			Map<String, List<String>> assignedClasses = new HashMap<>();
 
-			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) entityAnnotation.getTemplateAnnotation());
+			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) entityAnnotation.get());
 
 			/*
 			 * If the observed soccerPlayer annotation is null we don't need to create any

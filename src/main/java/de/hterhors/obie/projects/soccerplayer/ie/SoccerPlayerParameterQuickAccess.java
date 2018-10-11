@@ -246,7 +246,7 @@ public class SoccerPlayerParameterQuickAccess {
 
 		public static AbstractCorpusDistributor activeLearningDist(final float fraction) {
 			return new ActiveLearningDistributor.Builder().setB(1).setSeed(100L).setCorpusSizeFraction(fraction)
-					.setInitialTrainingSelectionFraction(0.01f).setTrainingProportion(80).setTestProportion(20).build();
+					.setInitialTrainingSelectionFraction(0.00f).setTrainingProportion(80).setTestProportion(20).build();
 		}
 	}
 }
