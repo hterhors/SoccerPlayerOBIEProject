@@ -47,12 +47,12 @@ public class EvaluationExample {
 		 * Create a new SoccerPlayer-class for the individual Sadok Sassi. This
 		 * individual is part of the ontology (see owl/soccer_player_ontology_v1.owl).
 		 */
-		SoccerPlayer perfectSadokSassi = new SoccerPlayer("http://dbpedia.org/resource/Sadok_Sassi", null, null);
+		SoccerPlayer perfectSadokSassi = new SoccerPlayer("http://dbpedia.org/resource/Sadok_Sassi", null);
 		/*
 		 * Fill some slots manually...
 		 */
-		perfectSadokSassi.setPositionAmerican_football_positions(new American_football_positions(
-				"http://dbpedia.org/resource/Goalkeeper_(association_football)", null, null));
+		perfectSadokSassi.setPositionAmerican_football_positions(
+				new American_football_positions("http://dbpedia.org/resource/Goalkeeper_(association_football)", null));
 		perfectSadokSassi.setBirthYear(new BirthYear("2000"));
 
 		/**
@@ -127,9 +127,9 @@ public class EvaluationExample {
 		 * time some slots are filled differently! We set the BirthYear to 1990 instead
 		 * of 2000.
 		 */
-		SoccerPlayer imperfectSadokSassi = new SoccerPlayer("http://dbpedia.org/resource/Sadok_Sassi", null, null)
+		SoccerPlayer imperfectSadokSassi = new SoccerPlayer("http://dbpedia.org/resource/Sadok_Sassi", null)
 				.setPositionAmerican_football_positions(new American_football_positions(
-						"http://dbpedia.org/resource/Goalkeeper_(association_football)", null, null))
+						"http://dbpedia.org/resource/Goalkeeper_(association_football)", null))
 				.setBirthYear(new BirthYear("1990"));
 
 		/*
@@ -150,11 +150,11 @@ public class EvaluationExample {
 		/**
 		 * Create a SoccerPlayer for individual Bimal Magar.
 		 */
-		SoccerPlayer bimalMagar = new SoccerPlayer("http://dbpedia.org/resource/Bimal_Magar", null, null)
+		SoccerPlayer bimalMagar = new SoccerPlayer("http://dbpedia.org/resource/Bimal_Magar", null)
 				.setPositionAmerican_football_positions(
-						new American_football_positions("http://dbpedia.org/resource/Inside_forward", null, null))
+						new American_football_positions("http://dbpedia.org/resource/Inside_forward", null))
 				.setBirthYear(new BirthYear("2000"))
-				.addBirthPlace(new Place("http://dbpedia.org/resource/Wales", null, null));
+				.addBirthPlace(new Place("http://dbpedia.org/resource/Wales", null));
 
 		/*
 		 * Compare to perfect Sadok Sassi.

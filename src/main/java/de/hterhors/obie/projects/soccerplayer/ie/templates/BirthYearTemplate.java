@@ -7,9 +7,9 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import de.hterhors.obie.ml.ner.NERLClassAnnotation;
 import de.hterhors.obie.ml.run.param.OBIERunParameter;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
-import de.hterhors.obie.ml.variables.NERLClassAnnotation;
 import de.hterhors.obie.ml.variables.OBIEInstance;
 import de.hterhors.obie.ml.variables.OBIEState;
 import de.hterhors.obie.ml.variables.TemplateAnnotation;
@@ -56,10 +56,10 @@ public class BirthYearTemplate extends AbstractOBIETemplate<Scope> {
 		 */
 		final OBIEInstance currentInstance;
 
-		public Scope(AbstractOBIETemplate<Scope> template, OBIEInstance currentInstance, final String semanticValue) {
-			super(template, currentInstance, semanticValue);
+		public Scope(AbstractOBIETemplate<Scope> template, OBIEInstance currentInstance, final String assignedYear) {
+			super(template, currentInstance, assignedYear);
 			this.currentInstance = currentInstance;
-			this.assignedYear = semanticValue;
+			this.assignedYear = assignedYear;
 		}
 
 	}

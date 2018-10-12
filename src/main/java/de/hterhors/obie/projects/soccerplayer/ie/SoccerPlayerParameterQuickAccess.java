@@ -100,7 +100,7 @@ public class SoccerPlayerParameterQuickAccess {
 		 * evaluation process. This makes especially sense when using the
 		 * CartesianSearchEvaluator.
 		 */
-		final boolean enableEvaluationCaching = true;
+		final boolean enableEvaluationCaching = false;
 
 		/**
 		 * The maximum number of entity elements per list or maximum number of
@@ -246,7 +246,7 @@ public class SoccerPlayerParameterQuickAccess {
 
 		public static AbstractCorpusDistributor activeLearningDist(final float fraction) {
 			return new ActiveLearningDistributor.Builder().setB(1).setSeed(100L).setCorpusSizeFraction(fraction)
-					.setInitialTrainingSelectionFraction(0.18f).setTrainingProportion(80).setTestProportion(20).build();
+					.setInitialTrainingSelectionFraction(0.0f).setTrainingProportion(80).setTestProportion(20).build();
 		}
 	}
 }
