@@ -29,6 +29,7 @@ import de.hterhors.obie.ml.activelearning.FullDocumentRandomRanker;
 import de.hterhors.obie.ml.activelearning.IActiveLearningDocumentRanker;
 import de.hterhors.obie.ml.corpus.distributor.AbstractCorpusDistributor;
 import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor;
+import de.hterhors.obie.ml.corpus.distributor.ByInstanceNameDistributor;
 import de.hterhors.obie.ml.run.AbstractOBIERunner;
 import de.hterhors.obie.ml.run.StandardRERunner;
 import de.hterhors.obie.ml.run.eval.EvaluatePrediction;
@@ -62,7 +63,7 @@ import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
  * Main starting class for the information extraction task using the
  * SoccerPlayerOntology and SoccerPlayer-Wikipedia data set.
  * 
- * 
+ * -XX:+PrintStringDeduplicationStatistics
  * 
  * @author hterhors
  *
@@ -76,7 +77,7 @@ public class StartExtraction {
 
 	public static void main(String[] args) throws Exception {
 
-		args = new String[] { "entropyResults", "entropy" };
+		args = new String[] { "randomResults", "random" };
 
 		log.info("1) argument: file to store results");
 		log.info("2) argument: mode of active learning, \"random\"(default) or \"entropy\"");
@@ -147,8 +148,177 @@ public class StartExtraction {
 		 * documents before and redistribute to train (80%), dev(0%) and test(20%). (You
 		 * may change that distribution by building your own distributor...
 		 */
-		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.predefinedDistributor
-				.activeLearningDist(1F);
+//		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.predefinedDistributor
+//				.activeLearningDist(1F);
+
+		final AbstractCorpusDistributor corpusDistributor = new ByInstanceNameDistributor.Builder()
+				.setCorpusSizeFraction(1F)
+				.setNamesOfTrainingInstances(new HashSet<String>(Arrays.asList("Abdelfettah_Rhiati", "Abdelhamid_Sadmi",
+						"Abdelmajid_Lamriss", "Abdul-Jabar_Hashim_Hanoon", "Abdullah_Al-Dosari", "Abdullah_Mayouf",
+						"Abe_Rosenthal", "Abhijit_Das", "Ablade_Kumah", "Aboubacar_Bangoura_(footballer)",
+						"Adam_Bedell", "Adam_Marjan", "Adam_Nichols", "Adedeji_Oshilaja", "Aden_Charmakeh",
+						"Aditya_Putra_Dewa", "Adixi_Lenzivio", "Adrian_Bird_(footballer)", "Ahmad_Sabri_Ismail",
+						"Akil_Byron", "Alan_Buck", "Alan_Dennis", "Alan_Dunne", "Alari_Lell", "Albert_Evers",
+						"Albert_Iremonger", "Albert_Mays_(footballer)", "Albert_Read_(footballer)", "Aldo_Poy",
+						"Alec_Denton", "Aleksandr_Olerski", "Alessandro_Bianchi_(footballer_born_1989)", "Alex_Freitas",
+						"Alex_Gardner_(footballer)", "Alex_McLintock", "Alf_Carroll", "Alf_Haynes", "Alfred_Dobson",
+						"Alfred_Downey", "Alfredo_Brown", "Alfred_Sabin", "Allal_Ben_Kassou", "Allan_Devanney",
+						"Altay_Kahraman", "Ambrose_Harris", "Andre_Anis", "Andreas_Kittos",
+						"Andrew_Chalmers_(footballer)", "Andrew_Dawber", "Andy_Collett", "Andy_Couzens",
+						"Andy_Davis_(British_Virgin_Islands_footballer)", "Aniston_Fernandes", "Anthony_Wordsworth",
+						"Antoine_Gounet", "Antonio_Greco", "Antony_Lecointe", "Arthur_Bancroft", "Arthur_Bellamy",
+						"Arthur_Cowell", "Arthur_Gardner_(footballer)", "Arthur_Hallworth",
+						"Arthur_Morris_(footballer)", "Arthur_Nineham", "Arthur_Stanton", "Arthur_Topham",
+						"Arthur_Wigglesworth", "Artur_Dyson", "Ashish_Chettri", "Ashley_Fernandes",
+						"Augusty_Bartillard", "Ayanda_Gcaba", "Ayron_Verkindere", "Barry_Dominey", "Barry_Mealand",
+						"Ben_Herd", "Benjamin_Huggel", "Ben_Olney", "Ben_Yagan", "Bernard_Hall_(footballer)",
+						"Bernard_Middleditch", "Bernard_Smith_(footballer)", "Bernhard_Wessel", "Berry_Brown",
+						"Bert_Fenwick", "Bertie_Bowler", "Bilel_Ifa", "Bill_Bainbridge", "Bill_Hart_(footballer)",
+						"Bill_Jaques", "Bill_Robertson_(English_footballer)", "Bill_Ruffell", "Bill_Whare",
+						"Bill_Yates_(footballer)", "Billy_Cooper_(footballer)", "Billy_Furness", "Bimal_Magar",
+						"Biswajit_Biswas", "Blagoy_Makendzhiev", "Bobby_Hassell", "Bobby_Hill_(footballer)",
+						"Bobby_Howlett", "Bobby_Kerr_(footballer)", "Bobby_Mills_(footballer)", "Bobby_Park",
+						"Bobby_Tynan", "Bob_Connor", "Boboi_Singh", "Bozhidar_Mitrev", "Bradley_Beattie",
+						"Bradley_Garmston", "Brian_Honeywood", "Brima_Bangura", "Brima_Sesay",
+						"Bruce_Crawford_(footballer)", "Bruno_Appels", "Byron_Lawrence", "Cameron_Lancaster",
+						"Carlos_Contreras_(footballer)", "Carlos_Mateus_Ximenes", "Carlos_Nvomo", "Cedric_Badjeck",
+						"Chadi_Hammami", "Charles_Geerts_(footballer)", "Charles_Vanden_Wouwer", "Charlie_Thomson",
+						"Choi_Yung-keun", "Chris_Morrow", "Christian_Dean", "Cindy_Daws", "C_Lallawmzuala",
+						"Claude_Papi", "Clint_Boulton", "Conny_Johansson", "Conor_Hubble", "Constant_Huysmans",
+						"Cornel_Chin-Sue", "Craig_Bingham", "Curtis_Main", "Cyril_Hennion", "Dallas_Jaye",
+						"Damian_Keeley", "Daniel_Bentley", "Daniel_Mudau", "Daniel_Oliveira_Costa", "Daniel_Pappoe",
+						"Dany_Maury", "Darren_Bastow", "Darren_Holden_(footballer)", "Dave_Bus",
+						"Dave_Lamont_(footballer)", "David_Buck_(footballer)", "David_Bueso", "David_Letham",
+						"David_MacGregor", "David_McGurk", "David_Soames", "David_Svensson", "Davie_Cameron",
+						"Dele_Alli", "Delroy_Scott", "Demetrio_Neyra", "Denis_Lindsay_(footballer)", "Dimitar_Kostov",
+						"Dimitrios_Manos", "Dimitris_Machairas", "Dmytro_Zaderetskyi", "Donervon_Daniels",
+						"Dowlyn_Daly", "Driss_Trichard", "Duggie_Brown_(footballer)", "Dumitru_Stajila", "Dylan_Mares",
+						"Dzintar_Klavan", "Eladio_Reyes", "Eliseo_Brown", "Emmanuel_Ogoli", "Enis_Maljici",
+						"Enzo_Crivelli", "Erich_Hasenkopf", "Ernesto_Belis", "Ernesto_Brown", "Ernie_Steventon",
+						"Evans_Kangwa", "Everton_Sena", "Fabien_Cool", "Fadel_Jilal", "Fanai_Lalrempuia", "Fikri_Elma",
+						"Francisco_Alcaraz_(footballer)", "Frank_Adams_(footballer)", "Fred_Barron_(footballer)",
+						"Fred_Beardsley", "Fred_Ewer", "Fred_Pelly", "Fred_Woodward", "Gael_Margulies",
+						"Gary_Harvey_(footballer)", "Gary_Riddell", "Gary_Robson_(footballer)", "Gavin_McGowan",
+						"Geoff_Coffin", "Geoff_Dyson", "Geoffrey_Kizito", "Geoff_Smith_(footballer)", "George_Bray",
+						"George_Howe_(footballer)", "Gerardo_Romero", "Ger_Lagendijk", "Gideon_V._Way",
+						"Gilles_Dewaele", "Giuseppe_Koschier", "Graham_Whittle", "Greg_Tempest", "Greig_Young",
+						"Guillaume_Ducatel", "Gyula_Prassler", "Hadi_Tavoosi", "Ha_Jung-won", "Hamish_McNeill",
+						"Hamoud_Al-Shemmari", "Hamyar_Nasser_Al-Ismaili", "Han_Chang-wha", "Hany_Mukhtar",
+						"Harm_Zeinstra", "Harold_Keenan", "Harry_Gilberg", "Harry_Gooney", "Harry_Goslin",
+						"Harry_Haddon", "Harry_McMenemy", "Harry_Moore_(footballer)", "Hassan_Daher", "Hassan_Mattar",
+						"Heinz_Versteeg", "Henry_Healless", "Herbie_Williams", "Hocine_Benmiloudi", "Horacio_Sequeira",
+						"Horst_Nemec", "Hugo_Lepe", "Hugo_Seixas", "Hugo_Villanueva", "Hussain_Al-Romaihi",
+						"Hymie_Kloner", "Ian_Atkinson", "Ian_Johnstone", "Ibra_Agbo", "Iliya_Dimitrov",
+						"Imre_Kiss_(footballer_born_1957)", "Ioannis_Stefas", "Isaac_Shai", "Ivan_Deyanov",
+						"Ivan_Dimitrov_(footballer)", "Ivan_Ivanov_(footballer_born_1942)", "Ivan_O'Konnel-Bronin",
+						"Ivan_Toney", "Ivar_Eriksson", "Ivaylo_Zafirov", "Jaanus_Veensalu", "Jack_Bertolini",
+						"Jack_Callender", "Jack_Cropley", "Jack_Deakin", "Jack_Kelsey", "Jaime_Huerta", "Jaime_Isuardi",
+						"Jake_Cuenca", "Jakob_Haugaard", "Jamal_Al-Qabendi", "James_Lamont_(footballer)",
+						"James_Vance_(footballer)", "James_Vincent_(footballer)", "Jamie_Jones_(footballer)",
+						"Jamie_Richards_(footballer)", "Jan_Mulder_(footballer)", "Jasem_Bahman",
+						"Jason_Davis_(footballer)", "Jayanta_Paul", "Jean_Van_Steen", "Jeffrey_Gouweleeuw",
+						"Jennifer_Molina", "Jeong_Gi-dong", "Jim_Gallacher", "Jimmy_Page_(footballer)",
+						"Jimmy_Prescott", "Jo_Backaert", "Joe_Ashley", "Joe_Bryan", "Joe_Lodge", "Joe_Peacock",
+						"Joe_Reader", "Johan_Eklund", "Johann_Windisch", "Johan_Svantesson", "John_Baines_(footballer)",
+						"John_Brown_(footballer,_born_March_1940)", "John_Cox_(footballer)", "John_Graham_(forward)",
+						"Johnson_Akuchie", "John_Souttar", "Jonathan_Miles_(footballer)", "Jon_McLaughlin_(footballer)",
+						"Jordens_Peters", "Josef_Majer", "Joseph_Clemente", "Joseph_Gryzik", "Joseph_Kamga",
+						"Josh_Brizell", "Josh_Rowbotham", "Josh_Scowen", "Juan_Alfonso_Valle", "Julian_Aguirre_Agudelo",
+						"Julius_Ubido", "Jurgen_Wevers", "Justin_Booty", "Justin_Chavez", "Justin_Manao", "Karim_Yoda",
+						"Karl-Erik_Grahn", "Karl_Nickerl", "Katie_Larkin", "Keith_Griffiths_(footballer)",
+						"Keith_Lasley", "Kennedy_Mudenda", "Kenny_Banks", "Kenny_Davenport", "Ke_Seung-woon",
+						"Kevin_Dickenson", "Kevin_Walker_(Scottish_footballer)", "Kevin_Welsh_(footballer)",
+						"Khairan_Eroza_Razali", "Kim_Bong-hwan", "Kim_Jong-min_(footballer)", "Klaus_Decker",
+						"Knut_Hansson", "Kurt_Elshot", "Kurt_Svensson", "Kyle_Benedictus", "Lachie_Thomson",
+						"Lahcen_Ouadani", "Lalrinzuala_Khiangte", "Larbi_El_Hadi", "Lee_Jong-ho", "Lee_Margerison",
+						"Lee_Sang-yi", "Lennard_Remy", "Lenny_Pereira", "Len_Oliver_(footballer)", "Len_Stansbridge",
+						"Leonardo_Ferrel", "Leonne_Stentler", "Les_Dicker", "Leslie_Lea", "Lester_Langlais",
+						"Lewis_Dunk", "Lewis_Milne", "Luc_Van_Hoyweghen", "Ludivine_Diguelman", "Luis_Congo",
+						"Luis_Cruz_(footballer)", "Luis_Miguel_Valle", "Luis_Reyna", "Macauley_Bonne", "Mahboub_Juma'a",
+						"Mahmood_Abdulla", "Malcolm_Currie", "Malcolm_Devitt", "Malcolm_Newlands", "Manny_Smith",
+						"Manuel_D'Souza", "Marcel_Tisserand", "Mario_Medina", "Marius_Zarn",
+						"Mark_Fletcher_(footballer)", "Mark_Gall", "Mark_Radford_(footballer)", "Mark_Sherrod",
+						"Mark_Torrance", "Martin_van_Leeuwen", "Masoud_Zeraei", "Matthew_Coad",
+						"Matthew_Cooper_(footballer)", "Mattia_Dal_Bello", "Maurice_Norman", "Maurice_Webster",
+						"Michael_Galea", "Michael_Timisela", "Michalis_Karas", "Michele_Lo_Russo", "Miguel_Davis",
+						"Miguel_Mba", "Miguel_Segura", "Mikael_Mandron", "Milen_Ivanov", "Milko_Gaydarski",
+						"Mirko_Bigazzi", "Mitch_Harding", "Mobin_Rai", "Modesto_Denis", "Mohamad_Atwi",
+						"Mohamed_Kaci-Said", "Mohamed_Oulhaj", "Mohammed_Karam", "Momar_Bangoura", "Moses_Oloya",
+						"Mouaouia_Meklouche", "Moussa_Doumbia", "Muayad_Al-Haddad", "Mursyid_Effendi",
+						"Nassir_Al-Ghanim", "Nat_Walton", "Nawab_Zeeshan", "Ned_Bromley",
+						"Nick_Kuipers_(footballer_born_1992)", "Nicolas_Bovi", "Nie_Tao", "Nikola_Parshanov",
+						"Noel_George", "Noel_Simpson", "Noel_Turner", "Norman_Chalk", "Norman_Heath", "Obi_Onyeike",
+						"Ofir_Mizrahi", "Oh_Yoon-kyung", "Oleksandr_Aksyonov", "Oliver_Gill", "Oliver_Gustafsson",
+						"Oliver_Whateley", "Osas_Okoro", "Packie_Bonner", "Pape_Latyr_N'Diaye", "Park_Sun-yong",
+						"Parwinder_Singh", "Pascal_Di_Tommaso", "Paul_Denny_(footballer)", "Paul_Fleming_(footballer)",
+						"Paul_Flowers_(footballer)", "Paul_Mulrooney", "Pelayo_Eribo", "Petar_Velichkov",
+						"Peter_Allen_(footballer)", "Peter_Fregene", "Peter_Gideon", "Peter_Hill_(footballer)",
+						"Peter_Mooney_(footballer)", "Peter_Roney", "Peter_Sanders_(sportsman)",
+						"Phil_Thomas_(footballer)", "Piotr_Robakowski", "Poibang_Pohshna", "Prasenjit_Ghosh",
+						"Quiterio_Olmedo", "Raafat_Attia", "Ralph_O'Donnell", "Ray_White_(footballer)", "Razali_Saad",
+						"Redouane_Drici", "Reidar_Olsen", "Remko_Pasveer", "Reza_Naalchegar", "Ricardo_Talu",
+						"Richard_Lee_(footballer)", "Richard_Wood_(footballer)", "Ridha_El_Louze", "Robbie_Haw",
+						"Robbin_Ruiter", "Roberto_Leopardi", "Robert_Van_Kerkhoven", "Robin_Gurung", "Rob_Penders",
+						"Rod_Cameron_(footballer)", "Roel_Wiersma", "Roger_Denton", "Roly_Gregoire", "Roman_Nykytyuk",
+						"Roman_Zobnin", "Romell_Brathwaite", "Ross_McFarlane_(footballer)", "Rowen_Muscat",
+						"Roy_MacLaren_(footballer)", "Rudy_Getzinger", "Rune_Carlsson", "Ryan_Lloyd", "Ryoo_Chang-kil",
+						"Saad_Al-Houti", "Sadok_Sassi", "Salahdine_Hmied", "Salvador_Villalba", "Sami_Al-Hashash",
+						"Samir_Qotb", "Samir_Said", "Samuel_Day_(sportsman)", "Samuel_Shadap", "Sanjiban_Ghosh",
+						"Savaliga_Afu", "Selwyn_Whalley", "Serafim_Neves", "Seton_Airlie", "Shahrizam_Mohamed",
+						"Shakeel_Abbasi", "Shaun_Barker", "Shaun_Mawer", "Sheldon_Govier", "Silvio_Appiani",
+						"Simon_Burman", "Simone_Gozzi", "Sjors_Verdellen", "Solomon_March", "Sophus_Hansen",
+						"Sourav_Chakraborty", "Stan_Cutting", "Stefan_Velichkov", "Steve_Middleton",
+						"Steve_Richardson_(footballer)", "Steve_Seargeant", "Steve_Tutill", "Stewart_Bright",
+						"Stuart_Kettlewell", "Sudhakaran_Kumar", "Surjay_Pariyar", "Szilvia_Szeitl",
+						"Tamanqueiro_(Portuguese_footballer)", "Tarmo_Saks", "Terry_Baker_(footballer)",
+						"Thandokuhle_Mkhonza", "Thomas_Danks", "Thomas_Gascoigne_(footballer)", "Tihomir_Naydenov",
+						"Tobias_Badila", "Tom_Burrows_(footballer)", "Tommy_Graham_(English_footballer)",
+						"Tommy_McCulloch_(goalkeeper)", "Tommy_McQuaid", "Tommy_Morren", "Tommy_Sampy",
+						"Tom_Perry_(footballer)", "Tonny_Brochmann", "Tony_Blake", "Tony_Emery", "Tony_Hawksworth",
+						"Tony_Leach", "Tony_Wingate", "Tracy_Ducar", "Trevor_Harris_(footballer)", "Tyson_Caiado",
+						"Ugo_Okoye", "Urbano_Rivera", "Urmas_Kaljend", "Urmas_Liivamaa", "Vadaine_Oliver",
+						"Valeriy_Boychenko", "Vegard_Skjerve", "Veton_Berisha", "Vidin_Apostolov", "Vince_Kenny",
+						"Wailadmi_Passah", "Waleed_Al-Jasem", "Wally_Hazelden", "Walter_Balmer_(footballer)",
+						"Walter_Buchanan_(footballer)", "Walter_Ponting", "Wardun_Yusof", "Wayne_Quinn", "Wayne_Sobers",
+						"Wilfried_Louis", "William_Carr_(footballer)", "William_Carrier", "William_Gyves",
+						"William_Horne_(footballer)", "William_Howson_(footballer)", "Willi_Gerdau", "Yang_Qipeng",
+						"Yang_Seung-kook", "Yorick_Antheunis", "Yussef_Al-Suwayed", "Zakaria_Abdullai",
+						"Zeferino_Martins", "Zhao_Xuebin", "Zhu_Cong_(footballer)")))
+				.setNamesOfTestInstances(new HashSet<>(Arrays.asList("Aaron_Jones_(footballer)", "Abdelaziz_Souleimani",
+						"Acurcio_Carrelo", "Adama_Sawadogo", "Alex_Gilbey", "Alf_Peachey", "Ali_Crawford",
+						"Allassane_Sango", "Allen_Larue", "Amoes", "Andrea_Ferrari_(footballer)",
+						"Andrew_Cant_(footballer)", "Andy_Halls", "Andy_Moule", "Archibald_Barton", "Arie_de_Winter",
+						"Arne_Linderholm", "Arnie_Sidebottom", "Arthur_Mulford", "Arthur_Samson", "Arvo_Kraam",
+						"Augustin_Fernandes", "Azidan_Sarudin", "Ben_Doane", "Benjamin_Kirsten", "Billal_Zouani",
+						"Billy_Beaumont", "Billy_Exley", "Blas_Cristaldo", "Bram_van_Polen", "Brian_Abrey",
+						"Buenaventura_Ferreira", "Callum_Reilly_(footballer)", "Carlos_Lett", "Charles_Dennington",
+						"Charlie_Deacon", "Chris_Philipps", "Cipriano_Santos", "Clovis_Kamdjo", "David_Cliss",
+						"Desire_Montgomery_Butler", "Dinesh_Singh_(footballer)", "Dmytro_Yarchuk", "Eddy_Antoine",
+						"Eden_Nachmani", "Elie_Ikangu", "Erik_Persson", "Ernest_Milton", "Filipe_de_Souza_Conceicao",
+						"Fred_Furniss", "Fred_Speller", "Gianpiero_Combi", "Graeme_McCracken",
+						"Gunnar_Olsson_(footballer)", "Gwyn_Hughes_(footballer)", "Howard_Johnson_(footballer)",
+						"Ian_Wells", "Jack_Mew", "Janek_Kiisman", "Jared_Sims", "Jim_Blacker",
+						"Jim_Duncan_(footballer)", "Jimmy_Cuthbertson", "Jimmy_Greenock", "Jimmy_Thorpe",
+						"John_Mansfield_(footballer)", "Jonathan_Cubero", "Jorrit_Kunst", "Josh_Fuller",
+						"Julio_Maceiras", "July_Mahlangu", "Keith_Harvey", "Lee_Chang-myung", "Len_Garwood",
+						"Leonardo_Pais", "Leonel_Parris", "Leon_Tol", "Liam_Gray", "Liao_Bochao", "Lino_Nessi",
+						"Lucas_Dawson", "Lucas_Michel_Mendes", "Luke_Hyam", "Marcelino_Vargas", "Marcelle_Bruce",
+						"Maria_Mitkou", "Mark_Lamont", "Martin_Lepa", "Mathieu_Deplagne", "Matt_Sparrow",
+						"Michael_Maidens", "Miguel_Van_Damme", "Mitchell_Joseph", "Mitch_Stockentree",
+						"Mohamed_Ben_Mouza", "Mohd_Shahrazen_Said", "Munir_El_Haddadi", "Nikhil_Kadam", "Obed_Owusu",
+						"Ole_Christoffer_Heieren_Hansen", "Patrick_Cassidy_(footballer)", "Patrick_Modeste",
+						"Paul_Gladon", "Paul_Hilton_(footballer)", "Paul_Shardlow", "Peter_Kunter", "Phil_Barlow",
+						"Phil_Griggs", "Plamen_Krachunov", "Raimo_de_Vries", "Rain_Vessenberg", "Ray_Pennick",
+						"Renan_dos_Santos", "Richard_Williams_(footballer)", "Roar_Strand",
+						"Roberto_Sosa_(Uruguayan_footballer)", "Roddie_MacKenzie", "Ron_Thompson_(footballer)",
+						"Rosen_Vankov", "Rudolf_Pichler", "Russell_Green", "Sam_Currie", "Sam_Hignett",
+						"Samuel_Cheetham_(footballer)", "Sandy_Mutch", "Sjaak_Troost", "Sonny_Stevens", "Stan_Newsham",
+						"Sung_Nak-woon", "Taariq_Fielies", "Teddy_Brayshaw", "Tim_Hofstede", "Tom_Allan_(footballer)",
+						"Tom_Brooks_(footballer)", "Tom_Eastman", "Tommy_Black_(footballer,_born_1908)",
+						"Tommy_Hoyland", "Tommy_Spurr", "Tom_Wade", "Tony_Miller_(footballer)", "Vahid_Heydarieh",
+						"Valentin_Galev", "Victor_Kros", "Wan_Zaman_Wan_Mustapha", "William_Berry_(footballer)",
+						"Wu_Wei_(footballer)")))
+				.build();
 
 		paramBuilder.setCorpusDistributor(corpusDistributor);
 		paramBuilder.setRunID(runID);
@@ -247,6 +417,7 @@ public class StartExtraction {
 			log.warn("Model does not exists, abort prediction!");
 			return;
 		}
+
 		try {
 			runner.loadModel();
 		} catch (Exception e) {
