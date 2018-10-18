@@ -125,7 +125,7 @@ public class ExplorationExample {
 		System.out.println("===========================");
 		OBIEState state = new OBIEState(instance, param);
 		System.out.println(OBIEClassFormatter.format(
-				state.getCurrentTemplateAnnotations().getTemplateAnnotations().iterator().next().get()));
+				state.getCurrentTemplateAnnotations().getTemplateAnnotations().iterator().next().getThing()));
 		System.out.println("===========================");
 
 		/**

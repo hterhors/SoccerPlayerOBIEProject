@@ -27,8 +27,7 @@ public class ComputeRandomBaseline {
 
 		Builder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
 
-		paramBuilder
-				.setCorpusDistributor(SoccerPlayerParameterQuickAccess.predefinedDistributor.foldCrossDist(1F));
+		paramBuilder.setCorpusDistributor(SoccerPlayerParameterQuickAccess.predefinedDistributor.foldCrossDist(1F));
 
 		paramBuilder.setOntologyEnvironment(SoccerPlayerOntologyEnvironment.getInstance());
 		paramBuilder.setProjectEnvironment(SoccerPlayerProjectEnvironment.getInstance());
@@ -39,11 +38,11 @@ public class ComputeRandomBaseline {
 		final long initSeed = 100L;
 
 		while (runner.corpusProvider.nextFold()) {
-			
+
 			long seed = new Random().nextLong();
 
 			System.out.println("#############################");
-			System.out.println("New " + ((FoldCrossCorpusDistributor) runner.parameter.corpusDistributor).n
+			System.out.println("New " + ((FoldCrossCorpusDistributor) runner.getParameter().corpusDistributor).n
 					+ "-fold cross validation iteration: "
 					+ String.valueOf(runner.corpusProvider.getCurrentFoldIndex() + 1));
 			long time = System.currentTimeMillis();
@@ -57,8 +56,8 @@ public class ComputeRandomBaseline {
 			System.out.println("Time needed: " + (System.currentTimeMillis() - time));
 
 		}
-		System.out.println(
-				((FoldCrossCorpusDistributor) runner.parameter.corpusDistributor).n + " fold cross validation mean: ");
+		System.out.println(((FoldCrossCorpusDistributor) runner.getParameter().corpusDistributor).n
+				+ " fold cross validation mean: ");
 		System.out.println(mean);
 		System.out.println("Time needed: " + (System.currentTimeMillis() - allTime));
 

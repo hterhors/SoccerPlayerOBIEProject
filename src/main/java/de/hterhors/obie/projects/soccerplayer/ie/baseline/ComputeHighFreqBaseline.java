@@ -37,7 +37,7 @@ public class ComputeHighFreqBaseline {
 		while (runner.corpusProvider.nextFold()) {
 
 			System.out.println("#############################");
-			System.out.println("New " + ((FoldCrossCorpusDistributor) runner.parameter.corpusDistributor).n
+			System.out.println("New " + ((FoldCrossCorpusDistributor) runner.getParameter().corpusDistributor).n
 					+ "-fold cross validation iteration: "
 					+ String.valueOf(runner.corpusProvider.getCurrentFoldIndex() + 1));
 			long time = System.currentTimeMillis();
@@ -51,7 +51,7 @@ public class ComputeHighFreqBaseline {
 			System.out.println("Time needed: " + (System.currentTimeMillis() - time));
 
 		}
-		System.out.println(((FoldCrossCorpusDistributor) runner.parameter.corpusDistributor).n
+		System.out.println(((FoldCrossCorpusDistributor) runner.getParameter().corpusDistributor).n
 				+ " fold cross validation mean: " + mean);
 		System.out.println("Time needed: " + (System.currentTimeMillis() - allTime));
 
