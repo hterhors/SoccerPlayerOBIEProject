@@ -76,7 +76,7 @@ public class BirthYearTemplate extends AbstractOBIETemplate<Scope> {
 		 */
 		for (TemplateAnnotation entityAnnotation : state.getCurrentTemplateAnnotations().getTemplateAnnotations()) {
 
-			IBirthYear birthYear = ((ISoccerPlayer) entityAnnotation.get()).getBirthYear();
+			IBirthYear birthYear = ((ISoccerPlayer) entityAnnotation.getThing()).getBirthYear();
 
 			/*
 			 * If the birth year was not yet set, we don't need to generate any features

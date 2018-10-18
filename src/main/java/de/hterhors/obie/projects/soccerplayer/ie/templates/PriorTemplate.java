@@ -12,6 +12,7 @@ import de.hterhors.obie.core.ontology.AbstractOBIEIndividual;
 import de.hterhors.obie.core.ontology.interfaces.IDatatype;
 import de.hterhors.obie.ml.run.param.OBIERunParameter;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
+import de.hterhors.obie.ml.utils.ReflectionUtils;
 import de.hterhors.obie.ml.variables.OBIEState;
 import de.hterhors.obie.ml.variables.TemplateAnnotation;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.PriorTemplate.Scope;
@@ -88,7 +89,7 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 
 			Map<String, List<String>> assignedClasses = new HashMap<>();
 
-			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) entityAnnotation.get());
+			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) entityAnnotation.getThing());
 
 			/*
 			 * If the observed soccerPlayer annotation is null we don't need to create any
@@ -199,7 +200,7 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 			return;
 
 		assignedClasses.putIfAbsent(identifier, new ArrayList<>());
-		assignedClasses.get(identifier).add(soccerPlayerThing.getClass().getSimpleName());
+		assignedClasses.get(identifier).add(ReflectionUtils.simpleName(soccerPlayerThing.getClass()));
 	}
 
 	@Override
