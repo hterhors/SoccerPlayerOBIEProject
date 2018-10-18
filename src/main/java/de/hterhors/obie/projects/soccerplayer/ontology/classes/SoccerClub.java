@@ -35,16 +35,16 @@ import org.apache.jena.rdf.model.ModelFactory;
 * @author hterhors
 *
 *
-*Oct 11, 2018
+*Oct 18, 2018
 */
 
 @AssignableSubClasses(get={})
 
 @SuperRootClasses(get={SoccerClub.class, })
 
-@DirectSiblings(get={})
-
 @DirectInterface(get=ISoccerClub.class)
+
+@DirectSiblings(get={})
  public class SoccerClub implements ISoccerClub{
 
 final public static IndividualFactory<SoccerClubIndividual> individualFactory = new IndividualFactory<>();
@@ -78,11 +78,6 @@ static class SoccerClubIndividual extends AbstractOBIEIndividual {
 final private String textMention;
 
 
-	public SoccerClub(String individualURI, String textMention){
-this.individual = 
-				SoccerClub.individualFactory.getIndividualByURI(individualURI);
-this.textMention = textMention;
-}
 	public SoccerClub(){
 this.individual = null;
 this.textMention = null;
@@ -92,6 +87,11 @@ this.individual = soccerClub.individual;
 this.characterOffset = soccerClub.getCharacterOffset();
 this.characterOnset = soccerClub.getCharacterOnset();
 this.textMention = soccerClub.getTextMention();
+}
+	public SoccerClub(String individualURI, String textMention){
+this.individual = 
+				SoccerClub.individualFactory.getIndividualByURI(individualURI);
+this.textMention = textMention;
 }
 
 
@@ -115,15 +115,15 @@ if (other.textMention!= null)
 return false;
 } else if (!textMention.equals(other.textMention))
 return false;
-if (characterOnset == null) {
-if (other.characterOnset!= null)
-return false;
-} else if (!characterOnset.equals(other.characterOnset))
-return false;
 if (characterOffset == null) {
 if (other.characterOffset!= null)
 return false;
 } else if (!characterOffset.equals(other.characterOffset))
+return false;
+if (characterOnset == null) {
+if (other.characterOnset!= null)
+return false;
+} else if (!characterOnset.equals(other.characterOnset))
 return false;
 return true;
 }
@@ -168,8 +168,8 @@ return ISoccerPlayerThing.RDF_MODEL_NAMESPACE + resourceName;}
 int result = 1;
 result = prime * result + ((this.individual == null) ? 0 : this.individual.hashCode());
 result = prime * result + ((this.textMention == null) ? 0 : this.textMention.hashCode());
-result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
 result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
+result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
 return result;}
 	/***/
 @Override

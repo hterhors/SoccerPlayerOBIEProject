@@ -35,17 +35,17 @@ import org.apache.jena.rdf.model.ModelFactory;
 * @author hterhors
 *
 *
-*Oct 11, 2018
+*Oct 18, 2018
 */
 
 @AssignableSubClasses(get={})
 
-@DirectSiblings(get={})
+@SuperRootClasses(get={BirthYear.class, })
 
 @DirectInterface(get=IBirthYear.class)
 
 @DatatypeProperty
-@SuperRootClasses(get={BirthYear.class, })
+@DirectSiblings(get={})
  public class BirthYear implements IBirthYear{
 
 	final static public String ONTOLOGY_NAME = "http://psink/soccerplayer/BirthYear";
@@ -58,10 +58,6 @@ import org.apache.jena.rdf.model.ModelFactory;
 final private String textMention;
 
 
-	public BirthYear(){
-this.semanticValue = null;
-this.textMention = null;
-}
 	public BirthYear(BirthYear birthYear){
 this.characterOffset = birthYear.getCharacterOffset();
 this.characterOnset = birthYear.getCharacterOnset();
@@ -76,6 +72,10 @@ this.textMention = textMention;
 this.semanticValue = semanticValue;
 this.textMention = null;
 }
+	public BirthYear(){
+this.semanticValue = null;
+this.textMention = null;
+}
 
 
 	/***/
@@ -88,25 +88,25 @@ return false;
 if (getClass() != obj.getClass())
 return false;
 BirthYear other = (BirthYear) obj;
-if (semanticValue == null) {
-if (other.semanticValue!= null)
-return false;
-} else if (!semanticValue.equals(other.semanticValue))
-return false;
 if (textMention == null) {
 if (other.textMention!= null)
 return false;
 } else if (!textMention.equals(other.textMention))
 return false;
-if (characterOnset == null) {
-if (other.characterOnset!= null)
-return false;
-} else if (!characterOnset.equals(other.characterOnset))
-return false;
 if (characterOffset == null) {
 if (other.characterOffset!= null)
 return false;
 } else if (!characterOffset.equals(other.characterOffset))
+return false;
+if (semanticValue == null) {
+if (other.semanticValue!= null)
+return false;
+} else if (!semanticValue.equals(other.semanticValue))
+return false;
+if (characterOnset == null) {
+if (other.characterOnset!= null)
+return false;
+} else if (!characterOnset.equals(other.characterOnset))
 return false;
 return true;
 }
@@ -152,10 +152,10 @@ return ISoccerPlayerThing.RDF_MODEL_NAMESPACE + resourceName;}
 	public int hashCode(){
 		final int prime = 31;
 int result = 1;
-result = prime * result + ((this.semanticValue == null) ? 0 : this.semanticValue.hashCode());
 result = prime * result + ((this.textMention == null) ? 0 : this.textMention.hashCode());
-result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
 result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
+result = prime * result + ((this.semanticValue == null) ? 0 : this.semanticValue.hashCode());
+result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
 return result;}
 	/***/
 @Override

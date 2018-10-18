@@ -19,7 +19,7 @@ import org.apache.jena.rdf.model.Model;
 * @author hterhors
 *
 *
-*Oct 11, 2018
+*Oct 18, 2018
 */
 
 @AssignableSubInterfaces(get={IAmerican_football_positions.class, IPlace.class, ISoccerClub.class, ISoccerPlayer.class, IBirthYear.class, })

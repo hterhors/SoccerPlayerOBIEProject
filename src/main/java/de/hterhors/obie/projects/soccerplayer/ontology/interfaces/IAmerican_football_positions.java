@@ -23,12 +23,12 @@ import java.util.stream.Collectors;
 * @author hterhors
 *
 *
-*Oct 11, 2018
+*Oct 18, 2018
 */
 
-@AssignableSubInterfaces(get={})
-
 @ImplementationClass(get=American_football_positions.class)
+
+@AssignableSubInterfaces(get={})
  public interface IAmerican_football_positions
  extends ISoccerPlayerThing{
 

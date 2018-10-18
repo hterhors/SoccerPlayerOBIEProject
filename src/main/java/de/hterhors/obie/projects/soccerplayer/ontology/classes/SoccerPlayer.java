@@ -35,16 +35,16 @@ import org.apache.jena.rdf.model.ModelFactory;
  * @author hterhors
  *
  *
- *         Oct 11, 2018
+ *         Oct 18, 2018
  */
-
-@SuperRootClasses(get = { SoccerPlayer.class, })
 
 @AssignableSubClasses(get = {})
 
-@DirectSiblings(get = {})
+@SuperRootClasses(get = { SoccerPlayer.class, })
 
 @DirectInterface(get = ISoccerPlayer.class)
+
+@DirectSiblings(get = {})
 public class SoccerPlayer implements ISoccerPlayer {
 
 	final public static IndividualFactory<SoccerPlayerIndividual> individualFactory = new IndividualFactory<>();
@@ -77,8 +77,8 @@ public class SoccerPlayer implements ISoccerPlayer {
 	}
 
 	final static public String ONTOLOGY_NAME = "http://dbpedia.org/ontology/SoccerPlayer";
-	@OntologyModelContent(ontologyName = "http://dbpedia.org/ontology/birthPlace")
 	@RelationTypeCollection
+	@OntologyModelContent(ontologyName = "http://dbpedia.org/ontology/birthPlace")
 	private List<IPlace> birthPlaces = new ArrayList<>();
 	@OntologyModelContent(ontologyName = "http://dbpedia.org/ontology/birthYear")
 	@DatatypeProperty
@@ -94,6 +94,16 @@ public class SoccerPlayer implements ISoccerPlayer {
 	private List<ISoccerClub> teamSoccerClubs = new ArrayList<>();
 	@TextMention
 	final private String textMention;
+
+	public SoccerPlayer(String individualURI, String textMention) {
+		this.individual = SoccerPlayer.individualFactory.getIndividualByURI(individualURI);
+		this.textMention = textMention;
+	}
+
+	public SoccerPlayer() {
+		this.individual = null;
+		this.textMention = null;
+	}
 
 	public SoccerPlayer(SoccerPlayer soccerPlayer) throws InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
@@ -126,16 +136,6 @@ public class SoccerPlayer implements ISoccerPlayer {
 		this.textMention = soccerPlayer.getTextMention();
 	}
 
-	public SoccerPlayer(String individualURI, String textMention) {
-		this.individual = SoccerPlayer.individualFactory.getIndividualByURI(individualURI);
-		this.textMention = textMention;
-	}
-
-	public SoccerPlayer() {
-		this.individual = null;
-		this.textMention = null;
-	}
-
 	/***/
 	@Override
 	public SoccerPlayer addBirthPlace(IPlace place) {
@@ -165,30 +165,20 @@ public class SoccerPlayer implements ISoccerPlayer {
 				return false;
 		} else if (!individual.equals(other.individual))
 			return false;
-		if (teamSoccerClubs == null) {
-			if (other.teamSoccerClubs != null)
+		if (birthYear == null) {
+			if (other.birthYear != null)
 				return false;
-		} else if (!teamSoccerClubs.equals(other.teamSoccerClubs))
+		} else if (!birthYear.equals(other.birthYear))
 			return false;
 		if (birthPlaces == null) {
 			if (other.birthPlaces != null)
 				return false;
 		} else if (!birthPlaces.equals(other.birthPlaces))
 			return false;
-		if (birthYear == null) {
-			if (other.birthYear != null)
-				return false;
-		} else if (!birthYear.equals(other.birthYear))
-			return false;
 		if (textMention == null) {
 			if (other.textMention != null)
 				return false;
 		} else if (!textMention.equals(other.textMention))
-			return false;
-		if (characterOnset == null) {
-			if (other.characterOnset != null)
-				return false;
-		} else if (!characterOnset.equals(other.characterOnset))
 			return false;
 		if (positionAmerican_football_positions == null) {
 			if (other.positionAmerican_football_positions != null)
@@ -199,6 +189,16 @@ public class SoccerPlayer implements ISoccerPlayer {
 			if (other.characterOffset != null)
 				return false;
 		} else if (!characterOffset.equals(other.characterOffset))
+			return false;
+		if (teamSoccerClubs == null) {
+			if (other.teamSoccerClubs != null)
+				return false;
+		} else if (!teamSoccerClubs.equals(other.teamSoccerClubs))
+			return false;
+		if (characterOnset == null) {
+			if (other.characterOnset != null)
+				return false;
+		} else if (!characterOnset.equals(other.characterOnset))
 			return false;
 		return true;
 	}
@@ -279,14 +279,14 @@ public class SoccerPlayer implements ISoccerPlayer {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((this.individual == null) ? 0 : this.individual.hashCode());
-		result = prime * result + ((this.teamSoccerClubs == null) ? 0 : this.teamSoccerClubs.hashCode());
-		result = prime * result + ((this.birthPlaces == null) ? 0 : this.birthPlaces.hashCode());
 		result = prime * result + ((this.birthYear == null) ? 0 : this.birthYear.hashCode());
+		result = prime * result + ((this.birthPlaces == null) ? 0 : this.birthPlaces.hashCode());
 		result = prime * result + ((this.textMention == null) ? 0 : this.textMention.hashCode());
-		result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
 		result = prime * result + ((this.positionAmerican_football_positions == null) ? 0
 				: this.positionAmerican_football_positions.hashCode());
 		result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
+		result = prime * result + ((this.teamSoccerClubs == null) ? 0 : this.teamSoccerClubs.hashCode());
+		result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
 		return result;
 	}
 

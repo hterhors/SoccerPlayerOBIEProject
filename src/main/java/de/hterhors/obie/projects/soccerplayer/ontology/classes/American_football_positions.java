@@ -35,16 +35,16 @@ import org.apache.jena.rdf.model.ModelFactory;
 * @author hterhors
 *
 *
-*Oct 11, 2018
+*Oct 18, 2018
 */
 
-@AssignableSubClasses(get={})
+@SuperRootClasses(get={American_football_positions.class, })
 
 @DirectInterface(get=IAmerican_football_positions.class)
 
-@DirectSiblings(get={})
+@AssignableSubClasses(get={})
 
-@SuperRootClasses(get={American_football_positions.class, })
+@DirectSiblings(get={})
  public class American_football_positions implements IAmerican_football_positions{
 
 final public static IndividualFactory<American_football_positionsIndividual> individualFactory = new IndividualFactory<>();
@@ -78,20 +78,20 @@ static class American_football_positionsIndividual extends AbstractOBIEIndividua
 final private String textMention;
 
 
-	public American_football_positions(String individualURI, String textMention){
-this.individual = 
-				American_football_positions.individualFactory.getIndividualByURI(individualURI);
-this.textMention = textMention;
-}
-	public American_football_positions(){
-this.individual = null;
-this.textMention = null;
-}
 	public American_football_positions(American_football_positions american_football_positions)throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,NoSuchMethodException, SecurityException{
 this.individual = american_football_positions.individual;
 this.characterOffset = american_football_positions.getCharacterOffset();
 this.characterOnset = american_football_positions.getCharacterOnset();
 this.textMention = american_football_positions.getTextMention();
+}
+	public American_football_positions(){
+this.individual = null;
+this.textMention = null;
+}
+	public American_football_positions(String individualURI, String textMention){
+this.individual = 
+				American_football_positions.individualFactory.getIndividualByURI(individualURI);
+this.textMention = textMention;
 }
 
 
@@ -115,15 +115,15 @@ if (other.textMention!= null)
 return false;
 } else if (!textMention.equals(other.textMention))
 return false;
-if (characterOnset == null) {
-if (other.characterOnset!= null)
-return false;
-} else if (!characterOnset.equals(other.characterOnset))
-return false;
 if (characterOffset == null) {
 if (other.characterOffset!= null)
 return false;
 } else if (!characterOffset.equals(other.characterOffset))
+return false;
+if (characterOnset == null) {
+if (other.characterOnset!= null)
+return false;
+} else if (!characterOnset.equals(other.characterOnset))
 return false;
 return true;
 }
@@ -168,8 +168,8 @@ return ISoccerPlayerThing.RDF_MODEL_NAMESPACE + resourceName;}
 int result = 1;
 result = prime * result + ((this.individual == null) ? 0 : this.individual.hashCode());
 result = prime * result + ((this.textMention == null) ? 0 : this.textMention.hashCode());
-result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
 result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
+result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
 return result;}
 	/***/
 @Override
