@@ -1,34 +1,32 @@
 package de.hterhors.obie.projects.soccerplayer.ontology.classes;
 
-import java.lang.NoSuchMethodException;
-import de.hterhors.obie.core.ontology.interfaces.IDatatype;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.*;
-import de.hterhors.obie.core.ontology.annotations.SuperRootClasses;
-import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
-import java.util.HashMap;
-import de.hterhors.obie.core.ontology.annotations.OntologyModelContent;
-import java.util.ArrayList;
-import org.apache.jena.rdf.model.Model;
-import de.hterhors.obie.core.ontology.annotations.AssignableSubInterfaces;
-import de.hterhors.obie.core.ontology.annotations.ImplementationClass;
-import org.apache.jena.rdf.model.Resource;
-import java.util.Map;
-import java.lang.InstantiationException;
-import java.lang.SecurityException;
-import de.hterhors.obie.core.ontology.annotations.DirectSiblings;
-import java.lang.IllegalAccessException;
-import de.hterhors.obie.core.ontology.annotations.AssignableSubClasses;
-import de.hterhors.obie.core.ontology.IndividualFactory;
-import de.hterhors.obie.core.ontology.annotations.DirectInterface;
-import de.hterhors.obie.core.ontology.annotations.RelationTypeCollection;
-import de.hterhors.obie.core.ontology.annotations.DatatypeProperty;
-import java.lang.IllegalArgumentException;
-import de.hterhors.obie.core.ontology.annotations.TextMention;
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import de.hterhors.obie.core.ontology.AbstractOBIEIndividual;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
+
+import de.hterhors.obie.core.ontology.AbstractOBIEIndividual;
+import de.hterhors.obie.core.ontology.IndividualFactory;
+import de.hterhors.obie.core.ontology.annotations.AssignableSubClasses;
+import de.hterhors.obie.core.ontology.annotations.DatatypeProperty;
+import de.hterhors.obie.core.ontology.annotations.DirectInterface;
+import de.hterhors.obie.core.ontology.annotations.DirectSiblings;
+import de.hterhors.obie.core.ontology.annotations.OntologyModelContent;
+import de.hterhors.obie.core.ontology.annotations.RelationTypeCollection;
+import de.hterhors.obie.core.ontology.annotations.SuperRootClasses;
+import de.hterhors.obie.core.ontology.annotations.TextMention;
+import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IAmerican_football_positions;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IBirthYear;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IPlace;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerClub;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
 
 /**
  *
