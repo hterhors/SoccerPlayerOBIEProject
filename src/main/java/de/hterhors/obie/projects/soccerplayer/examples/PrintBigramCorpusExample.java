@@ -72,7 +72,7 @@ public class PrintBigramCorpusExample {
 			}
 
 			for (TemplateAnnotation templateAnnotation : instance.getGoldAnnotation().getTemplateAnnotations()) {
-				System.out.println(OBIEClassFormatter.format(templateAnnotation.get()));
+				System.out.println(OBIEClassFormatter.format(templateAnnotation.getThing()));
 			}
 			break;
 
