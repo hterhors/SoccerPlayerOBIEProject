@@ -10,11 +10,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
@@ -27,12 +24,12 @@ import corpus.SampledInstance;
 import de.hterhors.obie.core.evaluation.PRF1Container;
 import de.hterhors.obie.core.ontology.AbstractOntologyEnvironment;
 import de.hterhors.obie.core.ontology.OntologyInitializer;
-import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
 import de.hterhors.obie.core.projects.AbstractProjectEnvironment;
 import de.hterhors.obie.ml.activelearning.FullDocumentAtomicChangeEntropyRanker;
 import de.hterhors.obie.ml.activelearning.FullDocumentLengthRanker;
 import de.hterhors.obie.ml.activelearning.FullDocumentModelScoreRanker;
 import de.hterhors.obie.ml.activelearning.FullDocumentObjectiveScoreRanker;
+import de.hterhors.obie.ml.activelearning.FullDocumentRandFillerRanker;
 import de.hterhors.obie.ml.activelearning.FullDocumentRandomRanker;
 import de.hterhors.obie.ml.activelearning.FullDocumentVarianceRanker;
 import de.hterhors.obie.ml.activelearning.IActiveLearningDocumentRanker;
@@ -90,7 +87,8 @@ public class StartExtraction {
 		if (args == null || args.length == 0)
 //			args = new String[] { "varianceResults", "variance" };
 //			args = new String[] { "randomResults", "random" };
-			args = new String[] { "lengthResults", "length" };
+//			args = new String[] { "lengthResults", "length" };
+		args = new String[] { "rndFillerResults", "rndFiller" };
 //			args = new String[] { "entropyResults", "entropy" };
 //			args = new String[] { "entropyAtomicResults", "entropyAtomic" };
 //			args = new String[] { "modelResults", "model" };
@@ -165,13 +163,13 @@ public class StartExtraction {
 			/*
 			 * train and/or test on existing corpus.
 			 */
-//			reverseEngeneerACLearning(runner);
+			reverseEngeneerACLearning(runner);
 
-			if (activeLearning) {
-				activeLearning(runner, acMode, printResults);
-			} else {
-				trainTest(runner);
-			}
+//			if (activeLearning) {
+//				activeLearning(runner, acMode, printResults);
+//			} else {
+//				trainTest(runner);
+//			}
 
 		} else {
 			/*
@@ -213,8 +211,11 @@ public class StartExtraction {
 //				.originDist(1F);
 
 		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder().setB(50)
-				.setSeed(200L).setCorpusSizeFraction(1F).setInitialTrainingSelectionFraction(0.17f)
+				.setSeed(200L).setCorpusSizeFraction(1F).setInitialTrainingSelectionFraction(0f)
 				.setTrainingProportion(80).setTestProportion(20).build();
+//		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder().setB(50)
+//				.setSeed(200L).setCorpusSizeFraction(1F).setInitialTrainingSelectionFraction(0.17f)
+//				.setTrainingProportion(80).setTestProportion(20).build();
 
 //		final AbstractCorpusDistributor corpusDistributor = ByNameDist.corpusDistributor;
 
@@ -399,6 +400,8 @@ public class StartExtraction {
 			ranker = new FullDocumentRandomRanker(runner);
 		} else if (acMode.equals("entropy")) {
 			ranker = new FullDocumentRandomRanker(runner);
+		} else if (acMode.equals("rndFiller")) {
+			ranker = new FullDocumentRandFillerRanker(runner);
 		} else if (acMode.equals("entropyAtomic")) {
 			ranker = new FullDocumentAtomicChangeEntropyRanker(runner);
 		} else if (acMode.equals("variance")) {
@@ -578,6 +581,7 @@ public class StartExtraction {
 
 		}
 
+		log.info("--------------ALL---------------");
 		sortablePerformances.forEach(log::info);
 
 	}
