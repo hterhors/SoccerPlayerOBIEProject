@@ -8,7 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.hterhors.obie.ml.ner.NERLClassAnnotation;
-import de.hterhors.obie.ml.run.param.OBIERunParameter;
+import de.hterhors.obie.ml.run.param.RunParameter;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
 import de.hterhors.obie.ml.variables.OBIEInstance;
 import de.hterhors.obie.ml.variables.OBIEState;
@@ -40,7 +40,7 @@ public class BirthYearTemplate extends AbstractOBIETemplate<Scope> {
 
 	private static Logger log = LogManager.getFormatterLogger(BirthYearTemplate.class.getName());
 
-	public BirthYearTemplate(OBIERunParameter parameter) {
+	public BirthYearTemplate(RunParameter parameter) {
 		super(parameter);
 	}
 
@@ -49,17 +49,22 @@ public class BirthYearTemplate extends AbstractOBIETemplate<Scope> {
 		/**
 		 * The currently assigned year.
 		 */
-		final String assignedYear;
+		final int assignedYear;
 
 		/**
 		 * The document that contains other annotations of years.
 		 */
 		final OBIEInstance currentInstance;
 
-		public Scope(AbstractOBIETemplate<Scope> template, OBIEInstance currentInstance, final String assignedYear) {
+		public Scope(AbstractOBIETemplate<Scope> template, OBIEInstance currentInstance, final int assignedYear) {
 			super(template, currentInstance, assignedYear);
 			this.currentInstance = currentInstance;
 			this.assignedYear = assignedYear;
+		}
+
+		@Override
+		public String toString() {
+			return "Scope [assignedYear=" + assignedYear + ", currentInstance=" + currentInstance + "]";
 		}
 
 	}
@@ -85,7 +90,7 @@ public class BirthYearTemplate extends AbstractOBIETemplate<Scope> {
 			if (birthYear == null)
 				continue;
 
-			final Scope scope = new Scope(this, state.getInstance(), birthYear.getTextMention());
+			final Scope scope = new Scope(this, state.getInstance(), Integer.parseInt(birthYear.getTextMention()));
 
 			factors.add(scope);
 		}
@@ -99,7 +104,7 @@ public class BirthYearTemplate extends AbstractOBIETemplate<Scope> {
 		final Set<NERLClassAnnotation> possibleBirthYearAnnotations = factor.getFactorScope().currentInstance
 				.getNamedEntityLinkingAnnotations().getClassAnnotationsBySemanticValues(BirthYear.class);
 
-		final int assignedYear = Integer.parseInt(factor.getFactorScope().assignedYear);
+		final int assignedYear = factor.getFactorScope().assignedYear;
 
 		boolean isEarliestMentionedYear = true;
 

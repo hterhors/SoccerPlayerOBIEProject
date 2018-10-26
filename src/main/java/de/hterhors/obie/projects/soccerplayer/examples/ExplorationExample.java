@@ -6,8 +6,8 @@ import de.hterhors.obie.core.ontology.OntologyInitializer;
 import de.hterhors.obie.ml.corpus.BigramCorpusProvider;
 import de.hterhors.obie.ml.explorer.SlotFillerExplorer;
 import de.hterhors.obie.ml.run.param.EInstantiationType;
-import de.hterhors.obie.ml.run.param.OBIERunParameter;
-import de.hterhors.obie.ml.run.param.OBIERunParameter.Builder;
+import de.hterhors.obie.ml.run.param.RunParameter;
+import de.hterhors.obie.ml.run.param.RunParameter.Builder;
 import de.hterhors.obie.ml.utils.OBIEClassFormatter;
 import de.hterhors.obie.ml.variables.OBIEInstance;
 import de.hterhors.obie.ml.variables.OBIEState;
@@ -75,7 +75,7 @@ public class ExplorationExample {
 		/**
 		 * Finalize the parameter set.
 		 */
-		final OBIERunParameter param = paramBuilder.build();
+		final RunParameter param = paramBuilder.build();
 
 		/**
 		 * Restore the corpus from file. This corpus already contains annotations for

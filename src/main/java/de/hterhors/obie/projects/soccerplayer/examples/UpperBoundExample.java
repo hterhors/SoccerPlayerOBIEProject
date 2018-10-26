@@ -2,8 +2,8 @@ package de.hterhors.obie.projects.soccerplayer.examples;
 
 import de.hterhors.obie.core.ontology.OntologyInitializer;
 import de.hterhors.obie.ml.corpus.BigramCorpusProvider;
-import de.hterhors.obie.ml.run.param.OBIERunParameter;
-import de.hterhors.obie.ml.run.param.OBIERunParameter.Builder;
+import de.hterhors.obie.ml.run.param.RunParameter;
+import de.hterhors.obie.ml.run.param.RunParameter.Builder;
 import de.hterhors.obie.ml.tools.upperbound.UpperBound;
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerOntologyEnvironment;
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerParameterQuickAccess;
@@ -29,7 +29,7 @@ public class UpperBoundExample {
 		/*
 		 * Get some standard parameter.
 		 */
-		final OBIERunParameter param = getStandardParameter().build();
+		final RunParameter param = getStandardParameter().build();
 
 		final BigramCorpusProvider corpusProvider = BigramCorpusProvider.loadCorpusFromFile(param);
 

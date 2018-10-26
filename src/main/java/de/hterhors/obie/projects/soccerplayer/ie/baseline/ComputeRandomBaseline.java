@@ -4,10 +4,10 @@ import java.util.Random;
 
 import de.hterhors.obie.core.evaluation.PRF1Container;
 import de.hterhors.obie.ml.corpus.distributor.FoldCrossCorpusDistributor;
-import de.hterhors.obie.ml.run.AbstractOBIERunner;
+import de.hterhors.obie.ml.run.AbstractRunner;
 import de.hterhors.obie.ml.run.StandardRERunner;
-import de.hterhors.obie.ml.run.param.OBIERunParameter;
-import de.hterhors.obie.ml.run.param.OBIERunParameter.Builder;
+import de.hterhors.obie.ml.run.param.RunParameter;
+import de.hterhors.obie.ml.run.param.RunParameter.Builder;
 import de.hterhors.obie.ml.tools.baseline.RandomBaseline;
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerOntologyEnvironment;
 import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerParameterQuickAccess;
@@ -32,8 +32,8 @@ public class ComputeRandomBaseline {
 		paramBuilder.setOntologyEnvironment(SoccerPlayerOntologyEnvironment.getInstance());
 		paramBuilder.setProjectEnvironment(SoccerPlayerProjectEnvironment.getInstance());
 
-		OBIERunParameter param = paramBuilder.build();
-		AbstractOBIERunner runner = new StandardRERunner(param);
+		RunParameter param = paramBuilder.build();
+		AbstractRunner runner = new StandardRERunner(param);
 
 		final long initSeed = 100L;
 

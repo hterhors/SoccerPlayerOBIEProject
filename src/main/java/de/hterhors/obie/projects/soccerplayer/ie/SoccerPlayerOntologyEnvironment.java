@@ -21,8 +21,14 @@ public class SoccerPlayerOntologyEnvironment extends AbstractOntologyEnvironment
 	private final String ontologyBasePackage = "de.hterhors.obie.projects.soccerplayer.ontology.";
 
 	final public static int version = 1;
+//	public static final File ONTOLOGY_FILE = new File("owl/PopulatedPlace_autoGen_v1.owl");
+//	public static final File ONTOLOGY_FILE = new File("owl/Manga_autoGen_v1.owl");
 	public static final File ONTOLOGY_FILE = new File("owl/soccer_player_v" + version + ".owl");
-	public static final String DEFAULT_DATA_NAMESPACE = "http://psink/soccerplayer/";
+	public static final String DEFAULT_DATA_NAMESPACE = "http://psink/soccerPlayer/";
+//	public static final String DEFAULT_DATA_NAMESPACE = "http://psink/manga/";
+//	public static final String DEFAULT_DATA_NAMESPACE = "http://psink/populatedPlace/";
+//	public static final String ONTOLOGY_NAME = "Manga";
+//	public static final String ONTOLOGY_NAME = "PopulatedPlace";
 	public static final String ONTOLOGY_NAME = "SoccerPlayer";
 
 	public final String ONTOLOGY_SRC_LOCATION = "src/main/java/" + getBasePackage().replaceAll("\\.", "/");

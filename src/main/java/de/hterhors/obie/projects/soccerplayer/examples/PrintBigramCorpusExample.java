@@ -1,13 +1,13 @@
 package de.hterhors.obie.projects.soccerplayer.examples;
 
-import de.hterhors.obie.core.ontology.AbstractOBIEIndividual;
+import de.hterhors.obie.core.ontology.AbstractIndividual;
 import de.hterhors.obie.core.ontology.OntologyInitializer;
 import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
 import de.hterhors.obie.ml.corpus.BigramCorpusProvider;
 import de.hterhors.obie.ml.ner.NERLClassAnnotation;
 import de.hterhors.obie.ml.ner.NERLIndividualAnnotation;
-import de.hterhors.obie.ml.run.param.OBIERunParameter;
-import de.hterhors.obie.ml.run.param.OBIERunParameter.Builder;
+import de.hterhors.obie.ml.run.param.RunParameter;
+import de.hterhors.obie.ml.run.param.RunParameter.Builder;
 import de.hterhors.obie.ml.utils.OBIEClassFormatter;
 import de.hterhors.obie.ml.variables.OBIEInstance;
 import de.hterhors.obie.ml.variables.TemplateAnnotation;
@@ -39,7 +39,7 @@ public class PrintBigramCorpusExample {
 		/*
 		 * Build parameter.
 		 */
-		OBIERunParameter parameter = paramBuilder.build();
+		RunParameter parameter = paramBuilder.build();
 
 		/**
 		 * Load the raw corpus from file system. This corpus contains only the document
@@ -63,7 +63,7 @@ public class PrintBigramCorpusExample {
 				}
 			}
 
-			for (AbstractOBIEIndividual annotatedIndividual : instance.getNamedEntityLinkingAnnotations()
+			for (AbstractIndividual annotatedIndividual : instance.getNamedEntityLinkingAnnotations()
 					.getAvailableIndividualTypes()) {
 				for (NERLIndividualAnnotation individualNERLAnnotation : instance.getNamedEntityLinkingAnnotations()
 						.getIndividualAnnotations(annotatedIndividual)) {

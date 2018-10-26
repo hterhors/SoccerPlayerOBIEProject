@@ -1,22 +1,22 @@
 package de.hterhors.obie.projects.soccerplayer.ie.templates;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.hterhors.obie.core.ontology.AbstractOBIEIndividual;
+import de.hterhors.obie.core.ontology.AbstractIndividual;
 import de.hterhors.obie.core.ontology.interfaces.IDatatype;
-import de.hterhors.obie.ml.run.param.OBIERunParameter;
+import de.hterhors.obie.ml.run.param.RunParameter;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
 import de.hterhors.obie.ml.utils.ReflectionUtils;
 import de.hterhors.obie.ml.variables.OBIEState;
 import de.hterhors.obie.ml.variables.TemplateAnnotation;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.PriorTemplate.Scope;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IPlace;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerClub;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
@@ -55,7 +55,7 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 
 	private static final String BIRTH_YEAR_PROPERTY_IDENTIFIER = "birthYear";
 
-	public PriorTemplate(OBIERunParameter parameter) {
+	public PriorTemplate(RunParameter parameter) {
 		super(parameter);
 	}
 
@@ -66,11 +66,14 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 		 * class names (for object properties) or values (for datatype properties) for
 		 * that property.
 		 */
-		final Map<String, List<String>> assignedClassesNamesOrValues;
+		final String propertyName;
+		final Set<String> assignedClassesNamesOrValues;
 
-		public Scope(AbstractOBIETemplate<Scope> template, Map<String, List<String>> assignedClassesNamesOrValues) {
-			super(template, assignedClassesNamesOrValues);
+		public Scope(AbstractOBIETemplate<Scope> template, String propertyName,
+				Set<String> assignedClassesNamesOrValues) {
+			super(template, propertyName, assignedClassesNamesOrValues);
 			this.assignedClassesNamesOrValues = assignedClassesNamesOrValues;
+			this.propertyName = propertyName;
 		}
 
 	}
@@ -87,8 +90,6 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 		 */
 		for (TemplateAnnotation entityAnnotation : state.getCurrentTemplateAnnotations().getTemplateAnnotations()) {
 
-			Map<String, List<String>> assignedClasses = new HashMap<>();
-
 			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) entityAnnotation.getThing());
 
 			/*
@@ -103,7 +104,7 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 			 * class type is not important if the individual was found! However, in some
 			 * cases it might make sense.
 			 */
-			addClass(SOCCER_PLAYER_CLASS_IDENTIFIER, assignedClasses, soccerPlayer);
+			addScope(factors, getClassScope(SOCCER_PLAYER_CLASS_IDENTIFIER, soccerPlayer));
 
 			/**
 			 * If we are interested in the actual individual, we can store this here. We
@@ -111,7 +112,7 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 			 * individuals. This assumption might not hold. In that case the namespace
 			 * should also be part of the feature!
 			 */
-			addIndividual(SOCCER_PLAYER_INDIVIDUAL_IDENTIFIER, assignedClasses, soccerPlayer);
+			addScope(factors, getIndividualScope(SOCCER_PLAYER_INDIVIDUAL_IDENTIFIER, soccerPlayer));
 
 			/**
 			 * Given the soccer player ontology we are not interested in any classes. As no
@@ -119,29 +120,63 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 			 */
 
 			if (soccerPlayer.getBirthPlaces() != null)
-				for (IPlace birthPlace : soccerPlayer.getBirthPlaces()) {
-					addIndividual(BIRTH_PLACE_PROPERTY_IDENTIFIER, assignedClasses, birthPlace);
-				}
+				addScope(factors, getIndividualScope(BIRTH_PLACE_PROPERTY_IDENTIFIER, soccerPlayer.getBirthPlaces()));
 
 			if (soccerPlayer.getBirthYear() != null) {
-				addDatatype(BIRTH_YEAR_PROPERTY_IDENTIFIER, assignedClasses, soccerPlayer.getBirthYear());
+				addScope(factors, getDatatypeScope(BIRTH_YEAR_PROPERTY_IDENTIFIER, soccerPlayer.getBirthYear()));
 			}
 
 			if (soccerPlayer.getPositionAmerican_football_positions() != null) {
-				addIndividual(POSITION_PROPERTY_IDENTIFIER, assignedClasses,
-						soccerPlayer.getPositionAmerican_football_positions());
+				addScope(factors, getIndividualScope(POSITION_PROPERTY_IDENTIFIER,
+						soccerPlayer.getPositionAmerican_football_positions()));
 			}
 
 			if (soccerPlayer.getTeamSoccerClubs() != null)
 				for (ISoccerClub team : soccerPlayer.getTeamSoccerClubs()) {
-					addIndividual(TEAM_PROPERTY_IDENTIFIER, assignedClasses, team);
+					getIndividualScope(TEAM_PROPERTY_IDENTIFIER, team);
 				}
 
-			final Scope scope = new Scope(this, assignedClasses);
-			factors.add(scope);
 		}
 
 		return factors;
+	}
+
+	private Scope getIndividualScope(String slotIdentifier, List<? extends ISoccerPlayerThing> slotFillerValues) {
+
+		if (slotFillerValues == null)
+			return null;
+
+		final Set<String> distinctValues = new HashSet<String>(slotFillerValues.size());
+
+		for (ISoccerPlayerThing thing : slotFillerValues) {
+
+			if (thing == null) {
+				continue;
+			}
+
+			final AbstractIndividual individual = thing.getIndividual();
+
+			if (individual == null) {
+				continue;
+			}
+
+			distinctValues.add(getIndividualID(individual));
+		}
+
+		if (distinctValues.isEmpty())
+			return null;
+
+		return new Scope(this, slotIdentifier, distinctValues);
+	}
+
+	private String getIndividualID(AbstractIndividual individual) {
+		// spi.nameSpace +
+		return individual.name;
+	}
+
+	private void addScope(List<Scope> factors, Scope scope) {
+		if (scope != null)
+			factors.add(scope);
 	}
 
 	/**
@@ -149,13 +184,12 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 	 * slot we can add this here.
 	 * 
 	 * @param birthYearPropertyIdentifier the identifier to store the value
-	 * @param assignedClasses             the map to store the value
-	 * @param birthYear                   the filler of the slot
+	 * @param datatypeSlotValue           the filler of the slot
 	 */
-	private void addDatatype(String birthYearPropertyIdentifier, Map<String, List<String>> assignedClasses,
-			IDatatype birthYear) {
-		assignedClasses.putIfAbsent(birthYearPropertyIdentifier, new ArrayList<>());
-		assignedClasses.get(birthYearPropertyIdentifier).add(birthYear.getSemanticValue());
+	private Scope getDatatypeScope(String slotIdentifier, IDatatype datatypeSlotValue) {
+		final Set<String> distinctValues = new HashSet<>();
+		distinctValues.add(datatypeSlotValue.getSemanticValue());
+		return new Scope(this, slotIdentifier, distinctValues);
 	}
 
 	/**
@@ -165,23 +199,25 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 	 * should also be part of the feature!
 	 * 
 	 * @param classTypeIdentifier the identifier to store the value
-	 * @param assignedClasses     the map to store the value
 	 * @param soccerPlayerThing   the filler of the slot
 	 */
-	private void addIndividual(String classTypeIdentifier, Map<String, List<String>> assignedClasses,
-			ISoccerPlayerThing soccerPlayerThing) {
+	private Scope getIndividualScope(String slotIdentifier, ISoccerPlayerThing soccerPlayerThing) {
+
+		final Set<String> distinctValues;
 
 		if (soccerPlayerThing == null)
-			return;
+			return null;
 
-		final AbstractOBIEIndividual spi = soccerPlayerThing.getIndividual();
+		final AbstractIndividual individual = soccerPlayerThing.getIndividual();
 
-		if (spi == null)
-			return;
+		if (individual == null)
+			return null;
 
-		assignedClasses.putIfAbsent(classTypeIdentifier, new ArrayList<>());
-		assignedClasses.get(classTypeIdentifier).add(// spi.nameSpace +
-				spi.name);
+		distinctValues = new HashSet<>();
+
+		distinctValues.add(getIndividualID(individual));
+
+		return new Scope(this, slotIdentifier, distinctValues);
 	}
 
 	/**
@@ -193,42 +229,40 @@ public class PriorTemplate extends AbstractOBIETemplate<Scope> {
 	 * @param assignedClasses   the map to store the value
 	 * @param soccerPlayerThing the filler of the slot
 	 */
-	private void addClass(final String identifier, Map<String, List<String>> assignedClasses,
-			ISoccerPlayerThing soccerPlayerThing) {
+	private Scope getClassScope(final String identifier, ISoccerPlayerThing soccerPlayerThing) {
 
+		final Set<String> distinctValues;
 		if (soccerPlayerThing == null)
-			return;
+			return null;
 
-		assignedClasses.putIfAbsent(identifier, new ArrayList<>());
-		assignedClasses.get(identifier).add(ReflectionUtils.simpleName(soccerPlayerThing.getClass()));
+		distinctValues = new HashSet<>();
+		distinctValues.add(ReflectionUtils.simpleName(soccerPlayerThing.getClass()));
+
+		return new Scope(this, identifier, distinctValues);
+
 	}
 
 	@Override
 	public void computeFactor(Factor<Scope> factor) {
 
-		for (String propertyName : factor.getFactorScope().assignedClassesNamesOrValues.keySet()) {
+		/*
+		 * If the property had multiple values, as in one-to-many relations (such as
+		 * hasTeams) we create a feature that takes both values into account. This might
+		 * be very sparse.
+		 */
+		if (factor.getFactorScope().assignedClassesNamesOrValues.size() > 1)
+			factor.getFeatureVector().set("Prior towards: " + factor.getFactorScope().propertyName + "->"
+					+ factor.getFactorScope().assignedClassesNamesOrValues, true);
+
+		for (String assignedClassesNamesOrValue : factor.getFactorScope().assignedClassesNamesOrValues) {
 
 			/*
-			 * If the property had multiple values, as in one-to-many relations (such as
-			 * hasTeams) we create a feature that takes both values into account. This might
-			 * be very sparse.
+			 * For each property and for each value for that property create a single
+			 * feature.
 			 */
-			if (factor.getFactorScope().assignedClassesNamesOrValues.get(propertyName).size() > 1)
-				factor.getFeatureVector().set("Prior towards: " + propertyName + "->"
-						+ factor.getFactorScope().assignedClassesNamesOrValues.get(propertyName), true);
-
-			for (String assignedClassesNamesOrValue : factor.getFactorScope().assignedClassesNamesOrValues
-					.get(propertyName)) {
-
-				/*
-				 * For each property and for each value for that property create a single
-				 * feature.
-				 */
-				factor.getFeatureVector().set("Prior towards: " + propertyName + "->" + assignedClassesNamesOrValue,
-						true);
-			}
+			factor.getFeatureVector()
+					.set("Prior: " + factor.getFactorScope().propertyName + "->" + assignedClassesNamesOrValue, true);
 		}
-
 	}
 
 }

@@ -9,8 +9,12 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
@@ -23,17 +27,23 @@ import corpus.SampledInstance;
 import de.hterhors.obie.core.evaluation.PRF1Container;
 import de.hterhors.obie.core.ontology.AbstractOntologyEnvironment;
 import de.hterhors.obie.core.ontology.OntologyInitializer;
+import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
 import de.hterhors.obie.core.projects.AbstractProjectEnvironment;
-import de.hterhors.obie.ml.activelearning.FullDocumentEntropyRanker;
+import de.hterhors.obie.ml.activelearning.FullDocumentAtomicChangeEntropyRanker;
+import de.hterhors.obie.ml.activelearning.FullDocumentLengthRanker;
+import de.hterhors.obie.ml.activelearning.FullDocumentModelScoreRanker;
+import de.hterhors.obie.ml.activelearning.FullDocumentObjectiveScoreRanker;
 import de.hterhors.obie.ml.activelearning.FullDocumentRandomRanker;
+import de.hterhors.obie.ml.activelearning.FullDocumentVarianceRanker;
 import de.hterhors.obie.ml.activelearning.IActiveLearningDocumentRanker;
+import de.hterhors.obie.ml.corpus.BigramInternalCorpus;
 import de.hterhors.obie.ml.corpus.distributor.AbstractCorpusDistributor;
 import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor;
-import de.hterhors.obie.ml.run.AbstractOBIERunner;
+import de.hterhors.obie.ml.run.AbstractRunner;
 import de.hterhors.obie.ml.run.StandardRERunner;
 import de.hterhors.obie.ml.run.eval.EvaluatePrediction;
-import de.hterhors.obie.ml.run.param.OBIERunParameter;
-import de.hterhors.obie.ml.run.param.OBIERunParameter.Builder;
+import de.hterhors.obie.ml.run.param.RunParameter;
+import de.hterhors.obie.ml.run.param.RunParameter.Builder;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
 import de.hterhors.obie.ml.templates.FrequencyTemplate;
 import de.hterhors.obie.ml.templates.InBetweenContextTemplate;
@@ -78,21 +88,23 @@ public class StartExtraction {
 	public static void main(String[] args) throws Exception {
 
 		if (args == null || args.length == 0)
-			args = new String[] { "entropyResults", "entropy" };
+//			args = new String[] { "varianceResults", "variance" };
+//			args = new String[] { "randomResults", "random" };
+			args = new String[] { "lengthResults", "length" };
+//			args = new String[] { "entropyResults", "entropy" };
+//			args = new String[] { "entropyAtomicResults", "entropyAtomic" };
+//			args = new String[] { "modelResults", "model" };
+//			args = new String[] { "objectiveResults", "objective" };
 
 		log.info("1) argument: file to store results");
-		log.info("2) argument: mode of active learning, \"random\"(default) or \"entropy\"");
+		log.info(
+				"2) argument: mode of active learning, \"random\"(default), \"entropy\", \"entropyAtomic\", \"objective\", \"model\" or \"variance\"");
 
 		final File printResults = new File(args.length == 0 ? DEFAULT_RESULT_FILE_NAME : args[0]);
 		final String acMode = args.length < 2 ? DEFAULT_ACTIVE_LEARNING_STRATEGY : args[1];
 
-		System.out.println("Store results into: " + printResults);
-		System.out.println("Active Learning Modus: " + acMode);
-
-		if (!(acMode.equals("random") || acMode.equals("entropy"))) {
-			log.error("Unkown active learning mode: " + acMode);
-			System.exit(1);
-		}
+		log.info("Store results into: " + printResults);
+		log.info("Active Learning Modus: " + acMode);
 
 		if (printResults.getParentFile() != null && !printResults.getParentFile().exists()) {
 			log.error("Parent dir does not exist: " + printResults.getParentFile().getCanonicalPath());
@@ -107,8 +119,8 @@ public class StartExtraction {
 	 * The runID. This serves as an identifier for locating and saving the model. If
 	 * anything was changed during the development the runID should be reset.
 	 */
-//	private final static String runID = "reloadAfter";
-	private final static String runID = "random" + new Random().nextInt();
+//	private static String runID = "Objective1";
+	private static String runID = "randomRun" + new Random().nextInt();
 
 	/**
 	 * The project environment.
@@ -120,7 +132,7 @@ public class StartExtraction {
 	 */
 	private final AbstractOntologyEnvironment ontologyEnvironment = SoccerPlayerOntologyEnvironment.getInstance();
 
-	public StartExtraction(String acModus, File printResults) throws Exception {
+	public StartExtraction(String acMode, File printResults) throws Exception {
 		{
 			OntologyInitializer.initializeOntology(ontologyEnvironment);
 		}
@@ -130,12 +142,12 @@ public class StartExtraction {
 		/*
 		 * Build parameter.
 		 */
-		OBIERunParameter parameter = getCleanParameter();
+		RunParameter parameter = getParameter();
 
 		/*
 		 * Created new standard Relation Extraction runner.
 		 */
-		AbstractOBIERunner runner = new StandardRERunner(parameter);
+		AbstractRunner runner = new StandardRERunner(parameter);
 
 		/**
 		 * Whether you want to run the prediction of new texts or train and test a model
@@ -153,9 +165,10 @@ public class StartExtraction {
 			/*
 			 * train and/or test on existing corpus.
 			 */
+//			reverseEngeneerACLearning(runner);
 
 			if (activeLearning) {
-				activeLearning(runner, acModus, printResults);
+				activeLearning(runner, acMode, printResults);
 			} else {
 				trainTest(runner);
 			}
@@ -169,7 +182,7 @@ public class StartExtraction {
 
 	}
 
-	private OBIERunParameter getCleanParameter() {
+	public RunParameter getParameter() {
 		/**
 		 * This parameterBuilder contains standard configurations of the system that are
 		 * used for Relation Extraction tasks. You can but may not change the parameter
@@ -188,7 +201,7 @@ public class StartExtraction {
 		/**
 		 * The number of epochs that the system should be trained.
 		 */
-		final int epochs = 3;
+		final int epochs = 15;
 
 		/**
 		 * The distribution of the documents in the corpus. Origin takes training ,
@@ -198,8 +211,10 @@ public class StartExtraction {
 		 */
 //		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.predefinedDistributor
 //				.originDist(1F);
-		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.predefinedDistributor
-				.activeLearningDist(1F);
+
+		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder().setB(50)
+				.setSeed(200L).setCorpusSizeFraction(1F).setInitialTrainingSelectionFraction(0.17f)
+				.setTrainingProportion(80).setTestProportion(20).build();
 
 //		final AbstractCorpusDistributor corpusDistributor = ByNameDist.corpusDistributor;
 
@@ -257,7 +272,7 @@ public class StartExtraction {
 		paramBuilder.setTemplates(templates);
 	}
 
-	private void predict(AbstractOBIERunner runner, final List<File> filesToPredict) throws IOException {
+	private void predict(AbstractRunner runner, final List<File> filesToPredict) throws IOException {
 		log.info("Start prediction of new documents...");
 		/*
 		 * Load model if exists
@@ -298,7 +313,7 @@ public class StartExtraction {
 	 * @param runner
 	 * @throws Exception
 	 */
-	private static void trainTest(AbstractOBIERunner runner) throws Exception {
+	private static void trainTest(AbstractRunner runner) throws Exception {
 		log.info("Start training / testing of a model with a given corpus...");
 		final long testTime;
 		final long trainingTime;
@@ -370,9 +385,9 @@ public class StartExtraction {
 
 	}
 
-	private void activeLearning(AbstractOBIERunner runner, String acMode, File printResults) throws Exception {
+	private void activeLearning(AbstractRunner runner, String acMode, File printResults) throws Exception {
 
-		List<PRF1Container> performances = new ArrayList<>();
+		runID = acMode + new Random().nextInt();
 
 		long allTime = System.currentTimeMillis();
 
@@ -381,24 +396,44 @@ public class StartExtraction {
 		final IActiveLearningDocumentRanker ranker;
 
 		if (acMode.equals("random")) {
-			ranker = new FullDocumentRandomRanker();
+			ranker = new FullDocumentRandomRanker(runner);
 		} else if (acMode.equals("entropy")) {
-			ranker = new FullDocumentEntropyRanker();
+			ranker = new FullDocumentRandomRanker(runner);
+		} else if (acMode.equals("entropyAtomic")) {
+			ranker = new FullDocumentAtomicChangeEntropyRanker(runner);
+		} else if (acMode.equals("variance")) {
+			ranker = new FullDocumentVarianceRanker(runner);
+		} else if (acMode.equals("objective")) {
+			ranker = new FullDocumentObjectiveScoreRanker(runner);
+		} else if (acMode.equals("model")) {
+			ranker = new FullDocumentModelScoreRanker(runner);
+		} else if (acMode.equals("length")) {
+			ranker = new FullDocumentLengthRanker(runner);
 		} else {
 			ranker = null;
 			log.error("unkown active learning mode");
 			System.exit(1);
 		}
 
-//		final IActiveLearningDocumentRanker documentModelScoreRanker = new FullDocumentModelScoreRanker();
-//		final IActiveLearningDocumentRanker documentVarianceRanker = new FullDocumentVarianceRanker();
-
 		PrintStream resultPrintStream = new PrintStream(new FileOutputStream(printResults, true));
 		resultPrintStream.println("############Active Learning Performances: " + runID + "############");
-		resultPrintStream.println("#Precision\tRecall\tF1");
+		resultPrintStream.println("#Iteration\t#TrainData\tPrecision\tRecall\tF1");
 
 		List<OBIEInstance> newTrainingInstances = new ArrayList<>();
+
+		final int maxNumberOfIterations = 50;
+		int iterationCounter = 0;
+
+		List<String> performances = new ArrayList<>();
+
 		do {
+
+			if (++iterationCounter > maxNumberOfIterations) {
+				log.info("#############################");
+				log.info("Reached maximum number of iterations: " + maxNumberOfIterations);
+				log.info("#############################");
+				break;
+			}
 
 			log.info("#############################");
 			log.info("New active learning iteration: " + (i));
@@ -409,43 +444,141 @@ public class StartExtraction {
 			if (newTrainingInstances.isEmpty()) {
 				runner.train();
 			} else {
-				runner.clean(getCleanParameter());
+				runner.clean(getParameter());
 				runner.train();
 			}
 
+			log.info("Apply current model to test data...");
+
 			Level trainerLevel = LogManager.getFormatterLogger(Trainer.class.getName()).getLevel();
-			Level runnerLevel = LogManager.getFormatterLogger(AbstractOBIERunner.class).getLevel();
+			Level runnerLevel = LogManager.getFormatterLogger(AbstractRunner.class).getLevel();
 
 			Configurator.setLevel(Trainer.class.getName(), Level.FATAL);
-			Configurator.setLevel(AbstractOBIERunner.class.getName(), Level.FATAL);
+			Configurator.setLevel(AbstractRunner.class.getName(), Level.FATAL);
 
 			List<SampledInstance<OBIEInstance, InstanceTemplateAnnotations, OBIEState>> predictions = runner
 					.testOnTest();
 
+			final int c = iterationCounter;
+
+			log.info("Training data");
+			runner.corpusProvider.getTrainingCorpus().getInternalInstances()
+					.forEach(s -> log.info(c + "TRD" + s.getName() + ", "));
+
+			log.info("Test data");
+			runner.corpusProvider.getTestCorpus().getInternalInstances()
+					.forEach(s -> log.info(c + "TED" + s.getName() + ", "));
+
 			Configurator.setLevel(Trainer.class.getName(), trainerLevel);
-			Configurator.setLevel(AbstractOBIERunner.class.getName(), runnerLevel);
+			Configurator.setLevel(AbstractRunner.class.getName(), runnerLevel);
 
 			PRF1Container prf1 = EvaluatePrediction.evaluateREPredictions(runner.getObjectiveFunction(), predictions,
 					runner.getParameter().evaluator);
 
-			performances.add(prf1);
-			resultPrintStream.println(prf1.p + "\t" + prf1.r + "\t" + prf1.f1);
+			final String logPerformance = iterationCounter + "\t"
+					+ runner.corpusProvider.getTrainingCorpus().getInternalInstances().size() + "\t" + prf1.p + "\t"
+					+ prf1.r + "\t" + prf1.f1;
 
-			log.info("############Active Learning performances############");
+			performances.add(logPerformance);
+			resultPrintStream.println(logPerformance);
+
+			log.info("############Active Learning performances: " + runID + "############");
 			performances.forEach(log::info);
 
 			log.info("Time needed: " + (System.currentTimeMillis() - time));
 
 		} while (!(newTrainingInstances = runner.corpusProvider.updateActiveLearning(runner, ranker)).isEmpty());
 
-		log.info("############Active Learning performances############");
-		performances.forEach(log::info);
-
 		log.info("Total time needed: " + (System.currentTimeMillis() - allTime));
 
 		log.info("Print results to: " + printResults);
 
 		resultPrintStream.close();
+
+	}
+
+	/**
+	 * Test every single document and sort
+	 * 
+	 * @param runner
+	 * @throws Exception
+	 */
+	private void reverseEngeneerACLearning(AbstractRunner runner) throws Exception {
+
+		final List<OBIEInstance> memTrain = new ArrayList<>(
+				runner.corpusProvider.getTrainingCorpus().getInternalInstances());
+
+		class X implements Comparable<X> {
+			InstanceTemplateAnnotations thing;
+			double f1Score;
+			String name;
+
+			public X(InstanceTemplateAnnotations instanceTemplateAnnotations, double f1Score, String name) {
+				super();
+				this.thing = instanceTemplateAnnotations;
+				this.f1Score = f1Score;
+				this.name = name;
+			}
+
+			@Override
+			public String toString() {
+				return "X [thing=" + thing + ", f1Score=" + f1Score + ", name=" + name + "]";
+			}
+
+			@Override
+			public int compareTo(X o) {
+				return -Double.compare(f1Score, o.f1Score);
+			}
+
+		}
+		final List<X> sortablePerformances = new ArrayList<>();
+
+		for (OBIEInstance instance : runner.corpusProvider.getDevelopCorpus().getInternalInstances()) {
+
+			log.info("Add instance: " + instance);
+
+			List<OBIEInstance> trainingInstances = new ArrayList<>();
+
+			trainingInstances.addAll(memTrain);
+			trainingInstances.add(instance);
+
+			runner.corpusProvider.trainingCorpus = new BigramInternalCorpus(trainingInstances);
+
+			runner.clean(getParameter());
+			runner.train();
+
+			Level trainerLevel = LogManager.getFormatterLogger(Trainer.class.getName()).getLevel();
+			Level runnerLevel = LogManager.getFormatterLogger(AbstractRunner.class).getLevel();
+
+			Configurator.setLevel(Trainer.class.getName(), Level.FATAL);
+			Configurator.setLevel(AbstractRunner.class.getName(), Level.FATAL);
+
+			List<SampledInstance<OBIEInstance, InstanceTemplateAnnotations, OBIEState>> predictions = runner
+					.testOnTest();
+
+			Configurator.setLevel(Trainer.class.getName(), trainerLevel);
+			Configurator.setLevel(AbstractRunner.class.getName(), runnerLevel);
+
+			PRF1Container prf1 = EvaluatePrediction.evaluateREPredictions(runner.getObjectiveFunction(), predictions,
+					runner.getParameter().evaluator);
+
+			final String logPerformance = runner.corpusProvider.getTrainingCorpus().getInternalInstances().size() + "\t"
+					+ prf1.p + "\t" + prf1.r + "\t" + prf1.f1;
+
+			log.info("-----------------------------");
+			log.info(logPerformance);
+
+			log.info("-----------------------------");
+
+			sortablePerformances.add(new X(instance.getGoldAnnotation(), prf1.f1, instance.getName()));
+			Collections.sort(sortablePerformances);
+			sortablePerformances.forEach(log::info);
+			log.info("-----------------------------");
+			System.gc();
+
+		}
+
+		sortablePerformances.forEach(log::info);
 
 	}
 

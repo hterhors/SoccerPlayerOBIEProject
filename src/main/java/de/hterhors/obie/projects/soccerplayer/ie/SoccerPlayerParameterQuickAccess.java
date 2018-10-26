@@ -19,7 +19,7 @@ import de.hterhors.obie.ml.explorer.SlotFillerExplorer;
 import de.hterhors.obie.ml.run.InvestigationRestriction;
 import de.hterhors.obie.ml.run.param.EInstantiationType;
 import de.hterhors.obie.ml.run.param.IInitializeNumberOfObjects;
-import de.hterhors.obie.ml.run.param.OBIERunParameter.Builder;
+import de.hterhors.obie.ml.run.param.RunParameter.Builder;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
 
@@ -100,7 +100,7 @@ public class SoccerPlayerParameterQuickAccess {
 		 * evaluation process. This makes especially sense when using the
 		 * CartesianSearchEvaluator.
 		 */
-		final boolean enableEvaluationCaching = false;
+		final boolean enableEvaluationCaching = true;
 
 		/**
 		 * The maximum number of entity elements per list or maximum number of
@@ -245,7 +245,7 @@ public class SoccerPlayerParameterQuickAccess {
 		 */
 
 		public static AbstractCorpusDistributor activeLearningDist(final float fraction) {
-			return new ActiveLearningDistributor.Builder().setB(1).setSeed(100L).setCorpusSizeFraction(fraction)
+			return new ActiveLearningDistributor.Builder().setB(1).setCorpusSizeFraction(fraction)
 					.setInitialTrainingSelectionFraction(0.0f).setTrainingProportion(80).setTestProportion(20).build();
 		}
 	}

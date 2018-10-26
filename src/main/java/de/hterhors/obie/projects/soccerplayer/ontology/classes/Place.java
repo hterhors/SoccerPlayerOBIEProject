@@ -1,45 +1,56 @@
 package de.hterhors.obie.projects.soccerplayer.ontology.classes;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Resource;
-
-import de.hterhors.obie.core.ontology.AbstractOBIEIndividual;
-import de.hterhors.obie.core.ontology.IndividualFactory;
-import de.hterhors.obie.core.ontology.annotations.AssignableSubClasses;
-import de.hterhors.obie.core.ontology.annotations.DirectInterface;
-import de.hterhors.obie.core.ontology.annotations.DirectSiblings;
+import java.lang.NoSuchMethodException;
+import de.hterhors.obie.core.ontology.interfaces.IDatatype;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.*;
 import de.hterhors.obie.core.ontology.annotations.SuperRootClasses;
-import de.hterhors.obie.core.ontology.annotations.TextMention;
 import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IPlace;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
+import java.util.HashMap;
+import de.hterhors.obie.core.ontology.annotations.OntologyModelContent;
+import java.util.ArrayList;
+import org.apache.jena.rdf.model.Model;
+import de.hterhors.obie.core.ontology.annotations.AssignableSubInterfaces;
+import de.hterhors.obie.core.ontology.annotations.ImplementationClass;
+import org.apache.jena.rdf.model.Resource;
+import java.util.Map;
+import java.lang.InstantiationException;
+import java.lang.SecurityException;
+import de.hterhors.obie.core.ontology.annotations.DirectSiblings;
+import java.lang.IllegalAccessException;
+import de.hterhors.obie.core.ontology.annotations.AssignableSubClasses;
+import de.hterhors.obie.core.ontology.IndividualFactory;
+import de.hterhors.obie.core.ontology.annotations.DirectInterface;
+import de.hterhors.obie.core.ontology.annotations.RelationTypeCollection;
+import de.hterhors.obie.core.ontology.annotations.DatatypeProperty;
+import java.lang.IllegalArgumentException;
+import de.hterhors.obie.core.ontology.annotations.TextMention;
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import org.apache.jena.rdf.model.ModelFactory;
+import de.hterhors.obie.core.ontology.AbstractIndividual;
 
 /**
  *
  * @author hterhors
  *
  *
- *         Oct 18, 2018
+ *         Oct 23, 2018
  */
-
-@AssignableSubClasses(get = {})
-
-@DirectInterface(get = IPlace.class)
 
 @SuperRootClasses(get = { Place.class, })
 
+@AssignableSubClasses(get = {})
+
 @DirectSiblings(get = {})
+
+@DirectInterface(get = IPlace.class)
 public class Place implements IPlace {
 
 	final public static IndividualFactory<PlaceIndividual> individualFactory = new IndividualFactory<>();
-	final public static Class<? extends AbstractOBIEIndividual> individualClassType = PlaceIndividual.class;
+	final public static Class<? extends AbstractIndividual> individualClassType = PlaceIndividual.class;
 
-	static class PlaceIndividual extends AbstractOBIEIndividual {
+	static class PlaceIndividual extends AbstractIndividual {
 
 		private static final long serialVersionUID = 1L;
 
@@ -61,7 +72,7 @@ public class Place implements IPlace {
 	public final PlaceIndividual individual;
 
 	@Override
-	public AbstractOBIEIndividual getIndividual() {
+	public AbstractIndividual getIndividual() {
 		return individual;
 	}
 
@@ -73,12 +84,9 @@ public class Place implements IPlace {
 	@TextMention
 	final private String textMention;
 
-	public Place(Place place) throws InstantiationException, IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException, NoSuchMethodException, SecurityException {
-		this.individual = place.individual;
-		this.characterOffset = place.getCharacterOffset();
-		this.characterOnset = place.getCharacterOnset();
-		this.textMention = place.getTextMention();
+	public Place(String individualURI, String textMention) {
+		this.individual = Place.individualFactory.getIndividualByURI(individualURI);
+		this.textMention = textMention;
 	}
 
 	public Place() {
@@ -86,9 +94,12 @@ public class Place implements IPlace {
 		this.textMention = null;
 	}
 
-	public Place(String individualURI, String textMention) {
-		this.individual = Place.individualFactory.getIndividualByURI(individualURI);
-		this.textMention = textMention;
+	public Place(Place place) throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException {
+		this.individual = place.individual;
+		this.characterOffset = place.getCharacterOffset();
+		this.characterOnset = place.getCharacterOnset();
+		this.textMention = place.getTextMention();
 	}
 
 	/***/
@@ -106,20 +117,20 @@ public class Place implements IPlace {
 				return false;
 		} else if (!individual.equals(other.individual))
 			return false;
-		if (textMention == null) {
-			if (other.textMention != null)
+		if (characterOnset == null) {
+			if (other.characterOnset != null)
 				return false;
-		} else if (!textMention.equals(other.textMention))
+		} else if (!characterOnset.equals(other.characterOnset))
 			return false;
 		if (characterOffset == null) {
 			if (other.characterOffset != null)
 				return false;
 		} else if (!characterOffset.equals(other.characterOffset))
 			return false;
-		if (characterOnset == null) {
-			if (other.characterOnset != null)
+		if (textMention == null) {
+			if (other.textMention != null)
 				return false;
-		} else if (!characterOnset.equals(other.characterOnset))
+		} else if (!textMention.equals(other.textMention))
 			return false;
 		return true;
 	}
@@ -176,9 +187,9 @@ public class Place implements IPlace {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((this.individual == null) ? 0 : this.individual.hashCode());
-		result = prime * result + ((this.textMention == null) ? 0 : this.textMention.hashCode());
-		result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
 		result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
+		result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
+		result = prime * result + ((this.textMention == null) ? 0 : this.textMention.hashCode());
 		return result;
 	}
 

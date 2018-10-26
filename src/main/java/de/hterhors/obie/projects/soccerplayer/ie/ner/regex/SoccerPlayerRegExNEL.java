@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.hterhors.obie.core.OntologyAnalyzer;
-import de.hterhors.obie.core.ontology.AbstractOBIEIndividual;
+import de.hterhors.obie.core.ontology.AbstractIndividual;
 import de.hterhors.obie.core.ontology.annotations.DatatypeProperty;
 import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
 import de.hterhors.obie.ml.dtinterpreter.IDatatypeInterpretation;
@@ -105,31 +105,31 @@ public class SoccerPlayerRegExNEL extends AbstractRegExNER<ISoccerPlayerThing> {
 	}
 
 	@Override
-	protected Map<AbstractOBIEIndividual, Set<Pattern>> addHandMadePatternForIndividuals(
+	protected Map<AbstractIndividual, Set<Pattern>> addHandMadePatternForIndividuals(
 			Class<? extends IOBIEThing> rootClassType) {
 		return Collections.emptyMap();
 	}
 
 	@Override
-	protected Map<AbstractOBIEIndividual, Set<Pattern>> addFurtherPatternForIndividuals() {
+	protected Map<AbstractIndividual, Set<Pattern>> addFurtherPatternForIndividuals() {
 		return Collections.emptyMap();
 	}
 
 	@Override
-	protected Map<AbstractOBIEIndividual, Set<Pattern>> generateHandMadeCrossReferencesForIndividuals(
-			Map<AbstractOBIEIndividual, Set<Pattern>> regularExpressionPattern,
+	protected Map<AbstractIndividual, Set<Pattern>> generateHandMadeCrossReferencesForIndividuals(
+			Map<AbstractIndividual, Set<Pattern>> regularExpressionPattern,
 			Class<? extends IOBIEThing> rootClassType) {
 		return Collections.emptyMap();
 	}
 
 	@Override
-	protected Map<AbstractOBIEIndividual, Set<Pattern>> generateCrossReferencePatternForIndividuals(
+	protected Map<AbstractIndividual, Set<Pattern>> generateCrossReferencePatternForIndividuals(
 			Class<? extends IOBIEThing> rootClassType) {
 		return Collections.emptyMap();
 	}
 
 	@Override
-	protected Map<AbstractOBIEIndividual, Set<Pattern>> addPlainRegExPatternForIndividuals(
+	protected Map<AbstractIndividual, Set<Pattern>> addPlainRegExPatternForIndividuals(
 			Class<? extends IOBIEThing> rootClassType) {
 		return new SoccerPlayerRegExPattern().autoGeneratePatternForIndividuals(rootClassType);
 	}
