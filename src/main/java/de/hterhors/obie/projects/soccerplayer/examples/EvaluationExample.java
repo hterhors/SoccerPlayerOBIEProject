@@ -5,7 +5,7 @@ import de.hterhors.obie.ml.evaluation.evaluator.BeamSearchEvaluator;
 import de.hterhors.obie.ml.evaluation.evaluator.CartesianSearchEvaluator;
 import de.hterhors.obie.ml.evaluation.evaluator.IOBIEEvaluator;
 import de.hterhors.obie.ml.evaluation.evaluator.PurityEvaluator;
-import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerOntologyEnvironment;
+import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerOntologyEnvironment;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.American_football_positions;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.BirthYear;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.Place;
@@ -51,7 +51,7 @@ public class EvaluationExample {
 		/*
 		 * Fill some slots manually...
 		 */
-		perfectSadokSassi.setPositionAmerican_football_positions(
+		perfectSadokSassi.addPositionAmerican_football_positions(
 				new American_football_positions("http://dbpedia.org/resource/Goalkeeper_(association_football)", null));
 		perfectSadokSassi.setBirthYear(new BirthYear("2000"));
 
@@ -60,7 +60,7 @@ public class EvaluationExample {
 		 */
 		CartesianSearchEvaluator exactEvaluator = new CartesianSearchEvaluator();
 
-		compareToImperfectSadokSassi(perfectSadokSassi, exactEvaluator);
+		compareToNotPerfectSadokSassi(perfectSadokSassi, exactEvaluator);
 		/*
 		 * Interpreting the result:
 		 * 
@@ -121,14 +121,14 @@ public class EvaluationExample {
 	 * @param perfectSadokSassi
 	 * @param evaluator
 	 */
-	private static void compareToImperfectSadokSassi(SoccerPlayer perfectSadokSassi, IOBIEEvaluator evaluator) {
+	private static void compareToNotPerfectSadokSassi(SoccerPlayer perfectSadokSassi, IOBIEEvaluator evaluator) {
 		/**
 		 * Create a second SoccerPlayer for the individual Sadok Sassi. However, this
 		 * time some slots are filled differently! We set the BirthYear to 1990 instead
 		 * of 2000.
 		 */
 		SoccerPlayer imperfectSadokSassi = new SoccerPlayer("http://dbpedia.org/resource/Sadok_Sassi", null)
-				.setPositionAmerican_football_positions(new American_football_positions(
+				.addPositionAmerican_football_positions(new American_football_positions(
 						"http://dbpedia.org/resource/Goalkeeper_(association_football)", null))
 				.setBirthYear(new BirthYear("1990"));
 
@@ -151,7 +151,7 @@ public class EvaluationExample {
 		 * Create a SoccerPlayer for individual Bimal Magar.
 		 */
 		SoccerPlayer bimalMagar = new SoccerPlayer("http://dbpedia.org/resource/Bimal_Magar", null)
-				.setPositionAmerican_football_positions(
+				.addPositionAmerican_football_positions(
 						new American_football_positions("http://dbpedia.org/resource/Inside_forward", null))
 				.setBirthYear(new BirthYear("2000"))
 				.addBirthPlace(new Place("http://dbpedia.org/resource/Wales", null));

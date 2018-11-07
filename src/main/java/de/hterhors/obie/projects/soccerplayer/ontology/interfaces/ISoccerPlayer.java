@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 * @author hterhors
 *
 *
-*Oct 23, 2018
+*Nov 7, 2018
 */
 
 @ImplementationClass(get=SoccerPlayer.class)
@@ -34,6 +34,10 @@ import java.util.stream.Collectors;
 
 /***/
 	public ISoccerPlayer addBirthPlace(IPlace place);
+
+
+/***/
+	public ISoccerPlayer addPositionAmerican_football_positions(IAmerican_football_positions american_football_positions);
 
 
 /***/
@@ -49,7 +53,11 @@ import java.util.stream.Collectors;
 
 
 /***/
-	public IAmerican_football_positions getPositionAmerican_football_positions();
+	public IDeathYear getDeathYear();
+
+
+/***/
+	public List<IAmerican_football_positions> getPositionAmerican_football_positions();
 
 
 /***/
@@ -65,7 +73,11 @@ import java.util.stream.Collectors;
 
 
 /***/
-	public ISoccerPlayer setPositionAmerican_football_positions(IAmerican_football_positions positionAmerican_football_positions);
+	public ISoccerPlayer setDeathYear(IDeathYear deathYear);
+
+
+/***/
+	public ISoccerPlayer setPositionAmerican_football_positions(List<IAmerican_football_positions> positionAmerican_football_positions);
 
 
 /***/

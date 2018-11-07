@@ -35,25 +35,25 @@ import de.hterhors.obie.core.ontology.AbstractIndividual;
 * @author hterhors
 *
 *
-*Oct 23, 2018
+*Nov 7, 2018
 */
 
-@SuperRootClasses(get={BirthYear.class, })
+@DirectSiblings(get={})
 
-@DatatypeProperty
 @DirectInterface(get=IBirthYear.class)
 
+@DatatypeProperty
 @AssignableSubClasses(get={})
 
-@DirectSiblings(get={})
+@SuperRootClasses(get={BirthYear.class, })
  public class BirthYear implements IBirthYear{
 
-	final static public String ONTOLOGY_NAME = "http://psink/soccerplayer/BirthYear";
+	final static public String ONTOLOGY_NAME = "http://psink/soccerPlayer/BirthYear";
 	private Integer characterOffset;
 	private Integer characterOnset;
 	final static private Map<IOBIEThing, String> resourceFactory = new HashMap<>();
 	final private String semanticValue;
-	final static private long serialVersionUID = 1L;
+	final static private long serialVersionUID = 3L;
 	@TextMention
 final private String textMention;
 
@@ -64,17 +64,17 @@ this.characterOnset = birthYear.getCharacterOnset();
 this.semanticValue = birthYear.getSemanticValue();
 this.textMention = birthYear.getTextMention();
 }
-	public BirthYear(){
-this.semanticValue = null;
-this.textMention = null;
+	public BirthYear(String semanticValue, String textMention){
+this.semanticValue = semanticValue;
+this.textMention = textMention;
 }
 	public BirthYear(String semanticValue){
 this.semanticValue = semanticValue;
 this.textMention = null;
 }
-	public BirthYear(String semanticValue, String textMention){
-this.semanticValue = semanticValue;
-this.textMention = textMention;
+	public BirthYear(){
+this.semanticValue = null;
+this.textMention = null;
 }
 
 
@@ -98,15 +98,15 @@ if (other.semanticValue!= null)
 return false;
 } else if (!semanticValue.equals(other.semanticValue))
 return false;
-if (characterOffset == null) {
-if (other.characterOffset!= null)
-return false;
-} else if (!characterOffset.equals(other.characterOffset))
-return false;
 if (textMention == null) {
 if (other.textMention!= null)
 return false;
 } else if (!textMention.equals(other.textMention))
+return false;
+if (characterOffset == null) {
+if (other.characterOffset!= null)
+return false;
+} else if (!characterOffset.equals(other.characterOffset))
 return false;
 return true;
 }
@@ -154,8 +154,8 @@ return ISoccerPlayerThing.RDF_MODEL_NAMESPACE + resourceName;}
 int result = 1;
 result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
 result = prime * result + ((this.semanticValue == null) ? 0 : this.semanticValue.hashCode());
-result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
 result = prime * result + ((this.textMention == null) ? 0 : this.textMention.hashCode());
+result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
 return result;}
 	/***/
 @Override

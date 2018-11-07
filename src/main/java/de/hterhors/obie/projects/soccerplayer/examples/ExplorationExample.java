@@ -11,10 +11,10 @@ import de.hterhors.obie.ml.run.param.RunParameter.Builder;
 import de.hterhors.obie.ml.utils.OBIEClassFormatter;
 import de.hterhors.obie.ml.variables.OBIEInstance;
 import de.hterhors.obie.ml.variables.OBIEState;
-import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerOntologyEnvironment;
-import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerParameterQuickAccess;
-import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerProjectEnvironment;
-import de.hterhors.obie.projects.soccerplayer.ie.templates.BirthYearTemplate;
+import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerOntologyEnvironment;
+import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerProjectEnvironment;
+import de.hterhors.obie.projects.soccerplayer.ie.parameter.SoccerPlayerParameterQuickAccess;
+import de.hterhors.obie.projects.soccerplayer.ie.templates.BirthDeathYearTemplate;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.BirthYear;
 
 /**
@@ -169,7 +169,7 @@ public class ExplorationExample {
 		paramBuilder.setOntologyEnvironment(SoccerPlayerOntologyEnvironment.getInstance());
 		paramBuilder
 				.setCorpusDistributor(SoccerPlayerParameterQuickAccess.predefinedDistributor.originDist(1.0F));
-		paramBuilder.addTemplate(BirthYearTemplate.class);
+		paramBuilder.addTemplate(BirthDeathYearTemplate.class);
 
 		return paramBuilder;
 	}

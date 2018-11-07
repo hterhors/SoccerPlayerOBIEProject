@@ -11,10 +11,10 @@ import de.hterhors.obie.ml.run.param.RunParameter.Builder;
 import de.hterhors.obie.ml.utils.OBIEClassFormatter;
 import de.hterhors.obie.ml.variables.OBIEInstance;
 import de.hterhors.obie.ml.variables.TemplateAnnotation;
-import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerOntologyEnvironment;
-import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerParameterQuickAccess;
-import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerProjectEnvironment;
-import de.hterhors.obie.projects.soccerplayer.ie.templates.BirthYearTemplate;
+import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerOntologyEnvironment;
+import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerProjectEnvironment;
+import de.hterhors.obie.projects.soccerplayer.ie.parameter.SoccerPlayerParameterQuickAccess;
+import de.hterhors.obie.projects.soccerplayer.ie.templates.BirthDeathYearTemplate;
 
 public class PrintBigramCorpusExample {
 
@@ -89,7 +89,7 @@ public class PrintBigramCorpusExample {
 
 		paramBuilder.setProjectEnvironment(SoccerPlayerProjectEnvironment.getInstance());
 		paramBuilder.setOntologyEnvironment(SoccerPlayerOntologyEnvironment.getInstance());
-		paramBuilder.addTemplate(BirthYearTemplate.class);
+		paramBuilder.addTemplate(BirthDeathYearTemplate.class);
 
 		return paramBuilder;
 	}

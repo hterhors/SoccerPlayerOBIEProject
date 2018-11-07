@@ -6,7 +6,7 @@ import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
 import de.hterhors.obie.core.tools.corpus.OBIECorpus;
 import de.hterhors.obie.core.tools.corpus.OBIECorpus.Instance;
 import de.hterhors.obie.ml.utils.OBIEClassFormatter;
-import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerProjectEnvironment;
+import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerProjectEnvironment;
 
 /**
  * This class contains example code for loading the raw corpus file and printing
@@ -45,7 +45,6 @@ public class PrinRawCorpusExample {
 				}
 
 			}
-			break;
 
 		}
 	}

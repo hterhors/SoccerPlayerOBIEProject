@@ -35,16 +35,16 @@ import de.hterhors.obie.core.ontology.AbstractIndividual;
 * @author hterhors
 *
 *
-*Oct 23, 2018
+*Nov 7, 2018
 */
-
-@DirectInterface(get=IAmerican_football_positions.class)
 
 @SuperRootClasses(get={American_football_positions.class, })
 
-@AssignableSubClasses(get={})
-
 @DirectSiblings(get={})
+
+@DirectInterface(get=IAmerican_football_positions.class)
+
+@AssignableSubClasses(get={})
  public class American_football_positions implements IAmerican_football_positions{
 
 final public static IndividualFactory<American_football_positionsIndividual> individualFactory = new IndividualFactory<>();
@@ -73,15 +73,11 @@ static class American_football_positionsIndividual extends AbstractIndividual {
 	private Integer characterOffset;
 	private Integer characterOnset;
 	final static private Map<IOBIEThing, String> resourceFactory = new HashMap<>();
-	final static private long serialVersionUID = 1L;
+	final static private long serialVersionUID = 3L;
 	@TextMention
 final private String textMention;
 
 
-	public American_football_positions(){
-this.individual = null;
-this.textMention = null;
-}
 	public American_football_positions(String individualURI, String textMention){
 this.individual = 
 				American_football_positions.individualFactory.getIndividualByURI(individualURI);
@@ -92,6 +88,10 @@ this.individual = american_football_positions.individual;
 this.characterOffset = american_football_positions.getCharacterOffset();
 this.characterOnset = american_football_positions.getCharacterOnset();
 this.textMention = american_football_positions.getTextMention();
+}
+	public American_football_positions(){
+this.individual = null;
+this.textMention = null;
 }
 
 
@@ -115,15 +115,15 @@ if (other.characterOnset!= null)
 return false;
 } else if (!characterOnset.equals(other.characterOnset))
 return false;
-if (characterOffset == null) {
-if (other.characterOffset!= null)
-return false;
-} else if (!characterOffset.equals(other.characterOffset))
-return false;
 if (textMention == null) {
 if (other.textMention!= null)
 return false;
 } else if (!textMention.equals(other.textMention))
+return false;
+if (characterOffset == null) {
+if (other.characterOffset!= null)
+return false;
+} else if (!characterOffset.equals(other.characterOffset))
 return false;
 return true;
 }
@@ -168,8 +168,8 @@ return ISoccerPlayerThing.RDF_MODEL_NAMESPACE + resourceName;}
 int result = 1;
 result = prime * result + ((this.individual == null) ? 0 : this.individual.hashCode());
 result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
-result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
 result = prime * result + ((this.textMention == null) ? 0 : this.textMention.hashCode());
+result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
 return result;}
 	/***/
 @Override

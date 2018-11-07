@@ -35,16 +35,16 @@ import de.hterhors.obie.core.ontology.AbstractIndividual;
 * @author hterhors
 *
 *
-*Oct 23, 2018
+*Nov 7, 2018
 */
+
+@DirectSiblings(get={})
 
 @SuperRootClasses(get={SoccerClub.class, })
 
-@DirectInterface(get=ISoccerClub.class)
-
 @AssignableSubClasses(get={})
 
-@DirectSiblings(get={})
+@DirectInterface(get=ISoccerClub.class)
  public class SoccerClub implements ISoccerClub{
 
 final public static IndividualFactory<SoccerClubIndividual> individualFactory = new IndividualFactory<>();
@@ -73,14 +73,15 @@ static class SoccerClubIndividual extends AbstractIndividual {
 	private Integer characterOffset;
 	private Integer characterOnset;
 	final static private Map<IOBIEThing, String> resourceFactory = new HashMap<>();
-	final static private long serialVersionUID = 1L;
+	final static private long serialVersionUID = 3L;
 	@TextMention
 final private String textMention;
 
 
-	public SoccerClub(){
-this.individual = null;
-this.textMention = null;
+	public SoccerClub(String individualURI, String textMention){
+this.individual = 
+				SoccerClub.individualFactory.getIndividualByURI(individualURI);
+this.textMention = textMention;
 }
 	public SoccerClub(SoccerClub soccerClub)throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,NoSuchMethodException, SecurityException{
 this.individual = soccerClub.individual;
@@ -88,10 +89,9 @@ this.characterOffset = soccerClub.getCharacterOffset();
 this.characterOnset = soccerClub.getCharacterOnset();
 this.textMention = soccerClub.getTextMention();
 }
-	public SoccerClub(String individualURI, String textMention){
-this.individual = 
-				SoccerClub.individualFactory.getIndividualByURI(individualURI);
-this.textMention = textMention;
+	public SoccerClub(){
+this.individual = null;
+this.textMention = null;
 }
 
 
@@ -115,15 +115,15 @@ if (other.characterOnset!= null)
 return false;
 } else if (!characterOnset.equals(other.characterOnset))
 return false;
-if (characterOffset == null) {
-if (other.characterOffset!= null)
-return false;
-} else if (!characterOffset.equals(other.characterOffset))
-return false;
 if (textMention == null) {
 if (other.textMention!= null)
 return false;
 } else if (!textMention.equals(other.textMention))
+return false;
+if (characterOffset == null) {
+if (other.characterOffset!= null)
+return false;
+} else if (!characterOffset.equals(other.characterOffset))
 return false;
 return true;
 }
@@ -168,8 +168,8 @@ return ISoccerPlayerThing.RDF_MODEL_NAMESPACE + resourceName;}
 int result = 1;
 result = prime * result + ((this.individual == null) ? 0 : this.individual.hashCode());
 result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
-result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
 result = prime * result + ((this.textMention == null) ? 0 : this.textMention.hashCode());
+result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
 return result;}
 	/***/
 @Override

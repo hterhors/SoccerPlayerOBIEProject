@@ -1,19 +1,21 @@
 package de.hterhors.obie.projects.soccerplayer.ie.baseline;
 
 import de.hterhors.obie.core.evaluation.PRF1Container;
+import de.hterhors.obie.core.ontology.OntologyInitializer;
 import de.hterhors.obie.ml.corpus.distributor.FoldCrossCorpusDistributor;
 import de.hterhors.obie.ml.run.AbstractRunner;
 import de.hterhors.obie.ml.run.StandardRERunner;
 import de.hterhors.obie.ml.run.param.RunParameter;
 import de.hterhors.obie.ml.run.param.RunParameter.Builder;
 import de.hterhors.obie.ml.tools.baseline.HighFrequencyBaseline;
-import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerOntologyEnvironment;
-import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerParameterQuickAccess;
-import de.hterhors.obie.projects.soccerplayer.ie.SoccerPlayerProjectEnvironment;
+import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerOntologyEnvironment;
+import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerProjectEnvironment;
+import de.hterhors.obie.projects.soccerplayer.ie.parameter.SoccerPlayerParameterQuickAccess;
 
 public class ComputeHighFreqBaseline {
 
 	public static void main(String[] args) throws Exception {
+		OntologyInitializer.initializeOntology(SoccerPlayerOntologyEnvironment.getInstance());
 
 		nFoldCrossValidation();
 	}
@@ -25,8 +27,7 @@ public class ComputeHighFreqBaseline {
 
 		Builder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
 
-		paramBuilder
-				.setCorpusDistributor(SoccerPlayerParameterQuickAccess.predefinedDistributor.foldCrossDist(1F));
+		paramBuilder.setCorpusDistributor(SoccerPlayerParameterQuickAccess.predefinedDistributor.foldCrossDist(1F));
 
 		paramBuilder.setOntologyEnvironment(SoccerPlayerOntologyEnvironment.getInstance());
 		paramBuilder.setProjectEnvironment(SoccerPlayerProjectEnvironment.getInstance());

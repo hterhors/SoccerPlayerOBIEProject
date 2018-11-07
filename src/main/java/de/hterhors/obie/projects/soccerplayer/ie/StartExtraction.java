@@ -26,6 +26,7 @@ import de.hterhors.obie.core.ontology.AbstractOntologyEnvironment;
 import de.hterhors.obie.core.ontology.OntologyInitializer;
 import de.hterhors.obie.core.projects.AbstractProjectEnvironment;
 import de.hterhors.obie.ml.activelearning.FullDocumentAtomicChangeEntropyRanker;
+import de.hterhors.obie.ml.activelearning.FullDocumentEntropyRanker;
 import de.hterhors.obie.ml.activelearning.FullDocumentLengthRanker;
 import de.hterhors.obie.ml.activelearning.FullDocumentModelScoreRanker;
 import de.hterhors.obie.ml.activelearning.FullDocumentObjectiveScoreRanker;
@@ -36,6 +37,7 @@ import de.hterhors.obie.ml.activelearning.IActiveLearningDocumentRanker;
 import de.hterhors.obie.ml.corpus.BigramInternalCorpus;
 import de.hterhors.obie.ml.corpus.distributor.AbstractCorpusDistributor;
 import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor;
+import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor.Builder.EMode;
 import de.hterhors.obie.ml.run.AbstractRunner;
 import de.hterhors.obie.ml.run.StandardRERunner;
 import de.hterhors.obie.ml.run.eval.EvaluatePrediction;
@@ -51,9 +53,12 @@ import de.hterhors.obie.ml.templates.TokenContextTemplate;
 import de.hterhors.obie.ml.variables.InstanceTemplateAnnotations;
 import de.hterhors.obie.ml.variables.OBIEInstance;
 import de.hterhors.obie.ml.variables.OBIEState;
+import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerOntologyEnvironment;
+import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerProjectEnvironment;
 import de.hterhors.obie.projects.soccerplayer.ie.ner.regex.SoccerPlayerRegExNEL;
-import de.hterhors.obie.projects.soccerplayer.ie.templates.BirthYearTemplate;
-import de.hterhors.obie.projects.soccerplayer.ie.templates.PriorTemplate;
+import de.hterhors.obie.projects.soccerplayer.ie.parameter.SoccerPlayerParameterQuickAccess;
+import de.hterhors.obie.projects.soccerplayer.ie.templates.BirthDeathYearTemplate;
+import de.hterhors.obie.projects.soccerplayer.ie.templates.SoccerPlayerPriorTemplate;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
 import learning.Trainer;
 
@@ -78,6 +83,7 @@ import learning.Trainer;
 public class StartExtraction {
 
 	private static final String DEFAULT_ACTIVE_LEARNING_STRATEGY = "random";
+	private static final String DEFAULT_ACTIVE_LEARNING_SEED = "200";
 	private static final String DEFAULT_RESULT_FILE_NAME = "tmpResultFile";
 
 	protected static Logger log = LogManager.getRootLogger();
@@ -86,9 +92,9 @@ public class StartExtraction {
 
 		if (args == null || args.length == 0)
 //			args = new String[] { "varianceResults", "variance" };
-//			args = new String[] { "randomResults", "random" };
+			args = new String[] { "randomResults", "random" };
 //			args = new String[] { "lengthResults", "length" };
-		args = new String[] { "rndFillerResults", "rndFiller" };
+//			args = new String[] { "rndFillerResults", "rndFiller" };
 //			args = new String[] { "entropyResults", "entropy" };
 //			args = new String[] { "entropyAtomicResults", "entropyAtomic" };
 //			args = new String[] { "modelResults", "model" };
@@ -96,11 +102,16 @@ public class StartExtraction {
 
 		log.info("1) argument: file to store results");
 		log.info(
-				"2) argument: mode of active learning, \"random\"(default), \"entropy\", \"entropyAtomic\", \"objective\", \"model\" or \"variance\"");
+				"2) argument: mode of active learning, \"random\"(default), \"entropy\", \"entropyAtomic\", \"objective\", \"model\", \"length\" or \"variance\"");
+		log.info("3) argument: Random inital seed");
+		log.info("4) argument: Number of N-best documents for entropy");
 
 		final File printResults = new File(args.length == 0 ? DEFAULT_RESULT_FILE_NAME : args[0]);
 		final String acMode = args.length < 2 ? DEFAULT_ACTIVE_LEARNING_STRATEGY : args[1];
-
+		final long seed = Long.parseLong(args.length < 3 ? DEFAULT_ACTIVE_LEARNING_SEED : args[2]);
+		if (args.length >= 4) {
+			FullDocumentEntropyRanker.N = Integer.parseInt(args[3]);
+		}
 		log.info("Store results into: " + printResults);
 		log.info("Active Learning Modus: " + acMode);
 
@@ -109,7 +120,7 @@ public class StartExtraction {
 			System.exit(1);
 		}
 
-		new StartExtraction(acMode, printResults);
+		new StartExtraction(acMode, printResults, seed);
 
 	}
 
@@ -130,9 +141,9 @@ public class StartExtraction {
 	 */
 	private final AbstractOntologyEnvironment ontologyEnvironment = SoccerPlayerOntologyEnvironment.getInstance();
 
-	public StartExtraction(String acMode, File printResults) throws Exception {
+	public StartExtraction(String acMode, File printResults, final long seed) throws Exception {
 		{
-			OntologyInitializer.initializeOntology(ontologyEnvironment);
+			OntologyInitializer.initializeOntology(SoccerPlayerOntologyEnvironment.getInstance());
 		}
 
 		log.info("Current run id = " + runID);
@@ -140,7 +151,7 @@ public class StartExtraction {
 		/*
 		 * Build parameter.
 		 */
-		RunParameter parameter = getParameter();
+		RunParameter parameter = getParameter(seed);
 
 		/*
 		 * Created new standard Relation Extraction runner.
@@ -163,13 +174,13 @@ public class StartExtraction {
 			/*
 			 * train and/or test on existing corpus.
 			 */
-			reverseEngeneerACLearning(runner);
+//			reverseEngeneerACLearning(runner,seed);
 
-//			if (activeLearning) {
-//				activeLearning(runner, acMode, printResults);
-//			} else {
-//				trainTest(runner);
-//			}
+			if (activeLearning) {
+				activeLearning(runner, acMode, printResults, seed);
+			} else {
+				trainTest(runner);
+			}
 
 		} else {
 			/*
@@ -180,7 +191,7 @@ public class StartExtraction {
 
 	}
 
-	public RunParameter getParameter() {
+	public RunParameter getParameter(final long seed) {
 		/**
 		 * This parameterBuilder contains standard configurations of the system that are
 		 * used for Relation Extraction tasks. You can but may not change the parameter
@@ -199,7 +210,7 @@ public class StartExtraction {
 		/**
 		 * The number of epochs that the system should be trained.
 		 */
-		final int epochs = 15;
+		final int epochs = 10;
 
 		/**
 		 * The distribution of the documents in the corpus. Origin takes training ,
@@ -210,11 +221,12 @@ public class StartExtraction {
 //		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.predefinedDistributor
 //				.originDist(1F);
 
-		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder().setB(50)
-				.setSeed(200L).setCorpusSizeFraction(1F).setInitialTrainingSelectionFraction(0f)
-				.setTrainingProportion(80).setTestProportion(20).build();
-//		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder().setB(50)
-//				.setSeed(200L).setCorpusSizeFraction(1F).setInitialTrainingSelectionFraction(0.17f)
+		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder()
+				.setMode(EMode.PERCENTAGE).setBPercentage(0.1f).setSeed(seed).setCorpusSizeFraction(1F)
+				.setInitialTrainingSelectionFraction(0.15f).setTrainingProportion(80).setTestProportion(20).build();
+
+//		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder().setB(25)
+//				.setSeed(200L).setCorpusSizeFraction(1F).setInitialTrainingSelectionFraction(0.0855f)
 //				.setTrainingProportion(80).setTestProportion(20).build();
 
 //		final AbstractCorpusDistributor corpusDistributor = ByNameDist.corpusDistributor;
@@ -250,13 +262,15 @@ public class StartExtraction {
 		 * code-template.
 		 */
 
-		/**
-		 * Add your own templates:
+		/*
+		 * SoccerPlayer specific templates:
 		 */
-		templates.add(BirthYearTemplate.class);
-		templates.add(PriorTemplate.class);
+		templates.add(BirthDeathYearTemplate.class);
+		templates.add(SoccerPlayerPriorTemplate.class);
 
-		/**
+		// TODO: Add your own templates
+
+		/*
 		 * Predefined generic templates:
 		 */
 		templates.add(FrequencyTemplate.class);
@@ -265,7 +279,7 @@ public class StartExtraction {
 		templates.add(InBetweenContextTemplate.class);
 		templates.add(LocalTemplate.class);
 
-		/**
+		/*
 		 * Templates that capture the cardinality of slots
 		 */
 		templates.add(SlotIsFilledTemplate.class);
@@ -304,7 +318,8 @@ public class StartExtraction {
 		 * Start prediction...
 		 */
 		List<OBIEState> finalStates = runner.predictInstancesBatch(instancesToPredict,
-				new HashSet<>(Arrays.asList(SoccerPlayerRegExNEL.class)));
+//			TODO: add generic to RunParameter	runner.getParameter().rootSearchTypes
+				new HashSet<>(Arrays.asList(new SoccerPlayerRegExNEL(ISoccerPlayer.class))));
 
 	}
 
@@ -349,13 +364,13 @@ public class StartExtraction {
 		/**
 		 * Evaluate the trained model on the test data. This is equal to predictOnTest
 		 * and apply the results to an evaluator.
+		 *
+		 * Same as:
+		 *
+		 * // final PRF1Container overallPRF1 = runner.evaluateOnTest();
 		 */
 		final PRF1Container overallPRF1 = EvaluatePrediction.evaluateREPredictions(runner.objectiveFunction,
 				predictions, runner.getParameter().evaluator);
-		/*
-		 * Same as:
-		 */
-		// final PRF1Container overallPRF1 = runner.evaluateOnTest();
 
 		log.info("Evaluation results on test data:\n" + overallPRF1);
 
@@ -369,15 +384,16 @@ public class StartExtraction {
 
 		/**
 		 * Evaluate the trained model on the test data for each slot individually.
+		 *
+		 * Same as:
+		 *
+		 * // runner.evaluatePerSlotOnTest(detailedOutput);
 		 */
 		EvaluatePrediction.evaluatePerSlotPredictions(runner.objectiveFunction, predictions,
 				runner.getParameter().evaluator, detailedOutput);
-		/*
-		 * Same as:
-		 */
-//		runner.evaluatePerSlotOnTest(detailedOutput);
 
 		final long tet = (System.currentTimeMillis() - testTime);
+		log.info("--------------" + runID + "---------------");
 
 		log.info("Total training time: " + trt + " ms.");
 		log.info("Total test time: " + tet + " ms.");
@@ -386,7 +402,8 @@ public class StartExtraction {
 
 	}
 
-	private void activeLearning(AbstractRunner runner, String acMode, File printResults) throws Exception {
+	private void activeLearning(AbstractRunner runner, String acMode, File printResults, final long seed)
+			throws Exception {
 
 		runID = acMode + new Random().nextInt();
 
@@ -399,7 +416,7 @@ public class StartExtraction {
 		if (acMode.equals("random")) {
 			ranker = new FullDocumentRandomRanker(runner);
 		} else if (acMode.equals("entropy")) {
-			ranker = new FullDocumentRandomRanker(runner);
+			ranker = new FullDocumentEntropyRanker(runner);
 		} else if (acMode.equals("rndFiller")) {
 			ranker = new FullDocumentRandFillerRanker(runner);
 		} else if (acMode.equals("entropyAtomic")) {
@@ -438,6 +455,8 @@ public class StartExtraction {
 				break;
 			}
 
+			final int c = iterationCounter;
+
 			log.info("#############################");
 			log.info("New active learning iteration: " + (i));
 			log.info("#############################");
@@ -447,7 +466,10 @@ public class StartExtraction {
 			if (newTrainingInstances.isEmpty()) {
 				runner.train();
 			} else {
-				runner.clean(getParameter());
+				log.info("New instances:");
+				newTrainingInstances.forEach(s -> log.info(c + "_NEW\t" + s.getName()));
+
+				runner.clean(getParameter(seed));
 				runner.train();
 			}
 
@@ -462,15 +484,13 @@ public class StartExtraction {
 			List<SampledInstance<OBIEInstance, InstanceTemplateAnnotations, OBIEState>> predictions = runner
 					.testOnTest();
 
-			final int c = iterationCounter;
-
-			log.info("Training data");
+			log.info("Training instances:");
 			runner.corpusProvider.getTrainingCorpus().getInternalInstances()
-					.forEach(s -> log.info(c + "TRD" + s.getName() + ", "));
+					.forEach(s -> log.info(c + "_TRAIN\t" + s.getName()));
 
-			log.info("Test data");
+			log.info("Test instances:");
 			runner.corpusProvider.getTestCorpus().getInternalInstances()
-					.forEach(s -> log.info(c + "TED" + s.getName() + ", "));
+					.forEach(s -> log.info(c + "_TEST\t" + s.getName()));
 
 			Configurator.setLevel(Trainer.class.getName(), trainerLevel);
 			Configurator.setLevel(AbstractRunner.class.getName(), runnerLevel);
@@ -492,6 +512,8 @@ public class StartExtraction {
 
 		} while (!(newTrainingInstances = runner.corpusProvider.updateActiveLearning(runner, ranker)).isEmpty());
 
+		log.info("--------------" + runID + "---------------");
+
 		log.info("Total time needed: " + (System.currentTimeMillis() - allTime));
 
 		log.info("Print results to: " + printResults);
@@ -506,7 +528,7 @@ public class StartExtraction {
 	 * @param runner
 	 * @throws Exception
 	 */
-	private void reverseEngeneerACLearning(AbstractRunner runner) throws Exception {
+	private void reverseEngeneerACLearning(AbstractRunner runner, final long seed) throws Exception {
 
 		final List<OBIEInstance> memTrain = new ArrayList<>(
 				runner.corpusProvider.getTrainingCorpus().getInternalInstances());
@@ -547,7 +569,7 @@ public class StartExtraction {
 
 			runner.corpusProvider.trainingCorpus = new BigramInternalCorpus(trainingInstances);
 
-			runner.clean(getParameter());
+			runner.clean(getParameter(seed));
 			runner.train();
 
 			Level trainerLevel = LogManager.getFormatterLogger(Trainer.class.getName()).getLevel();
@@ -581,7 +603,7 @@ public class StartExtraction {
 
 		}
 
-		log.info("--------------ALL---------------");
+		log.info("--------------" + runID + "---------------");
 		sortablePerformances.forEach(log::info);
 
 	}

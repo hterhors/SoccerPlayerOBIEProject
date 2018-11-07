@@ -19,14 +19,14 @@ import org.apache.jena.rdf.model.Model;
 * @author hterhors
 *
 *
-*Oct 23, 2018
+*Nov 7, 2018
 */
 
-@AssignableSubInterfaces(get={IAmerican_football_positions.class, IPlace.class, ISoccerClub.class, ISoccerPlayer.class, IBirthYear.class, })
+@AssignableSubInterfaces(get={IAmerican_football_positions.class, IPlace.class, ISoccerClub.class, IBirthYear.class, ISoccerPlayer.class, IDeathYear.class, })
  public interface ISoccerPlayerThing
  extends de.hterhors.obie.core.ontology.interfaces.IOBIEThing{
 
- public static String RDF_MODEL_NAMESPACE = "http://psink/soccerplayer/";
+ public static String RDF_MODEL_NAMESPACE = "http://psink/soccerPlayer/";
 
 /***/
 	public Integer getCharacterOffset();
