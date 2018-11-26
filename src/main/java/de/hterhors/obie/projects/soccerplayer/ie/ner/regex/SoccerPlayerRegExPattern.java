@@ -17,18 +17,23 @@ import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerT
 
 public class SoccerPlayerRegExPattern extends BasicRegExPattern<ISoccerPlayerThing> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Map<Class<? extends ISoccerPlayerThing>, Set<Pattern>> handMadepattern = null;
 
 	private static final Set<Pattern> BIRTH_DEATH_YEAR_REG_EXP = new HashSet<>(
 			Arrays.asList(BirthDeathYearInterpreter.PATTERN));
-//	private static final Set<Pattern> PLAYER_NUMBER_YEAR_REG_EXP = new HashSet<>(
-//			Arrays.asList(PlayerNumberInterpreter.PATTERN));
 
 	/**
 	 * Common words that appears very often in many different contexts.
 	 */
-	private static final Set<String> SOCCER_PLAYER_STOP_WORDS = new HashSet<>(Arrays.asList("F.C.", "F.", "C.", "A.",
-			"FC", "American", "football", "positions", "association", "sports", ""));
+	private static final Set<String> SOCCER_PLAYER_STOP_WORDS = new HashSet<>(Arrays.asList("a.f.c.", "afc", "f.c.",
+			"international", "back", "world", "fc", "f.", "c.", "a.", "american", "football", "positions", "position",
+			"association", "sports", "club", "professional", "footballer", "team", "national", "c3", "under", "united",
+			"town", "city", "soccer", "clube", "league", "first", "born", "cup"));
 
 	@Override
 	public Set<String> getAdditionalStopWords() {
@@ -55,7 +60,6 @@ public class SoccerPlayerRegExPattern extends BasicRegExPattern<ISoccerPlayerThi
 
 		handMadepattern.put(BirthYear.class, SoccerPlayerRegExPattern.BIRTH_DEATH_YEAR_REG_EXP);
 		handMadepattern.put(DeathYear.class, SoccerPlayerRegExPattern.BIRTH_DEATH_YEAR_REG_EXP);
-//		handMadepattern.put(PlayerNumber.class, SoccerPlayerRegExPattern.PLAYER_NUMBER_YEAR_REG_EXP);
 
 		return handMadepattern;
 	}

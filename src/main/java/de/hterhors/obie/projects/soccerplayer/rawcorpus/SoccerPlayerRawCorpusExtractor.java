@@ -88,7 +88,7 @@ public class SoccerPlayerRawCorpusExtractor {
 
 		c.extractCorpus(new File(directoryPrefix + "data/looseSelectionOutput4To6/SoccerPlayer.txt"));
 
-		c.distributeInstances(new Random(100L), 80, 20, 20);
+		c.distributeInstances(new Random(100L), 80, 20, 20, -1);
 
 		c.storeCorpusJavaSerialization(
 				new File(

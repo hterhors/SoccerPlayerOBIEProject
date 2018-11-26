@@ -10,8 +10,11 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
@@ -21,7 +24,9 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 
 import corpus.SampledInstance;
+import de.hterhors.obie.core.evaluation.PRF1;
 import de.hterhors.obie.core.evaluation.PRF1Container;
+import de.hterhors.obie.core.ontology.AbstractIndividual;
 import de.hterhors.obie.core.ontology.AbstractOntologyEnvironment;
 import de.hterhors.obie.core.ontology.OntologyInitializer;
 import de.hterhors.obie.core.projects.AbstractProjectEnvironment;
@@ -37,14 +42,16 @@ import de.hterhors.obie.ml.activelearning.IActiveLearningDocumentRanker;
 import de.hterhors.obie.ml.corpus.BigramInternalCorpus;
 import de.hterhors.obie.ml.corpus.distributor.AbstractCorpusDistributor;
 import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor;
-import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor.Builder.EMode;
+import de.hterhors.obie.ml.corpus.distributor.FoldCrossCorpusDistributor;
 import de.hterhors.obie.ml.run.AbstractRunner;
 import de.hterhors.obie.ml.run.StandardRERunner;
 import de.hterhors.obie.ml.run.eval.EvaluatePrediction;
 import de.hterhors.obie.ml.run.param.RunParameter;
 import de.hterhors.obie.ml.run.param.RunParameter.Builder;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
+import de.hterhors.obie.ml.templates.CooccurrenceTemplate;
 import de.hterhors.obie.ml.templates.FrequencyTemplate;
+import de.hterhors.obie.ml.templates.GenericMainTemplatePriorTemplate;
 import de.hterhors.obie.ml.templates.InBetweenContextTemplate;
 import de.hterhors.obie.ml.templates.InterTokenTemplate;
 import de.hterhors.obie.ml.templates.LocalTemplate;
@@ -57,9 +64,10 @@ import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerOntologyE
 import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerProjectEnvironment;
 import de.hterhors.obie.projects.soccerplayer.ie.ner.regex.SoccerPlayerRegExNEL;
 import de.hterhors.obie.projects.soccerplayer.ie.parameter.SoccerPlayerParameterQuickAccess;
+import de.hterhors.obie.projects.soccerplayer.ie.templates.BirthDeathYearPairTemplate;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.BirthDeathYearTemplate;
-import de.hterhors.obie.projects.soccerplayer.ie.templates.SoccerPlayerPriorTemplate;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
 import learning.Trainer;
 
 /**
@@ -80,7 +88,7 @@ import learning.Trainer;
  * @author hterhors
  *
  */
-public class StartExtraction {
+public class SoccerPlayerExtraction {
 
 	private static final String DEFAULT_ACTIVE_LEARNING_STRATEGY = "random";
 	private static final String DEFAULT_ACTIVE_LEARNING_SEED = "200";
@@ -106,12 +114,14 @@ public class StartExtraction {
 		log.info("3) argument: Random inital seed");
 		log.info("4) argument: Number of N-best documents for entropy");
 
-		final File printResults = new File(args.length == 0 ? DEFAULT_RESULT_FILE_NAME : args[0]);
+		final File printResults = new File(args.length < 1 ? DEFAULT_RESULT_FILE_NAME : args[0]);
 		final String acMode = args.length < 2 ? DEFAULT_ACTIVE_LEARNING_STRATEGY : args[1];
 		final long seed = Long.parseLong(args.length < 3 ? DEFAULT_ACTIVE_LEARNING_SEED : args[2]);
+
 		if (args.length >= 4) {
 			FullDocumentEntropyRanker.N = Integer.parseInt(args[3]);
 		}
+
 		log.info("Store results into: " + printResults);
 		log.info("Active Learning Modus: " + acMode);
 
@@ -120,7 +130,7 @@ public class StartExtraction {
 			System.exit(1);
 		}
 
-		new StartExtraction(acMode, printResults, seed);
+		new SoccerPlayerExtraction(acMode, printResults, seed);
 
 	}
 
@@ -128,20 +138,22 @@ public class StartExtraction {
 	 * The runID. This serves as an identifier for locating and saving the model. If
 	 * anything was changed during the development the runID should be reset.
 	 */
-//	private static String runID = "Objective1";
+//	private static String runID = "randomRun1292562246";
 	private static String runID = "randomRun" + new Random().nextInt();
 
 	/**
 	 * The project environment.
 	 */
-	private final AbstractProjectEnvironment projectEnvironment = SoccerPlayerProjectEnvironment.getInstance();
+	private final AbstractProjectEnvironment<ISoccerPlayerThing> projectEnvironment = SoccerPlayerProjectEnvironment
+			.getInstance();
 
 	/**
 	 * The ontology environment.
 	 */
 	private final AbstractOntologyEnvironment ontologyEnvironment = SoccerPlayerOntologyEnvironment.getInstance();
 
-	public StartExtraction(String acMode, File printResults, final long seed) throws Exception {
+	public SoccerPlayerExtraction(String acMode, File printResults, final long seed) throws Exception {
+
 		{
 			OntologyInitializer.initializeOntology(SoccerPlayerOntologyEnvironment.getInstance());
 		}
@@ -166,18 +178,15 @@ public class StartExtraction {
 
 		if (!predict) {
 
-			/**
-			 * Whether you want to start active learning procedure or normal training
-			 */
-			boolean activeLearning = parameter.corpusDistributor instanceof ActiveLearningDistributor;
-
 			/*
 			 * train and/or test on existing corpus.
 			 */
 //			reverseEngeneerACLearning(runner,seed);
 
-			if (activeLearning) {
+			if (parameter.corpusDistributor instanceof ActiveLearningDistributor) {
 				activeLearning(runner, acMode, printResults, seed);
+			} else if (parameter.corpusDistributor instanceof FoldCrossCorpusDistributor) {
+				nFoldCrossValidation(runner);
 			} else {
 				trainTest(runner);
 			}
@@ -218,12 +227,18 @@ public class StartExtraction {
 		 * documents before and redistribute to train (80%), dev(0%) and test(20%). (You
 		 * may change that distribution by building your own distributor...
 		 */
-//		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.predefinedDistributor
-//				.originDist(1F);
+		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.predefinedDistributor
+				.originDist(1F);
 
-		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder()
-				.setMode(EMode.PERCENTAGE).setBPercentage(0.1f).setSeed(seed).setCorpusSizeFraction(1F)
-				.setInitialTrainingSelectionFraction(0.15f).setTrainingProportion(80).setTestProportion(20).build();
+//		final AbstractCorpusDistributor corpusDistributor = new FoldCrossCorpusDistributor.Builder().setN(10)
+//		.setSeed(1L).setCorpusSizeFraction(0.2F).build();
+
+//		final AbstractCorpusDistributor corpusDistributor = new ShuffleCorpusDistributor.Builder()
+//				.setCorpusSizeFraction(0.05F).setSeed(100).setTrainingProportion(80).setTestProportion(20).build();
+
+//		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder()
+//				.setMode(EMode.PERCENTAGE).setBPercentage(0.11f).setSeed(seed).setCorpusSizeFraction(1F)
+//				.setInitialTrainingSelectionFraction(0.1f).setTrainingProportion(80).setTestProportion(20).build();
 
 //		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder().setB(25)
 //				.setSeed(200L).setCorpusSizeFraction(1F).setInitialTrainingSelectionFraction(0.0855f)
@@ -266,9 +281,15 @@ public class StartExtraction {
 		 * SoccerPlayer specific templates:
 		 */
 		templates.add(BirthDeathYearTemplate.class);
-		templates.add(SoccerPlayerPriorTemplate.class);
+		templates.add(BirthDeathYearPairTemplate.class);
+////		templates.add(SoccerPlayerPriorTemplate.class);
+		templates.add(GenericMainTemplatePriorTemplate.class);
 
 		// TODO: Add your own templates
+
+		templates.add(CooccurrenceTemplate.class);
+//		templates.add(DocumentClassificationTemplate.class);
+//		templates.add(LevenshteinTemplate.class);
 
 		/*
 		 * Predefined generic templates:
@@ -277,6 +298,7 @@ public class StartExtraction {
 		templates.add(TokenContextTemplate.class);
 		templates.add(InterTokenTemplate.class);
 		templates.add(InBetweenContextTemplate.class);
+
 		templates.add(LocalTemplate.class);
 
 		/*
@@ -608,4 +630,153 @@ public class StartExtraction {
 
 	}
 
+	private void nFoldCrossValidation(AbstractRunner runner) throws Exception {
+		PRF1Container mean = new PRF1Container(0, 0, 0);
+
+		long allTime = System.currentTimeMillis();
+
+		Map<AbstractIndividual, PRF1> results = new HashMap<>();
+		while (runner.corpusProvider.nextFold()) {
+			log.info("#############################");
+			log.info("New " + ((FoldCrossCorpusDistributor) runner.getParameter().corpusDistributor).n
+					+ "-fold cross validation iteration: "
+					+ String.valueOf(runner.corpusProvider.getCurrentFoldIndex() + 1));
+			long time = System.currentTimeMillis();
+
+			log.info("Number of training data: "
+					+ runner.corpusProvider.getTrainingCorpus().getInternalInstances().size());
+			log.info("Number of test data: " + runner.corpusProvider.getTestCorpus().getInternalInstances().size());
+
+//			System.out.println("Set training instances to:");
+//			runner.corpusProvider.getTrainingCorpus().getInternalInstances().forEach(System.out::println);
+//			System.out.println("Set test instances to:");
+//			runner.corpusProvider.getTestCorpus().getInternalInstances().forEach(System.out::println);
+			log.info("#############################");
+//			try {
+//				runner.loadModel();
+//			} catch (Exception e) {
+//				System.err.println(e.getMessage());
+//				runner.train();
+//			}
+
+			runner.clean(getParameter(100L));
+			runner.train();
+
+			List<SampledInstance<OBIEInstance, InstanceTemplateAnnotations, OBIEState>> predictions = runner
+					.testOnTest();
+
+			PRF1Container pfr1 = EvaluatePrediction.evaluateREPredictions(runner.getObjectiveFunction(), predictions,
+					runner.getParameter().evaluator);
+
+			mean = new PRF1Container((mean.p + pfr1.p) / 2, (mean.r + pfr1.r) / 2, (mean.f1 + pfr1.f1) / 2);
+			log.info("Time needed: " + (System.currentTimeMillis() - time));
+
+		}
+
+		log.info(((FoldCrossCorpusDistributor) runner.getParameter().corpusDistributor).n
+				+ " fold cross validation mean: " + mean);
+
+		for (Entry<AbstractIndividual, PRF1> ie : results.entrySet()) {
+			log.info(ie.getKey().name + "-->" + ie.getValue().getF1());
+		}
+
+		log.info("Time needed: " + (System.currentTimeMillis() - allTime));
+
+	}
 }
+
+//without cooc.
+//p: 0.8122975277067348	r: 0.780333292737385	f1: 0.7959946477754023
+//Evaluate predictions per slot:
+//
+//
+//#############################
+//Restricted to: Template-Type
+//Mean-Precisiion = 0.9667519181585678
+//Mean-Recall = 0.9667519181585678
+//Mean-F1 = 0.9667519181585678
+//#############################
+//
+//
+//#############################
+//Restricted to: Field(s):birthPlaces
+//Mean-Precisiion = 0.6892583120204604
+//Mean-Recall = 0.530690537084399
+//Mean-F1 = 0.581841432225063
+//#############################
+//
+//
+//#############################
+//Restricted to: Template-Type & Field(s):birthPlaces
+//Mean-Precisiion = 0.8439897698209716
+//Mean-Recall = 0.7438192668371691
+//Mean-F1 = 0.7726342710997459
+//#############################
+//
+//
+//#############################
+//Restricted to: Field(s):birthYear
+//Mean-Precisiion = 0.9923273657289002
+//Mean-Recall = 0.9923273657289002
+//Mean-F1 = 0.9923273657289002
+//#############################
+//
+//
+//#############################
+//Restricted to: Template-Type & Field(s):birthYear
+//Mean-Precisiion = 0.979539641943734
+//Mean-Recall = 0.979539641943734
+//Mean-F1 = 0.979539641943734
+//#############################
+//
+//
+//#############################
+//Restricted to: Field(s):deathYear
+//Mean-Precisiion = 0.8644501278772379
+//Mean-Recall = 0.8644501278772379
+//Mean-F1 = 0.8644501278772379
+//#############################
+//
+//
+//#############################
+//Restricted to: Template-Type & Field(s):deathYear
+//Mean-Precisiion = 0.9156010230179028
+//Mean-Recall = 0.9808184143222506
+//Mean-F1 = 0.9373401534526856
+//#############################
+//
+//
+//#############################
+//Restricted to: Field(s):positionAmerican_football_positions
+//Mean-Precisiion = 0.7813299232736572
+//Mean-Recall = 0.7706734867860189
+//Mean-F1 = 0.7736572890025577
+//#############################
+//
+//
+//#############################
+//Restricted to: Template-Type & Field(s):positionAmerican_football_positions
+//Mean-Precisiion = 0.9288150042625745
+//Mean-Recall = 0.9087809036658144
+//Mean-F1 = 0.9016197783461214
+//#############################
+//
+//
+//#############################
+//Restricted to: Field(s):teamSoccerClubs
+//Mean-Precisiion = 0.6240409207161125
+//Mean-Recall = 0.616794543904518
+//Mean-F1 = 0.5988917306052863
+//#############################
+//
+//
+//#############################
+//Restricted to: Template-Type & Field(s):teamSoccerClubs
+//Mean-Precisiion = 0.7493606138107419
+//Mean-Recall = 0.7570332480818416
+//Mean-F1 = 0.737535014005603
+//#############################
+//--------------randomRun-1710092315---------------
+//Total training time: 1043465 ms.
+//Total test time: 32311 ms.
+//Total time: PT17M55.776S

@@ -7,11 +7,10 @@ import java.util.Set;
 
 import de.hterhors.obie.ml.corpus.distributor.AbstractCorpusDistributor;
 import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor;
+import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor.Builder.EMode;
 import de.hterhors.obie.ml.corpus.distributor.FoldCrossCorpusDistributor;
 import de.hterhors.obie.ml.corpus.distributor.OriginalCorpusDistributor;
 import de.hterhors.obie.ml.corpus.distributor.ShuffleCorpusDistributor;
-import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor.Builder.EMode;
-import de.hterhors.obie.ml.evaluation.DatatypeOrListConditon;
 import de.hterhors.obie.ml.evaluation.evaluator.CartesianSearchEvaluator;
 import de.hterhors.obie.ml.evaluation.evaluator.IOBIEEvaluator;
 import de.hterhors.obie.ml.explorer.AbstractOBIEExplorer;
@@ -56,7 +55,7 @@ public class SoccerPlayerParameterQuickAccess {
 		final String personalNote = "Soccer player corpus wih max 5 elements per slot";
 
 		/**
-		 * the rott directory to where the model should be saved.
+		 * the root directory to where the model should be saved.
 		 */
 		final File rootDirectory = new File("./");
 
@@ -150,11 +149,11 @@ public class SoccerPlayerParameterQuickAccess {
 		 *
 		 */
 //		final IOBIEEvaluator evaluator = new BeamSearchEvaluator(3, enableEvaluationCaching, maxEvaluationDepth,
-//				penalizeCardinality, investigationRestiction, new DatatypeOrListConditon(), maxNumberOfEntityElements,
+//				penalizeCardinality, investigationRestiction,  l -> false, maxNumberOfEntityElements,
 //				ignoreEmptyInstancesOnEvaluation);
 
 		final IOBIEEvaluator evaluator = new CartesianSearchEvaluator(enableEvaluationCaching, maxEvaluationDepth,
-				penalizeCardinality, investigationRestiction, new DatatypeOrListConditon(), maxNumberOfEntityElements,
+				penalizeCardinality, investigationRestiction, l -> false, maxNumberOfEntityElements,
 				ignoreEmptyInstancesOnEvaluation);
 
 		/**

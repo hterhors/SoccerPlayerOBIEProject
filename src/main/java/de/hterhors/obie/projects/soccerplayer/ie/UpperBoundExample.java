@@ -47,10 +47,14 @@ public class UpperBoundExample {
 
 		paramBuilder.setProjectEnvironment(SoccerPlayerProjectEnvironment.getInstance());
 		paramBuilder.setOntologyEnvironment(SoccerPlayerOntologyEnvironment.getInstance());
-		paramBuilder
-				.setCorpusDistributor(SoccerPlayerParameterQuickAccess.predefinedDistributor.originDist(1.0F));
-		paramBuilder.addTemplate(BirthDeathYearTemplate.class);
+		paramBuilder.setCorpusDistributor(SoccerPlayerParameterQuickAccess.predefinedDistributor.originDist(1.0F));
 
 		return paramBuilder;
 	}
 }
+
+//UpperBound = PRF1 [tp=10953.0, fp=0.0, fn=730.0, getF1()=0.9677504859515815, getRecall()=0.9375160489600274, getPrecision()=1.0, getJaccard()=0.9375160489600274]
+//Failures:
+//class de.hterhors.obie.projects.soccerplayer.ontology.classes.Place=364
+//class de.hterhors.obie.projects.soccerplayer.ontology.classes.American_football_positions=223
+//class de.hterhors.obie.projects.soccerplayer.ontology.classes.SoccerClub=128

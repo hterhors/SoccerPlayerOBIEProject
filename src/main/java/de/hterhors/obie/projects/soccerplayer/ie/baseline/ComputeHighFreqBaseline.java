@@ -58,3 +58,9 @@ public class ComputeHighFreqBaseline {
 
 	}
 }
+//Most frequent baseline mean-P = 0.3485754985754987
+//Most frequent baseline mean-R = 0.32903269569936244
+//Most frequent baseline mean-F1 = 0.3355874419976986
+//Time needed: 125
+//10 fold cross validation mean: p: 0.3490444433315528	r: 0.32709665160023244	f1: 0.33469538517427666
+//Time needed: 15940

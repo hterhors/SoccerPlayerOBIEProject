@@ -9,7 +9,7 @@ import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
 import de.hterhors.obie.core.projects.AbstractProjectEnvironment;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
 
-public class SoccerPlayerProjectEnvironment extends AbstractProjectEnvironment {
+public class SoccerPlayerProjectEnvironment extends AbstractProjectEnvironment<ISoccerPlayerThing> {
 
 	/**
 	 * 
@@ -26,7 +26,7 @@ public class SoccerPlayerProjectEnvironment extends AbstractProjectEnvironment {
 
 //	private final File rawCorpusFile = new File("corpus/generic_soccerPlayer3To6Prop_v2.bin");
 //	private final File rawCorpusFile = new File("corpus/generic_soccerPlayer4To4Prop_v2.bin");
-	private final File rawCorpusFile = new File("corpus/raw_corpus_soccerPlayer4To6Prop_v2.bin");
+	private final File rawCorpusFile = new File("corpus/raw_corpus_soccerPlayer4To6Prop_v4.bin");
 
 	private final File projectCorpusDirectory = new File("bigram/corpus/");
 
@@ -36,7 +36,7 @@ public class SoccerPlayerProjectEnvironment extends AbstractProjectEnvironment {
 	}
 
 	@Override
-	public Class<? extends IOBIEThing> getOntologyThingInterface() {
+	public Class<? extends ISoccerPlayerThing> getOntologyThingInterface() {
 		return ISoccerPlayerThing.class;
 	}
 

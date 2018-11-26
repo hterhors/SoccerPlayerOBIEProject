@@ -51,6 +51,9 @@ public class PrintBigramCorpusExample {
 
 		for (OBIEInstance instance : corpusProvider.getFullCorpus().getInternalInstances()) {
 
+//			if (!instance.getName().endsWith("Elliott_Whitehouse"))
+//				continue;
+
 			System.out.println("________" + instance.getName() + "________");
 			System.out.println(instance.getContent());
 			System.out.println("____________Template Annotation(s)____________");

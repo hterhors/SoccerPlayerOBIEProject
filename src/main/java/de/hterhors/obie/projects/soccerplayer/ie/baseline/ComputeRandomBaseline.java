@@ -66,3 +66,10 @@ public class ComputeRandomBaseline {
 
 	}
 }
+//Random baseline mean-P = 0.25997998914665593
+//Random baseline mean-R = 0.20701227784561116
+//Random baseline mean-F1 = 0.22641510422430478
+//Time needed: 128
+//10 fold cross validation mean: 
+//p: 0.2599305946392536	r: 0.20323367420942295	f1: 0.22415451213200396
+//Time needed: 16720

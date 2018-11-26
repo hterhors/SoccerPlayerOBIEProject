@@ -1,50 +1,39 @@
 package de.hterhors.obie.projects.soccerplayer.ontology.classes;
 
-import java.lang.NoSuchMethodException;
-import de.hterhors.obie.core.ontology.interfaces.IDatatype;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.*;
-import de.hterhors.obie.core.ontology.annotations.SuperRootClasses;
-import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
-import java.util.HashMap;
-import de.hterhors.obie.core.ontology.annotations.OntologyModelContent;
-import java.util.ArrayList;
-import org.apache.jena.rdf.model.Model;
-import de.hterhors.obie.core.ontology.annotations.AssignableSubInterfaces;
-import de.hterhors.obie.core.ontology.annotations.ImplementationClass;
-import org.apache.jena.rdf.model.Resource;
-import java.util.Map;
-import java.lang.InstantiationException;
-import java.lang.SecurityException;
-import de.hterhors.obie.core.ontology.annotations.DirectSiblings;
-import java.lang.IllegalAccessException;
-import de.hterhors.obie.core.ontology.annotations.AssignableSubClasses;
-import de.hterhors.obie.core.ontology.IndividualFactory;
-import de.hterhors.obie.core.ontology.annotations.DirectInterface;
-import de.hterhors.obie.core.ontology.annotations.RelationTypeCollection;
-import de.hterhors.obie.core.ontology.annotations.DatatypeProperty;
-import java.lang.IllegalArgumentException;
-import de.hterhors.obie.core.ontology.annotations.TextMention;
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
+
 import de.hterhors.obie.core.ontology.AbstractIndividual;
+import de.hterhors.obie.core.ontology.IndividualFactory;
+import de.hterhors.obie.core.ontology.annotations.AssignableSubClasses;
+import de.hterhors.obie.core.ontology.annotations.DirectInterface;
+import de.hterhors.obie.core.ontology.annotations.DirectSiblings;
+import de.hterhors.obie.core.ontology.annotations.SuperRootClasses;
+import de.hterhors.obie.core.ontology.annotations.TextMention;
+import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerClub;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
 
 /**
 *
 * @author hterhors
 *
 *
-*Nov 7, 2018
+*Nov 13, 2018
 */
-
-@DirectSiblings(get={})
 
 @SuperRootClasses(get={SoccerClub.class, })
 
+@DirectInterface(get=ISoccerClub.class)
+
 @AssignableSubClasses(get={})
 
-@DirectInterface(get=ISoccerClub.class)
+@DirectSiblings(get={})
  public class SoccerClub implements ISoccerClub{
 
 final public static IndividualFactory<SoccerClubIndividual> individualFactory = new IndividualFactory<>();
@@ -73,15 +62,14 @@ static class SoccerClubIndividual extends AbstractIndividual {
 	private Integer characterOffset;
 	private Integer characterOnset;
 	final static private Map<IOBIEThing, String> resourceFactory = new HashMap<>();
-	final static private long serialVersionUID = 3L;
+	final static private long serialVersionUID = 4L;
 	@TextMention
 final private String textMention;
 
 
-	public SoccerClub(String individualURI, String textMention){
-this.individual = 
-				SoccerClub.individualFactory.getIndividualByURI(individualURI);
-this.textMention = textMention;
+	public SoccerClub(){
+this.individual = null;
+this.textMention = null;
 }
 	public SoccerClub(SoccerClub soccerClub)throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,NoSuchMethodException, SecurityException{
 this.individual = soccerClub.individual;
@@ -89,9 +77,10 @@ this.characterOffset = soccerClub.getCharacterOffset();
 this.characterOnset = soccerClub.getCharacterOnset();
 this.textMention = soccerClub.getTextMention();
 }
-	public SoccerClub(){
-this.individual = null;
-this.textMention = null;
+	public SoccerClub(String individualURI, String textMention){
+this.individual = 
+				SoccerClub.individualFactory.getIndividualByURI(individualURI);
+this.textMention = textMention;
 }
 
 
@@ -115,15 +104,15 @@ if (other.characterOnset!= null)
 return false;
 } else if (!characterOnset.equals(other.characterOnset))
 return false;
-if (textMention == null) {
-if (other.textMention!= null)
-return false;
-} else if (!textMention.equals(other.textMention))
-return false;
 if (characterOffset == null) {
 if (other.characterOffset!= null)
 return false;
 } else if (!characterOffset.equals(other.characterOffset))
+return false;
+if (textMention == null) {
+if (other.textMention!= null)
+return false;
+} else if (!textMention.equals(other.textMention))
 return false;
 return true;
 }
@@ -168,8 +157,8 @@ return ISoccerPlayerThing.RDF_MODEL_NAMESPACE + resourceName;}
 int result = 1;
 result = prime * result + ((this.individual == null) ? 0 : this.individual.hashCode());
 result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
-result = prime * result + ((this.textMention == null) ? 0 : this.textMention.hashCode());
 result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
+result = prime * result + ((this.textMention == null) ? 0 : this.textMention.hashCode());
 return result;}
 	/***/
 @Override
