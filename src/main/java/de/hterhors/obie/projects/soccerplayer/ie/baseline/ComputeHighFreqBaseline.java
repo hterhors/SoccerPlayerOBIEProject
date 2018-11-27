@@ -1,6 +1,6 @@
 package de.hterhors.obie.projects.soccerplayer.ie.baseline;
 
-import de.hterhors.obie.core.evaluation.PRF1Container;
+import de.hterhors.obie.core.evaluation.PRF1;
 import de.hterhors.obie.core.ontology.OntologyInitializer;
 import de.hterhors.obie.ml.corpus.distributor.FoldCrossCorpusDistributor;
 import de.hterhors.obie.ml.run.AbstractRunner;
@@ -21,7 +21,7 @@ public class ComputeHighFreqBaseline {
 	}
 
 	private static void nFoldCrossValidation() throws Exception {
-		PRF1Container mean = new PRF1Container(0, 0, 0);
+		PRF1 mean = new PRF1(0, 0, 0);
 
 		long allTime = System.currentTimeMillis();
 
@@ -46,9 +46,9 @@ public class ComputeHighFreqBaseline {
 			System.out.println("Set test instances to:");
 			runner.corpusProvider.getTestCorpus().getInternalInstances().forEach(System.out::println);
 			System.out.println("#############################");
-			PRF1Container pfr1 = new HighFrequencyBaseline(param).run(runner.corpusProvider.getTestCorpus());
+			PRF1 prf1 = new HighFrequencyBaseline(param).run(runner.corpusProvider.getTestCorpus());
 
-			mean = new PRF1Container((mean.p + pfr1.p) / 2, (mean.r + pfr1.r) / 2, (mean.f1 + pfr1.f1) / 2);
+			mean.add(prf1);
 			System.out.println("Time needed: " + (System.currentTimeMillis() - time));
 
 		}

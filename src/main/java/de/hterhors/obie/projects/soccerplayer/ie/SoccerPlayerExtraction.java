@@ -25,7 +25,6 @@ import org.apache.logging.log4j.core.config.Configurator;
 
 import corpus.SampledInstance;
 import de.hterhors.obie.core.evaluation.PRF1;
-import de.hterhors.obie.core.evaluation.PRF1Container;
 import de.hterhors.obie.core.ontology.AbstractIndividual;
 import de.hterhors.obie.core.ontology.AbstractOntologyEnvironment;
 import de.hterhors.obie.core.ontology.OntologyInitializer;
@@ -116,7 +115,7 @@ public class SoccerPlayerExtraction {
 				"2) argument: mode of active learning, \"random\"(default), \"entropy\", \"entropyAtomic\", \"objective\", \"model\", \"margin\", \"length\" or \"variance\"");
 		log.info("3) argument: Random inital seed");
 		log.info("4) argument: Number of N-best documents for entropy");
-		
+
 		final File printResults = new File(args.length < 1 ? DEFAULT_RESULT_FILE_NAME : args[0]);
 		final String acMode = args.length < 2 ? DEFAULT_ACTIVE_LEARNING_STRATEGY : args[1];
 		final long seed = Long.parseLong(args.length < 3 ? DEFAULT_ACTIVE_LEARNING_SEED : args[2]);
@@ -240,8 +239,8 @@ public class SoccerPlayerExtraction {
 //				.setCorpusSizeFraction(0.05F).setSeed(100).setTrainingProportion(80).setTestProportion(20).build();
 
 		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder()
-				.setMode(EMode.PERCENTAGE).setBPercentage(0.051f).setSeed(20134).setCorpusSizeFraction(1F)
-				.setInitialTrainingSelectionFraction(0.5f).setTrainingProportion(80).setTestProportion(20).build();
+				.setMode(EMode.PERCENTAGE).setBPercentage(0.051f).setSeed(seed).setCorpusSizeFraction(1F)
+				.setInitialTrainingSelectionFraction(0.05f).setTrainingProportion(80).setTestProportion(20).build();
 
 //		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder().setB(25)
 //				.setSeed(200L).setCorpusSizeFraction(1F).setInitialTrainingSelectionFraction(0.0855f)
@@ -394,8 +393,8 @@ public class SoccerPlayerExtraction {
 		 *
 		 * // final PRF1Container overallPRF1 = runner.evaluateOnTest();
 		 */
-		final PRF1Container overallPRF1 = EvaluatePrediction.evaluateREPredictions(runner.objectiveFunction,
-				predictions, runner.getParameter().evaluator);
+		final PRF1 overallPRF1 = EvaluatePrediction.evaluateREPredictions(runner.objectiveFunction, predictions,
+				runner.getParameter().evaluator);
 
 		log.info("Evaluation results on test data:\n" + overallPRF1);
 
@@ -522,12 +521,12 @@ public class SoccerPlayerExtraction {
 			Configurator.setLevel(Trainer.class.getName(), trainerLevel);
 			Configurator.setLevel(AbstractRunner.class.getName(), runnerLevel);
 
-			PRF1Container prf1 = EvaluatePrediction.evaluateREPredictions(runner.getObjectiveFunction(), predictions,
+			PRF1 prf1 = EvaluatePrediction.evaluateREPredictions(runner.getObjectiveFunction(), predictions,
 					runner.getParameter().evaluator);
 
 			final String logPerformance = iterationCounter + "\t"
-					+ runner.corpusProvider.getTrainingCorpus().getInternalInstances().size() + "\t" + prf1.p + "\t"
-					+ prf1.r + "\t" + prf1.f1;
+					+ runner.corpusProvider.getTrainingCorpus().getInternalInstances().size() + "\t"
+					+ prf1.getPrecision() + "\t" + prf1.getRecall() + "\t" + prf1.getF1();
 
 			performances.add(logPerformance);
 			resultPrintStream.println(logPerformance);
@@ -611,18 +610,18 @@ public class SoccerPlayerExtraction {
 			Configurator.setLevel(Trainer.class.getName(), trainerLevel);
 			Configurator.setLevel(AbstractRunner.class.getName(), runnerLevel);
 
-			PRF1Container prf1 = EvaluatePrediction.evaluateREPredictions(runner.getObjectiveFunction(), predictions,
+			PRF1 prf1 = EvaluatePrediction.evaluateREPredictions(runner.getObjectiveFunction(), predictions,
 					runner.getParameter().evaluator);
 
 			final String logPerformance = runner.corpusProvider.getTrainingCorpus().getInternalInstances().size() + "\t"
-					+ prf1.p + "\t" + prf1.r + "\t" + prf1.f1;
+					+ prf1.getPrecision() + "\t" + prf1.getRecall() + "\t" + prf1.getF1();
 
 			log.info("-----------------------------");
 			log.info(logPerformance);
 
 			log.info("-----------------------------");
 
-			sortablePerformances.add(new X(instance.getGoldAnnotation(), prf1.f1, instance.getName()));
+			sortablePerformances.add(new X(instance.getGoldAnnotation(), prf1.getF1(), instance.getName()));
 			Collections.sort(sortablePerformances);
 			sortablePerformances.forEach(log::info);
 			log.info("-----------------------------");
@@ -636,7 +635,7 @@ public class SoccerPlayerExtraction {
 	}
 
 	private void nFoldCrossValidation(AbstractRunner runner) throws Exception {
-		PRF1Container mean = new PRF1Container(0, 0, 0);
+		PRF1 mean = new PRF1(0, 0, 0);
 
 		long allTime = System.currentTimeMillis();
 
@@ -670,10 +669,10 @@ public class SoccerPlayerExtraction {
 			List<SampledInstance<OBIEInstance, InstanceTemplateAnnotations, OBIEState>> predictions = runner
 					.testOnTest();
 
-			PRF1Container pfr1 = EvaluatePrediction.evaluateREPredictions(runner.getObjectiveFunction(), predictions,
+			PRF1 prf1 = EvaluatePrediction.evaluateREPredictions(runner.getObjectiveFunction(), predictions,
 					runner.getParameter().evaluator);
 
-			mean = new PRF1Container((mean.p + pfr1.p) / 2, (mean.r + pfr1.r) / 2, (mean.f1 + pfr1.f1) / 2);
+			mean.add(prf1);
 			log.info("Time needed: " + (System.currentTimeMillis() - time));
 
 		}
