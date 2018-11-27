@@ -33,6 +33,7 @@ import de.hterhors.obie.core.projects.AbstractProjectEnvironment;
 import de.hterhors.obie.ml.activelearning.FullDocumentAtomicChangeEntropyRanker;
 import de.hterhors.obie.ml.activelearning.FullDocumentEntropyRanker;
 import de.hterhors.obie.ml.activelearning.FullDocumentLengthRanker;
+import de.hterhors.obie.ml.activelearning.FullDocumentMarginBasedRanker;
 import de.hterhors.obie.ml.activelearning.FullDocumentModelScoreRanker;
 import de.hterhors.obie.ml.activelearning.FullDocumentObjectiveScoreRanker;
 import de.hterhors.obie.ml.activelearning.FullDocumentRandFillerRanker;
@@ -42,6 +43,7 @@ import de.hterhors.obie.ml.activelearning.IActiveLearningDocumentRanker;
 import de.hterhors.obie.ml.corpus.BigramInternalCorpus;
 import de.hterhors.obie.ml.corpus.distributor.AbstractCorpusDistributor;
 import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor;
+import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor.Builder.EMode;
 import de.hterhors.obie.ml.corpus.distributor.FoldCrossCorpusDistributor;
 import de.hterhors.obie.ml.run.AbstractRunner;
 import de.hterhors.obie.ml.run.StandardRERunner;
@@ -101,6 +103,7 @@ public class SoccerPlayerExtraction {
 		if (args == null || args.length == 0)
 //			args = new String[] { "varianceResults", "variance" };
 			args = new String[] { "randomResults", "random" };
+//			args = new String[] { "marginResults", "margin" };
 //			args = new String[] { "lengthResults", "length" };
 //			args = new String[] { "rndFillerResults", "rndFiller" };
 //			args = new String[] { "entropyResults", "entropy" };
@@ -110,10 +113,10 @@ public class SoccerPlayerExtraction {
 
 		log.info("1) argument: file to store results");
 		log.info(
-				"2) argument: mode of active learning, \"random\"(default), \"entropy\", \"entropyAtomic\", \"objective\", \"model\", \"length\" or \"variance\"");
+				"2) argument: mode of active learning, \"random\"(default), \"entropy\", \"entropyAtomic\", \"objective\", \"model\", \"margin\", \"length\" or \"variance\"");
 		log.info("3) argument: Random inital seed");
 		log.info("4) argument: Number of N-best documents for entropy");
-
+		
 		final File printResults = new File(args.length < 1 ? DEFAULT_RESULT_FILE_NAME : args[0]);
 		final String acMode = args.length < 2 ? DEFAULT_ACTIVE_LEARNING_STRATEGY : args[1];
 		final long seed = Long.parseLong(args.length < 3 ? DEFAULT_ACTIVE_LEARNING_SEED : args[2]);
@@ -227,8 +230,8 @@ public class SoccerPlayerExtraction {
 		 * documents before and redistribute to train (80%), dev(0%) and test(20%). (You
 		 * may change that distribution by building your own distributor...
 		 */
-		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.predefinedDistributor
-				.originDist(1F);
+//		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.predefinedDistributor
+//				.originDist(0.2F);
 
 //		final AbstractCorpusDistributor corpusDistributor = new FoldCrossCorpusDistributor.Builder().setN(10)
 //		.setSeed(1L).setCorpusSizeFraction(0.2F).build();
@@ -236,9 +239,9 @@ public class SoccerPlayerExtraction {
 //		final AbstractCorpusDistributor corpusDistributor = new ShuffleCorpusDistributor.Builder()
 //				.setCorpusSizeFraction(0.05F).setSeed(100).setTrainingProportion(80).setTestProportion(20).build();
 
-//		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder()
-//				.setMode(EMode.PERCENTAGE).setBPercentage(0.11f).setSeed(seed).setCorpusSizeFraction(1F)
-//				.setInitialTrainingSelectionFraction(0.1f).setTrainingProportion(80).setTestProportion(20).build();
+		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder()
+				.setMode(EMode.PERCENTAGE).setBPercentage(0.051f).setSeed(20134).setCorpusSizeFraction(1F)
+				.setInitialTrainingSelectionFraction(0.5f).setTrainingProportion(80).setTestProportion(20).build();
 
 //		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder().setB(25)
 //				.setSeed(200L).setCorpusSizeFraction(1F).setInitialTrainingSelectionFraction(0.0855f)
@@ -451,6 +454,8 @@ public class SoccerPlayerExtraction {
 			ranker = new FullDocumentModelScoreRanker(runner);
 		} else if (acMode.equals("length")) {
 			ranker = new FullDocumentLengthRanker(runner);
+		} else if (acMode.equals("margin")) {
+			ranker = new FullDocumentMarginBasedRanker(runner);
 		} else {
 			ranker = null;
 			log.error("unkown active learning mode");
