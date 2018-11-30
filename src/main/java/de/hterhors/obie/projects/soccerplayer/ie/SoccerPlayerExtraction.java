@@ -45,7 +45,7 @@ import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor;
 import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor.Builder.EMode;
 import de.hterhors.obie.ml.corpus.distributor.FoldCrossCorpusDistributor;
 import de.hterhors.obie.ml.run.AbstractRunner;
-import de.hterhors.obie.ml.run.StandardRERunner;
+import de.hterhors.obie.ml.run.DefaultSlotFillingRunner;
 import de.hterhors.obie.ml.run.eval.EvaluatePrediction;
 import de.hterhors.obie.ml.run.param.RunParameter;
 import de.hterhors.obie.ml.run.param.RunParameter.Builder;
@@ -170,7 +170,7 @@ public class SoccerPlayerExtraction {
 		/*
 		 * Created new standard Relation Extraction runner.
 		 */
-		AbstractRunner runner = new StandardRERunner(parameter);
+		AbstractRunner runner = new DefaultSlotFillingRunner(parameter);
 
 		/**
 		 * Whether you want to run the prediction of new texts or train and test a model
