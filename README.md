@@ -12,8 +12,6 @@ git clone https://github.com/hterhors/SoccerPlayerOBIEProject.git;
 
 git clone https://github.com/hterhors/OBIECore.git;
 
-git clone https://github.com/hterhors/SoccerPlayerOntology.git;
-
 git clone https://github.com/hterhors/OWL2JavaBin.git;
 
 git clone https://github.com/hterhors/OBIEMachineLearningFramework.git;
@@ -36,7 +34,7 @@ In Eclipse right-click -> Maven -> "Update Project..." select all projects.
 
   This needs to be done only once because the provided corpus does not contain any entity annotations on textual level.
 
-6)  Execute main in *ie.StartExtraction.java* 
+6)  Execute main in *ie.LightSoccerPlayerExtraction.java* for the light version ( includes just regular train/test no active learning nfold cross etc. This can be found in *ie.SoccerPlayerExtraction* which is the development class ) 
 
 **Goals of this project**
 
@@ -79,11 +77,9 @@ You need the following dependent projects:
 2)  BIRE https://github.com/ag-sc/BIRE  (**simplified-api branch**)
 3)  OBIEMLFramework https://github.com/hterhors/OBIEMachineLearningFrameWork
 4)  OWL2JavaBin https://github.com/hterhors/OWL2JavaBin
-5)  SoccerPlayerOntology https://github.com/hterhors/SoccerPlayerOntology
 
 **Related Projects, Implementations / Examples**
 1) OWL2JavaBin https://github.com/hterhors/OWL2JavaBin is a tool that can be used to convert ontologies written in OWL into java binaries which are used in the OBIE-ML-Framework.
-2) SoccerPlayerOntology https://github.com/hterhors/SoccerPlayerOntology is an example ontology that was generated with OWL2javaBin. It contains the OWL file and the resulting java binaries. 
 3) SoccerPlayerOBIEProject https://github.com/hterhors/SoccerPlayerOBIEProject is a project that works with the generated SoccerPalyerOntology. It contains example source code for
   i) the information extraction task using the OBIE MachineLearningFramework (incl. template / feature generation), 
   ii) how to convert an OWL to java binaries. 
@@ -96,7 +92,7 @@ This is a simple example project that uses the automatically generated SoccerPla
 
 This projects contains example classes to create the SoccerPlayerOntology and use it in the OBIE Machine Learning Framework.
 
-The class *StartExtraction* is the main class to start the relation extraction. It depends on a parameter providing class *SoccerPlayerParameterQuickAccess* and on the project environment *SoccerPlayerProjectEnvironment*. 
+The class *LightSoccerPlayerExtraction* is the main class to start the relation extraction. It depends on a parameter providing class *SoccerPlayerParameterQuickAccess* and on the project environment *SoccerPlayerProjectEnvironment*. 
 
 The class *SoccerPlayerProjectEnvironment* determines all environment-parameters such as corpus locations, ontology version etc. 
 
@@ -105,7 +101,7 @@ The class *SoccerPlayerParameterQuickAccess* contains various parameters that ca
 Templates (features) can be found in the template package. In this example project only 2 templates exist: 
 *BirthYearTemplate* and *PriorTemplate*. The functionality and features are directly described in classes. 
 
-In OBIE, we distinguish between two types of properties that needs to be filled.
+In OBIE, we distinguish between two types of properties that need to be filled.
 
 1)  ObjectProperties (cf. OWL-definition https://www.w3.org/TR/owl-ref/#ObjectProperty-def) can be filled with ontology classes, or NamedIndividuals. Occurrences of classes and named individuals can be provided by some named entity recognition framework. 
 
