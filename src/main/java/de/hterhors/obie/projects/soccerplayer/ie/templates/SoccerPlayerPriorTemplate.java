@@ -10,10 +10,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.hterhors.obie.core.ontology.AbstractIndividual;
+import de.hterhors.obie.core.ontology.ReflectionUtils;
 import de.hterhors.obie.core.ontology.interfaces.IDatatype;
 import de.hterhors.obie.ml.run.param.RunParameter;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
-import de.hterhors.obie.ml.utils.ReflectionUtils;
 import de.hterhors.obie.ml.variables.OBIEState;
 import de.hterhors.obie.ml.variables.TemplateAnnotation;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.SoccerPlayerPriorTemplate.Scope;
@@ -200,7 +200,7 @@ public class SoccerPlayerPriorTemplate extends AbstractOBIETemplate<Scope> {
 	 */
 	private Scope getDatatypeScope(String slotIdentifier, IDatatype datatypeSlotValue) {
 		final Set<String> distinctValues = new HashSet<>();
-		distinctValues.add(datatypeSlotValue.getSemanticValue());
+		distinctValues.add(datatypeSlotValue.getInterpretedValue());
 		return new Scope(this, slotIdentifier, distinctValues);
 	}
 

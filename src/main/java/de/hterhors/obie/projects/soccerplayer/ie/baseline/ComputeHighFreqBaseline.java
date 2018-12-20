@@ -25,7 +25,7 @@ public class ComputeHighFreqBaseline {
 
 		long allTime = System.currentTimeMillis();
 
-		Builder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
+		Builder paramBuilder = SoccerPlayerParameterQuickAccess.getBaseParameter();
 
 		paramBuilder.setCorpusDistributor(SoccerPlayerParameterQuickAccess.predefinedDistributor.foldCrossDist(1F));
 

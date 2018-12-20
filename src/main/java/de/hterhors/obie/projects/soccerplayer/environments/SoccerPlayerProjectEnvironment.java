@@ -20,13 +20,12 @@ public class SoccerPlayerProjectEnvironment extends AbstractProjectEnvironment<I
 
 	private static SoccerPlayerProjectEnvironment instance = new SoccerPlayerProjectEnvironment();
 	/**
-	 * The corpus name prefix.
+	 * The corpus name prefix. Shortly describing the corpus.
 	 */
 	final private static String corpusPrefix = "4To6Props";
 
-//	private final File rawCorpusFile = new File("corpus/generic_soccerPlayer3To6Prop_v2.bin");
-//	private final File rawCorpusFile = new File("corpus/generic_soccerPlayer4To4Prop_v2.bin");
-	private final File rawCorpusFile = new File("corpus/raw_corpus_soccerPlayer4To6Prop_v4.bin");
+	private final File rawCorpusFile = new File(
+			"corpus/raw_corpus_soccerPlayer4To6Prop_v" + SoccerPlayerOntologyEnvironment.version + ".bin");
 
 	private final File projectCorpusDirectory = new File("bigram/corpus/");
 

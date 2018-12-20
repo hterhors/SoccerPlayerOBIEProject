@@ -42,7 +42,6 @@ import de.hterhors.obie.ml.activelearning.IActiveLearningDocumentRanker;
 import de.hterhors.obie.ml.corpus.BigramInternalCorpus;
 import de.hterhors.obie.ml.corpus.distributor.AbstractCorpusDistributor;
 import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor;
-import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor.Builder.EMode;
 import de.hterhors.obie.ml.corpus.distributor.FoldCrossCorpusDistributor;
 import de.hterhors.obie.ml.run.AbstractRunner;
 import de.hterhors.obie.ml.run.DefaultSlotFillingRunner;
@@ -96,12 +95,17 @@ public class SoccerPlayerExtraction {
 	private static final String DEFAULT_RESULT_FILE_NAME = "tmpResultFile";
 
 	protected static Logger log = LogManager.getRootLogger();
+	final private ETemplateMode templateMode;
+
+	enum ETemplateMode {
+		SS, PS, BOTH, NONE;
+	}
 
 	public static void main(String[] args) throws Exception {
 
 		if (args == null || args.length == 0)
 //			args = new String[] { "varianceResults", "variance" };
-			args = new String[] { "randomResults", "random" };
+			args = new String[] { "randomResults", "random", "100", "1", "NONE" };
 //			args = new String[] { "marginResults", "margin" };
 //			args = new String[] { "lengthResults", "length" };
 //			args = new String[] { "rndFillerResults", "rndFiller" };
@@ -115,24 +119,9 @@ public class SoccerPlayerExtraction {
 				"2) argument: mode of active learning, \"random\"(default), \"entropy\", \"entropyAtomic\", \"objective\", \"model\", \"margin\", \"length\" or \"variance\"");
 		log.info("3) argument: Random inital seed");
 		log.info("4) argument: Number of N-best documents for entropy");
+		log.info("5) argument: mode of templates, one of \"SS\", \"PS\", \"BOTH\" or \"NONE\"");
 
-		final File printResults = new File(args.length < 1 ? DEFAULT_RESULT_FILE_NAME : args[0]);
-		final String acMode = args.length < 2 ? DEFAULT_ACTIVE_LEARNING_STRATEGY : args[1];
-		final long seed = Long.parseLong(args.length < 3 ? DEFAULT_ACTIVE_LEARNING_SEED : args[2]);
-
-		if (args.length >= 4) {
-			FullDocumentEntropyRanker.N = Integer.parseInt(args[3]);
-		}
-
-		log.info("Store results into: " + printResults);
-		log.info("Active Learning Modus: " + acMode);
-
-		if (printResults.getParentFile() != null && !printResults.getParentFile().exists()) {
-			log.error("Parent dir does not exist: " + printResults.getParentFile().getCanonicalPath());
-			System.exit(1);
-		}
-
-		new SoccerPlayerExtraction(acMode, printResults, seed);
+		new SoccerPlayerExtraction(args);
 
 	}
 
@@ -140,7 +129,7 @@ public class SoccerPlayerExtraction {
 	 * The runID. This serves as an identifier for locating and saving the model. If
 	 * anything was changed during the development the runID should be reset.
 	 */
-//	private static String runID = "randomRun1292562246";
+//	private static String runID = "randomRun-66039460";
 	private static String runID = "randomRun" + new Random().nextInt();
 
 	/**
@@ -153,8 +142,28 @@ public class SoccerPlayerExtraction {
 	 * The ontology environment.
 	 */
 	private final AbstractOntologyEnvironment ontologyEnvironment = SoccerPlayerOntologyEnvironment.getInstance();
+	final File printResults;
+	final String acMode;
+	final long seed;
 
-	public SoccerPlayerExtraction(String acMode, File printResults, final long seed) throws Exception {
+	public SoccerPlayerExtraction(String[] args) throws Exception {
+
+		printResults = new File(args.length < 1 ? DEFAULT_RESULT_FILE_NAME : args[0]);
+		acMode = args.length < 2 ? DEFAULT_ACTIVE_LEARNING_STRATEGY : args[1];
+		seed = Long.parseLong(args.length < 3 ? DEFAULT_ACTIVE_LEARNING_SEED : args[2]);
+
+		if (args.length >= 4) {
+			FullDocumentEntropyRanker.N = Integer.parseInt(args[3]);
+		}
+		templateMode = ETemplateMode.valueOf(args[4]);
+
+		log.info("Store results into: " + printResults);
+		log.info("Active Learning Modus: " + acMode);
+
+		if (printResults.getParentFile() != null && !printResults.getParentFile().exists()) {
+			log.error("Parent dir does not exist: " + printResults.getParentFile().getCanonicalPath());
+			System.exit(1);
+		}
 
 		{
 			OntologyInitializer.initializeOntology(SoccerPlayerOntologyEnvironment.getInstance());
@@ -165,7 +174,7 @@ public class SoccerPlayerExtraction {
 		/*
 		 * Build parameter.
 		 */
-		RunParameter parameter = getParameter(seed);
+		RunParameter parameter = getParameter();
 
 		/*
 		 * Created new standard Relation Extraction runner.
@@ -186,7 +195,7 @@ public class SoccerPlayerExtraction {
 //			reverseEngeneerACLearning(runner,seed);
 
 			if (parameter.corpusDistributor instanceof ActiveLearningDistributor) {
-				activeLearning(runner, acMode, printResults, seed);
+				activeLearning(runner);
 			} else if (parameter.corpusDistributor instanceof FoldCrossCorpusDistributor) {
 				nFoldCrossValidation(runner);
 			} else {
@@ -202,13 +211,13 @@ public class SoccerPlayerExtraction {
 
 	}
 
-	public RunParameter getParameter(final long seed) {
+	public RunParameter getParameter() {
 		/**
 		 * This parameterBuilder contains standard configurations of the system that are
 		 * used for Relation Extraction tasks. You can but may not change the parameter
 		 * predefined in here unless you know what you are doing!
 		 */
-		final Builder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
+		final Builder paramBuilder = SoccerPlayerParameterQuickAccess.getBaseParameter();
 
 //		InvestigationRestriction investigationRestriction = new InvestigationRestriction(ISoccerPlayer.class, false);
 //
@@ -229,18 +238,19 @@ public class SoccerPlayerExtraction {
 		 * documents before and redistribute to train (80%), dev(0%) and test(20%). (You
 		 * may change that distribution by building your own distributor...
 		 */
-//		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.predefinedDistributor
-//				.originDist(0.2F);
+		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.predefinedDistributor
+				.originDist(1F);
 
 //		final AbstractCorpusDistributor corpusDistributor = new FoldCrossCorpusDistributor.Builder().setN(10)
-//		.setSeed(1L).setCorpusSizeFraction(0.2F).build();
+//		.setSeed(seed).setCorpusSizeFraction(1F).build();
 
-//		final AbstractCorpusDistributor corpusDistributor = new ShuffleCorpusDistributor.Builder()
-//				.setCorpusSizeFraction(0.05F).setSeed(100).setTrainingProportion(80).setTestProportion(20).build();
+//		final AbstractCorpusDistributor corpusDistributor = new ShuffleCorpusDistributor.Builder().setSeed(seed)
+//				.setTrainingProportion(80).setDevelopmentProportion(0).setCorpusSizeFraction(1F).setTestProportion(20)
+//				.build();
 
-		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder()
-				.setMode(EMode.PERCENTAGE).setBPercentage(0.051f).setSeed(seed).setCorpusSizeFraction(1F)
-				.setInitialTrainingSelectionFraction(0.05f).setTrainingProportion(80).setTestProportion(20).build();
+//		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder()
+//				.setMode(EMode.PERCENTAGE).setBPercentage(0.051f).setSeed(seed).setCorpusSizeFraction(1F)
+//				.setInitialTrainingSelectionFraction(0.05f).setTrainingProportion(80).setTestProportion(20).build();
 
 //		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder().setB(25)
 //				.setSeed(200L).setCorpusSizeFraction(1F).setInitialTrainingSelectionFraction(0.0855f)
@@ -282,31 +292,61 @@ public class SoccerPlayerExtraction {
 		/*
 		 * SoccerPlayer specific templates:
 		 */
-		templates.add(BirthDeathYearTemplate.class);
-		templates.add(BirthDeathYearPairTemplate.class);
+		if (true) {
+
+			templates.add(BirthDeathYearTemplate.class);
+			templates.add(BirthDeathYearPairTemplate.class);
 ////		templates.add(SoccerPlayerPriorTemplate.class);
-		templates.add(GenericMainTemplatePriorTemplate.class);
+			templates.add(GenericMainTemplatePriorTemplate.class);
 
-		// TODO: Add your own templates
+			// TODO: Add your own templates
 
-		templates.add(CooccurrenceTemplate.class);
+//			templates.add(KnowledgeBaseTemplate.class);
+
+			templates.add(CooccurrenceTemplate.class);
 //		templates.add(DocumentClassificationTemplate.class);
 //		templates.add(LevenshteinTemplate.class);
 
-		/*
-		 * Predefined generic templates:
-		 */
-		templates.add(FrequencyTemplate.class);
-		templates.add(TokenContextTemplate.class);
-		templates.add(InterTokenTemplate.class);
-		templates.add(InBetweenContextTemplate.class);
+			/*
+			 * Predefined generic templates:
+			 */
+			templates.add(FrequencyTemplate.class);
+			templates.add(TokenContextTemplate.class);
+			templates.add(InterTokenTemplate.class);
+			templates.add(InBetweenContextTemplate.class);
 
-		templates.add(LocalTemplate.class);
+			templates.add(LocalTemplate.class);
 
-		/*
-		 * Templates that capture the cardinality of slots
-		 */
-		templates.add(SlotIsFilledTemplate.class);
+			/*
+			 * Templates that capture the cardinality of slots
+			 */
+			templates.add(SlotIsFilledTemplate.class);
+		} else {
+
+			/*
+			 * DBPedia generic templates:
+			 */
+			if (templateMode == ETemplateMode.SS || templateMode == ETemplateMode.BOTH)
+				templates.add(GenericMainTemplatePriorTemplate.class);
+
+			// TODO: Add your own templates for specific ontologies
+			if (templateMode == ETemplateMode.PS || templateMode == ETemplateMode.BOTH)
+				templates.add(CooccurrenceTemplate.class);
+
+			/*
+			 * Predefined generic templates:
+			 */
+//		templates.add(FrequencyTemplate.class);
+			templates.add(TokenContextTemplate.class);
+			templates.add(InterTokenTemplate.class);
+			templates.add(InBetweenContextTemplate.class);
+			templates.add(LocalTemplate.class);
+
+			/*
+			 * Templates that capture the cardinality of slots
+			 */
+			templates.add(SlotIsFilledTemplate.class);
+		}
 
 		paramBuilder.setTemplates(templates);
 	}
@@ -353,7 +393,7 @@ public class SoccerPlayerExtraction {
 	 * @param runner
 	 * @throws Exception
 	 */
-	private static void trainTest(AbstractRunner runner) throws Exception {
+	private  void trainTest(AbstractRunner runner) throws Exception {
 		log.info("Start training / testing of a model with a given corpus...");
 		final long testTime;
 		final long trainingTime;
@@ -416,6 +456,16 @@ public class SoccerPlayerExtraction {
 		EvaluatePrediction.evaluatePerSlotPredictions(runner.objectiveFunction, predictions,
 				runner.getParameter().evaluator, detailedOutput);
 
+		
+		PrintStream resultPrintStream = new PrintStream(new FileOutputStream(printResults, true));
+		resultPrintStream.println("############Performances: " + runID + "############");
+		resultPrintStream.println("#Model\tPrecision\tRecall\tF1");
+		final String logPerformance = templateMode + "\t" + overallPRF1.getPrecision() + "\t" + overallPRF1.getRecall()
+				+ "\t" + overallPRF1.getF1();
+		resultPrintStream.println(logPerformance);
+
+		resultPrintStream.close();
+		
 		final long tet = (System.currentTimeMillis() - testTime);
 		log.info("--------------" + runID + "---------------");
 
@@ -426,8 +476,7 @@ public class SoccerPlayerExtraction {
 
 	}
 
-	private void activeLearning(AbstractRunner runner, String acMode, File printResults, final long seed)
-			throws Exception {
+	private void activeLearning(AbstractRunner runner) throws Exception {
 
 		runID = acMode + new Random().nextInt();
 
@@ -495,7 +544,7 @@ public class SoccerPlayerExtraction {
 				log.info("New instances:");
 				newTrainingInstances.forEach(s -> log.info(c + "_NEW\t" + s.getName()));
 
-				runner.clean(getParameter(seed));
+				runner.clean(getParameter());
 				runner.train();
 			}
 
@@ -554,7 +603,7 @@ public class SoccerPlayerExtraction {
 	 * @param runner
 	 * @throws Exception
 	 */
-	private void reverseEngeneerACLearning(AbstractRunner runner, final long seed) throws Exception {
+	private void reverseEngeneerACLearning(AbstractRunner runner) throws Exception {
 
 		final List<OBIEInstance> memTrain = new ArrayList<>(
 				runner.corpusProvider.getTrainingCorpus().getInternalInstances());
@@ -595,7 +644,7 @@ public class SoccerPlayerExtraction {
 
 			runner.corpusProvider.trainingCorpus = new BigramInternalCorpus(trainingInstances);
 
-			runner.clean(getParameter(seed));
+			runner.clean(getParameter());
 			runner.train();
 
 			Level trainerLevel = LogManager.getFormatterLogger(Trainer.class.getName()).getLevel();
@@ -663,7 +712,7 @@ public class SoccerPlayerExtraction {
 //				runner.train();
 //			}
 
-			runner.clean(getParameter(100L));
+			runner.clean(getParameter());
 			runner.train();
 
 			List<SampledInstance<OBIEInstance, InstanceTemplateAnnotations, OBIEState>> predictions = runner

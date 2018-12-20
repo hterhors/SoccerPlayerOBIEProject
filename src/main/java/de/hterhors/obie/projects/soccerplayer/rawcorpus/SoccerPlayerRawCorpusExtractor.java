@@ -62,11 +62,18 @@ public class SoccerPlayerRawCorpusExtractor {
 				ontologyEnvironment, interpreter, mainResourceClass, infoBoxConfig, wikiPageConfig) {
 
 			@Override
-			public String mapResources(String resourceName) {
+			public String mapResources(String resourceName, Field slot) {
+
+				if (slot.getName().equals("birthPlaces")) {
+					if (resourceName.matches(".*?(_women's|_men's)?_national.*team")) {
+						resourceName = 	resourceName.replaceAll("(_women's|_men's)?_national_.*_team", "");
+					}
+				}
 				/**
 				 * We do cleaning here e.g. Goalkeeper equals GoalkeeperAssociationFootball
 				 * because there is no reason why there should be 2 types of goal keeper.
 				 */
+
 				if (resourceName.endsWith("Goalkeeper"))
 					return "Goalkeeper_(association_football)";
 				if (resourceName.endsWith("Midfield"))

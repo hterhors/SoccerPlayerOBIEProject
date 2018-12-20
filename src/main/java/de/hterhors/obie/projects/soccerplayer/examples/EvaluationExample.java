@@ -1,5 +1,11 @@
 package de.hterhors.obie.projects.soccerplayer.examples;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import de.hterhors.obie.core.ontology.InvestigationRestriction;
+import de.hterhors.obie.core.ontology.InvestigationRestriction.RestrictedField;
 import de.hterhors.obie.core.ontology.OntologyInitializer;
 import de.hterhors.obie.ml.evaluation.evaluator.BeamSearchEvaluator;
 import de.hterhors.obie.ml.evaluation.evaluator.CartesianSearchEvaluator;
@@ -39,28 +45,42 @@ public class EvaluationExample {
 		 */
 		OntologyInitializer.initializeOntology(SoccerPlayerOntologyEnvironment.getInstance());
 
+		Set<RestrictedField> fields = new HashSet<>();
+
+		fields.add(new RestrictedField("teamSoccerClubs", true));
+		fields.add(new RestrictedField("birthYear", true));
+
 		/*
 		 * Create some templates and fill slots...
 		 */
+		InvestigationRestriction i = new InvestigationRestriction(SoccerPlayer.class, fields, true);
 
 		/**
 		 * Create a new SoccerPlayer-class for the individual Sadok Sassi. This
 		 * individual is part of the ontology (see owl/soccer_player_ontology_v1.owl).
 		 */
-		SoccerPlayer perfectSadokSassi = new SoccerPlayer("http://dbpedia.org/resource/Sadok_Sassi", null);
+		SoccerPlayer perfectSadokSassi = new SoccerPlayer("http://dbpedia.org/resource/Sadok_Sassi", i, null);
+		SoccerPlayer perfectSadokSassi2 = new SoccerPlayer("http://dbpedia.org/resource/Sadok_Sassi", null, null);
+		SoccerPlayer perfectSadokSassi3 = new SoccerPlayer("http://dbpedia.org/resource/Sadok_Sassi", null, null);
 		/*
 		 * Fill some slots manually...
 		 */
-		perfectSadokSassi.addPositionAmerican_football_positions(
-				new American_football_positions("http://dbpedia.org/resource/Goalkeeper_(association_football)", null));
-		perfectSadokSassi.setBirthYear(new BirthYear("2000"));
+		perfectSadokSassi.addPositionAmerican_football_positions(new American_football_positions(
+				"http://dbpedia.org/resource/Goalkeeper_(association_football)", null, null));
+		perfectSadokSassi.setBirthYear(new BirthYear("1000"));
+		perfectSadokSassi2.setBirthYear(new BirthYear("2000"));
+		perfectSadokSassi3.setBirthYear(new BirthYear("3000"));
 
 		/**
 		 * Create a default evaluator using the exact-search algorithm.
 		 */
 		CartesianSearchEvaluator exactEvaluator = new CartesianSearchEvaluator();
+		System.out.println(exactEvaluator.prf1(perfectSadokSassi, perfectSadokSassi3));
+//		System.out.println(exactEvaluator.prf1(perfectSadokSassi2, perfectSadokSassi));
+		System.out.println(exactEvaluator.prf1(Arrays.asList(perfectSadokSassi, perfectSadokSassi2),
+				Arrays.asList(perfectSadokSassi3, perfectSadokSassi)));
 
-		compareToNotPerfectSadokSassi(perfectSadokSassi, exactEvaluator);
+//		compareToNotPerfectSadokSassi(perfectSadokSassi, exactEvaluator, i);
 		/*
 		 * Interpreting the result:
 		 * 
@@ -77,7 +97,8 @@ public class EvaluationExample {
 		 * 1 FN: We missed the birth year.
 		 */
 
-		compareToBimalMagar(perfectSadokSassi, exactEvaluator);
+//		compareToBimalMagar(perfectSadokSassi, exactEvaluator);
+
 		/*
 		 * Interpreting the result:
 		 * 
@@ -120,16 +141,18 @@ public class EvaluationExample {
 	 * 
 	 * @param perfectSadokSassi
 	 * @param evaluator
+	 * @param i
 	 */
-	private static void compareToNotPerfectSadokSassi(SoccerPlayer perfectSadokSassi, IOBIEEvaluator evaluator) {
+	private static void compareToNotPerfectSadokSassi(SoccerPlayer perfectSadokSassi, IOBIEEvaluator evaluator,
+			InvestigationRestriction i) {
 		/**
 		 * Create a second SoccerPlayer for the individual Sadok Sassi. However, this
 		 * time some slots are filled differently! We set the BirthYear to 1990 instead
 		 * of 2000.
 		 */
-		SoccerPlayer imperfectSadokSassi = new SoccerPlayer("http://dbpedia.org/resource/Sadok_Sassi", null)
+		SoccerPlayer imperfectSadokSassi = new SoccerPlayer("http://dbpedia.org/resource/Sadok_Sassi", i, null)
 				.addPositionAmerican_football_positions(new American_football_positions(
-						"http://dbpedia.org/resource/Goalkeeper_(association_football)", null))
+						"http://dbpedia.org/resource/Goalkeeper_(association_football)", null, null))
 				.setBirthYear(new BirthYear("1990"));
 
 		/*
@@ -150,11 +173,11 @@ public class EvaluationExample {
 		/**
 		 * Create a SoccerPlayer for individual Bimal Magar.
 		 */
-		SoccerPlayer bimalMagar = new SoccerPlayer("http://dbpedia.org/resource/Bimal_Magar", null)
+		SoccerPlayer bimalMagar = new SoccerPlayer("http://dbpedia.org/resource/Bimal_Magar", null, null)
 				.addPositionAmerican_football_positions(
-						new American_football_positions("http://dbpedia.org/resource/Inside_forward", null))
+						new American_football_positions("http://dbpedia.org/resource/Inside_forward", null, null))
 				.setBirthYear(new BirthYear("2000"))
-				.addBirthPlace(new Place("http://dbpedia.org/resource/Wales", null));
+				.addBirthPlace(new Place("http://dbpedia.org/resource/Wales", null, null));
 
 		/*
 		 * Compare to perfect Sadok Sassi.

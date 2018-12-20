@@ -1,49 +1,51 @@
 package de.hterhors.obie.projects.soccerplayer.ontology.classes;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Resource;
-
-import de.hterhors.obie.core.ontology.AbstractIndividual;
-import de.hterhors.obie.core.ontology.IndividualFactory;
-import de.hterhors.obie.core.ontology.annotations.AssignableSubClasses;
-import de.hterhors.obie.core.ontology.annotations.DatatypeProperty;
-import de.hterhors.obie.core.ontology.annotations.DirectInterface;
-import de.hterhors.obie.core.ontology.annotations.DirectSiblings;
-import de.hterhors.obie.core.ontology.annotations.OntologyModelContent;
-import de.hterhors.obie.core.ontology.annotations.RelationTypeCollection;
+import java.lang.NoSuchMethodException;
+import de.hterhors.obie.core.ontology.interfaces.IDatatype;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.*;
 import de.hterhors.obie.core.ontology.annotations.SuperRootClasses;
-import de.hterhors.obie.core.ontology.annotations.TextMention;
 import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IAmerican_football_positions;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IBirthYear;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IDeathYear;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IPlace;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerClub;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
+import java.util.HashMap;
+import de.hterhors.obie.core.ontology.annotations.OntologyModelContent;
+import java.util.ArrayList;
+import org.apache.jena.rdf.model.Model;
+import de.hterhors.obie.core.ontology.annotations.AssignableSubInterfaces;
+import de.hterhors.obie.core.ontology.annotations.ImplementationClass;
+import org.apache.jena.rdf.model.Resource;
+import java.util.Map;
+import java.lang.InstantiationException;
+import java.lang.SecurityException;
+import de.hterhors.obie.core.ontology.InvestigationRestriction;
+import de.hterhors.obie.core.ontology.annotations.DirectSiblings;
+import java.lang.IllegalAccessException;
+import de.hterhors.obie.core.ontology.annotations.AssignableSubClasses;
+import de.hterhors.obie.core.ontology.IndividualFactory;
+import de.hterhors.obie.core.ontology.annotations.DirectInterface;
+import de.hterhors.obie.core.ontology.annotations.RelationTypeCollection;
+import de.hterhors.obie.core.ontology.annotations.DatatypeProperty;
+import java.lang.IllegalArgumentException;
+import de.hterhors.obie.core.ontology.annotations.TextMention;
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import org.apache.jena.rdf.model.ModelFactory;
+import de.hterhors.obie.core.ontology.AbstractIndividual;
 
 /**
  *
  * @author hterhors
  *
  *
- *         Nov 13, 2018
+ *         Dec 12, 2018
  */
-
-@SuperRootClasses(get = { SoccerPlayer.class, })
 
 @DirectInterface(get = ISoccerPlayer.class)
 
+@DirectSiblings(get = {})
+
 @AssignableSubClasses(get = {})
 
-@DirectSiblings(get = {})
+@SuperRootClasses(get = { SoccerPlayer.class, })
 public class SoccerPlayer implements ISoccerPlayer {
 
 	final public static IndividualFactory<SoccerPlayerIndividual> individualFactory = new IndividualFactory<>();
@@ -75,37 +77,50 @@ public class SoccerPlayer implements ISoccerPlayer {
 		return individual;
 	}
 
+	@Override
+	public InvestigationRestriction getInvestigationRestriction() {
+		return investigationRestriction;
+	}
+
+	@Override
+	public SoccerPlayer setInvestigationRestriction(InvestigationRestriction investigationRestriction) {
+		this.investigationRestriction = investigationRestriction;
+		return this;
+	}
+	public InvestigationRestriction investigationRestriction;
 	final static public String ONTOLOGY_NAME = "http://dbpedia.org/ontology/SoccerPlayer";
-	@RelationTypeCollection
 	@OntologyModelContent(ontologyName = "http://dbpedia.org/ontology/birthPlace")
+	@RelationTypeCollection
 	private List<IPlace> birthPlaces = new ArrayList<>();
-	@DatatypeProperty
 	@OntologyModelContent(ontologyName = "http://dbpedia.org/ontology/birthYear")
+	@DatatypeProperty
 	private IBirthYear birthYear;
 	private Integer characterOffset;
 	private Integer characterOnset;
 	@OntologyModelContent(ontologyName = "http://dbpedia.org/ontology/deathYear")
 	@DatatypeProperty
 	private IDeathYear deathYear;
-	@RelationTypeCollection
 	@OntologyModelContent(ontologyName = "http://dbpedia.org/ontology/position")
+	@RelationTypeCollection
 	private List<IAmerican_football_positions> positionAmerican_football_positions = new ArrayList<>();
 	final static private Map<IOBIEThing, String> resourceFactory = new HashMap<>();
-	final static private long serialVersionUID = 4L;
+	final static private long serialVersionUID = 5L;
 	@OntologyModelContent(ontologyName = "http://dbpedia.org/ontology/team")
 	@RelationTypeCollection
 	private List<ISoccerClub> teamSoccerClubs = new ArrayList<>();
 	@TextMention
 	final private String textMention;
 
-	public SoccerPlayer(String individualURI, String textMention) {
-		this.individual = SoccerPlayer.individualFactory.getIndividualByURI(individualURI);
-		this.textMention = textMention;
+	public SoccerPlayer() {
+		this.individual = null;
+		this.investigationRestriction = InvestigationRestriction.noRestrictionInstance;
+		this.textMention = null;
 	}
 
 	public SoccerPlayer(SoccerPlayer soccerPlayer) throws InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		this.individual = soccerPlayer.individual;
+		this.investigationRestriction = soccerPlayer.investigationRestriction;
 		for (int j = 0; j < soccerPlayer.getBirthPlaces().size(); j++) {
 			if (soccerPlayer.getBirthPlaces().get(j) != null) {
 				birthPlaces.add((IPlace) IOBIEThing.getCloneConstructor(soccerPlayer.getBirthPlaces().get(j).getClass())
@@ -141,9 +156,12 @@ public class SoccerPlayer implements ISoccerPlayer {
 		this.textMention = soccerPlayer.getTextMention();
 	}
 
-	public SoccerPlayer() {
-		this.individual = null;
-		this.textMention = null;
+	public SoccerPlayer(String individualURI, InvestigationRestriction investigationRestriction, String textMention) {
+		this.individual = SoccerPlayer.individualFactory.getIndividualByURI(individualURI);
+		this.investigationRestriction = investigationRestriction == null
+				? InvestigationRestriction.noRestrictionInstance
+				: investigationRestriction;
+		this.textMention = textMention;
 	}
 
 	/***/
@@ -183,40 +201,45 @@ public class SoccerPlayer implements ISoccerPlayer {
 				return false;
 		} else if (!individual.equals(other.individual))
 			return false;
-		if (characterOnset == null) {
-			if (other.characterOnset != null)
+		if (investigationRestriction == null) {
+			if (other.investigationRestriction != null)
 				return false;
-		} else if (!characterOnset.equals(other.characterOnset))
-			return false;
-		if (deathYear == null) {
-			if (other.deathYear != null)
-				return false;
-		} else if (!deathYear.equals(other.deathYear))
-			return false;
-		if (teamSoccerClubs == null) {
-			if (other.teamSoccerClubs != null)
-				return false;
-		} else if (!teamSoccerClubs.equals(other.teamSoccerClubs))
-			return false;
-		if (characterOffset == null) {
-			if (other.characterOffset != null)
-				return false;
-		} else if (!characterOffset.equals(other.characterOffset))
-			return false;
-		if (birthYear == null) {
-			if (other.birthYear != null)
-				return false;
-		} else if (!birthYear.equals(other.birthYear))
+		} else if (!investigationRestriction.equals(other.investigationRestriction))
 			return false;
 		if (positionAmerican_football_positions == null) {
 			if (other.positionAmerican_football_positions != null)
 				return false;
 		} else if (!positionAmerican_football_positions.equals(other.positionAmerican_football_positions))
 			return false;
+		if (deathYear == null) {
+			if (other.deathYear != null)
+				return false;
+		} else if (!deathYear.equals(other.deathYear))
+			return false;
+		if (characterOnset == null) {
+			if (other.characterOnset != null)
+				return false;
+		} else if (!characterOnset.equals(other.characterOnset))
+			return false;
+		if (birthYear == null) {
+			if (other.birthYear != null)
+				return false;
+		} else if (!birthYear.equals(other.birthYear))
+			return false;
+		if (teamSoccerClubs == null) {
+			if (other.teamSoccerClubs != null)
+				return false;
+		} else if (!teamSoccerClubs.equals(other.teamSoccerClubs))
+			return false;
 		if (textMention == null) {
 			if (other.textMention != null)
 				return false;
 		} else if (!textMention.equals(other.textMention))
+			return false;
+		if (characterOffset == null) {
+			if (other.characterOffset != null)
+				return false;
+		} else if (!characterOffset.equals(other.characterOffset))
 			return false;
 		if (birthPlaces == null) {
 			if (other.birthPlaces != null)
@@ -308,14 +331,16 @@ public class SoccerPlayer implements ISoccerPlayer {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((this.individual == null) ? 0 : this.individual.hashCode());
-		result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
-		result = prime * result + ((this.deathYear == null) ? 0 : this.deathYear.hashCode());
-		result = prime * result + ((this.teamSoccerClubs == null) ? 0 : this.teamSoccerClubs.hashCode());
-		result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
-		result = prime * result + ((this.birthYear == null) ? 0 : this.birthYear.hashCode());
+		result = prime * result
+				+ ((this.investigationRestriction == null) ? 0 : this.investigationRestriction.hashCode());
 		result = prime * result + ((this.positionAmerican_football_positions == null) ? 0
 				: this.positionAmerican_football_positions.hashCode());
+		result = prime * result + ((this.deathYear == null) ? 0 : this.deathYear.hashCode());
+		result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
+		result = prime * result + ((this.birthYear == null) ? 0 : this.birthYear.hashCode());
+		result = prime * result + ((this.teamSoccerClubs == null) ? 0 : this.teamSoccerClubs.hashCode());
 		result = prime * result + ((this.textMention == null) ? 0 : this.textMention.hashCode());
+		result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
 		result = prime * result + ((this.birthPlaces == null) ? 0 : this.birthPlaces.hashCode());
 		return result;
 	}
@@ -381,7 +406,8 @@ public class SoccerPlayer implements ISoccerPlayer {
 
 	@Override
 	public String toString() {
-		return "SoccerPlayer [individual=" + individual + ",birthPlaces=" + birthPlaces + ",birthYear=" + birthYear
+		return "SoccerPlayer [individual=" + individual + ",investigationRestriction="
+				+ investigationRestriction.summarize() + ",birthPlaces=" + birthPlaces + ",birthYear=" + birthYear
 				+ ",characterOffset=" + characterOffset + ",characterOnset=" + characterOnset + ",deathYear="
 				+ deathYear + ",positionAmerican_football_positions=" + positionAmerican_football_positions
 				+ ",serialVersionUID=" + serialVersionUID + ",teamSoccerClubs=" + teamSoccerClubs + ",textMention="

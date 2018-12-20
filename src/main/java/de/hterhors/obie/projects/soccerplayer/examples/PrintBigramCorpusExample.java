@@ -88,7 +88,7 @@ public class PrintBigramCorpusExample {
 	 * @return
 	 */
 	private static Builder getStandardParameter() {
-		Builder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
+		Builder paramBuilder = SoccerPlayerParameterQuickAccess.getBaseParameter();
 
 		paramBuilder.setProjectEnvironment(SoccerPlayerProjectEnvironment.getInstance());
 		paramBuilder.setOntologyEnvironment(SoccerPlayerOntologyEnvironment.getInstance());

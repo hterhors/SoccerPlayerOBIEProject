@@ -1,39 +1,51 @@
 package de.hterhors.obie.projects.soccerplayer.ontology.classes;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Resource;
-
-import de.hterhors.obie.core.ontology.AbstractIndividual;
-import de.hterhors.obie.core.ontology.IndividualFactory;
-import de.hterhors.obie.core.ontology.annotations.AssignableSubClasses;
-import de.hterhors.obie.core.ontology.annotations.DirectInterface;
-import de.hterhors.obie.core.ontology.annotations.DirectSiblings;
+import java.lang.NoSuchMethodException;
+import de.hterhors.obie.core.ontology.interfaces.IDatatype;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.*;
 import de.hterhors.obie.core.ontology.annotations.SuperRootClasses;
-import de.hterhors.obie.core.ontology.annotations.TextMention;
 import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerClub;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
+import java.util.HashMap;
+import de.hterhors.obie.core.ontology.annotations.OntologyModelContent;
+import java.util.ArrayList;
+import org.apache.jena.rdf.model.Model;
+import de.hterhors.obie.core.ontology.annotations.AssignableSubInterfaces;
+import de.hterhors.obie.core.ontology.annotations.ImplementationClass;
+import org.apache.jena.rdf.model.Resource;
+import java.util.Map;
+import java.lang.InstantiationException;
+import java.lang.SecurityException;
+import de.hterhors.obie.core.ontology.InvestigationRestriction;
+import de.hterhors.obie.core.ontology.annotations.DirectSiblings;
+import java.lang.IllegalAccessException;
+import de.hterhors.obie.core.ontology.annotations.AssignableSubClasses;
+import de.hterhors.obie.core.ontology.IndividualFactory;
+import de.hterhors.obie.core.ontology.annotations.DirectInterface;
+import de.hterhors.obie.core.ontology.annotations.RelationTypeCollection;
+import de.hterhors.obie.core.ontology.annotations.DatatypeProperty;
+import java.lang.IllegalArgumentException;
+import de.hterhors.obie.core.ontology.annotations.TextMention;
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import org.apache.jena.rdf.model.ModelFactory;
+import de.hterhors.obie.core.ontology.AbstractIndividual;
 
 /**
 *
 * @author hterhors
 *
 *
-*Nov 13, 2018
+*Dec 12, 2018
 */
 
 @SuperRootClasses(get={SoccerClub.class, })
 
 @DirectInterface(get=ISoccerClub.class)
 
-@AssignableSubClasses(get={})
-
 @DirectSiblings(get={})
+
+@AssignableSubClasses(get={})
  public class SoccerClub implements ISoccerClub{
 
 final public static IndividualFactory<SoccerClubIndividual> individualFactory = new IndividualFactory<>();
@@ -58,28 +70,39 @@ static class SoccerClubIndividual extends AbstractIndividual {
 	@Override
 	public AbstractIndividual getIndividual() {
 		return individual;
-	}	final static public String ONTOLOGY_NAME = "http://dbpedia.org/ontology/SoccerClub";
+	}
+	@Override
+	public InvestigationRestriction getInvestigationRestriction() {
+		return investigationRestriction;
+	}
+	@Override
+	public SoccerClub setInvestigationRestriction(InvestigationRestriction investigationRestriction ) {
+		this.investigationRestriction = investigationRestriction;
+ return this;	}public InvestigationRestriction investigationRestriction;	final static public String ONTOLOGY_NAME = "http://dbpedia.org/ontology/SoccerClub";
 	private Integer characterOffset;
 	private Integer characterOnset;
 	final static private Map<IOBIEThing, String> resourceFactory = new HashMap<>();
-	final static private long serialVersionUID = 4L;
+	final static private long serialVersionUID = 5L;
 	@TextMention
 final private String textMention;
 
 
-	public SoccerClub(){
-this.individual = null;
-this.textMention = null;
-}
 	public SoccerClub(SoccerClub soccerClub)throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,NoSuchMethodException, SecurityException{
 this.individual = soccerClub.individual;
+this.investigationRestriction = soccerClub.investigationRestriction;
 this.characterOffset = soccerClub.getCharacterOffset();
 this.characterOnset = soccerClub.getCharacterOnset();
 this.textMention = soccerClub.getTextMention();
 }
-	public SoccerClub(String individualURI, String textMention){
+	public SoccerClub(){
+this.individual = null;
+this.investigationRestriction = InvestigationRestriction.noRestrictionInstance;
+this.textMention = null;
+}
+	public SoccerClub(String individualURI, InvestigationRestriction investigationRestriction, String textMention){
 this.individual = 
 				SoccerClub.individualFactory.getIndividualByURI(individualURI);
+this.investigationRestriction = investigationRestriction==null?InvestigationRestriction.noRestrictionInstance:investigationRestriction;
 this.textMention = textMention;
 }
 
@@ -99,20 +122,25 @@ if (other.individual!= null)
 return false;
 } else if (!individual.equals(other.individual))
 return false;
+if (investigationRestriction == null) {
+if (other.investigationRestriction!= null)
+return false;
+} else if (!investigationRestriction.equals(other.investigationRestriction))
+return false;
 if (characterOnset == null) {
 if (other.characterOnset!= null)
 return false;
 } else if (!characterOnset.equals(other.characterOnset))
 return false;
-if (characterOffset == null) {
-if (other.characterOffset!= null)
-return false;
-} else if (!characterOffset.equals(other.characterOffset))
-return false;
 if (textMention == null) {
 if (other.textMention!= null)
 return false;
 } else if (!textMention.equals(other.textMention))
+return false;
+if (characterOffset == null) {
+if (other.characterOffset!= null)
+return false;
+} else if (!characterOffset.equals(other.characterOffset))
 return false;
 return true;
 }
@@ -156,9 +184,10 @@ return ISoccerPlayerThing.RDF_MODEL_NAMESPACE + resourceName;}
 		final int prime = 31;
 int result = 1;
 result = prime * result + ((this.individual == null) ? 0 : this.individual.hashCode());
+result = prime * result + ((this.investigationRestriction == null) ? 0 : this.investigationRestriction.hashCode());
 result = prime * result + ((this.characterOnset == null) ? 0 : this.characterOnset.hashCode());
-result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
 result = prime * result + ((this.textMention == null) ? 0 : this.textMention.hashCode());
+result = prime * result + ((this.characterOffset == null) ? 0 : this.characterOffset.hashCode());
 return result;}
 	/***/
 @Override
@@ -174,7 +203,7 @@ return false;}
 
 @Override
 public String toString(){
-return "SoccerClub [individual="+individual+",characterOffset="+characterOffset+",characterOnset="+characterOnset+",serialVersionUID="+serialVersionUID+",textMention="+textMention+"]";}
+return "SoccerClub [individual="+individual+",investigationRestriction="+investigationRestriction.summarize()+",characterOffset="+characterOffset+",characterOnset="+characterOnset+",serialVersionUID="+serialVersionUID+",textMention="+textMention+"]";}
 
 
 }

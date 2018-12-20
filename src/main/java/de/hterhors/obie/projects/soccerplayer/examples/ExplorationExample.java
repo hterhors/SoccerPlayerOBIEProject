@@ -1,7 +1,11 @@
 package de.hterhors.obie.projects.soccerplayer.examples;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import de.hterhors.obie.core.ontology.InvestigationRestriction;
+import de.hterhors.obie.core.ontology.InvestigationRestriction.RestrictedField;
 import de.hterhors.obie.core.ontology.OntologyInitializer;
 import de.hterhors.obie.ml.corpus.BigramCorpusProvider;
 import de.hterhors.obie.ml.explorer.SlotFillerExplorer;
@@ -16,6 +20,7 @@ import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerProjectEn
 import de.hterhors.obie.projects.soccerplayer.ie.parameter.SoccerPlayerParameterQuickAccess;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.BirthDeathYearTemplate;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.BirthYear;
+import de.hterhors.obie.projects.soccerplayer.ontology.classes.SoccerPlayer;
 
 /**
  * This class contains example code for different exploration strategies that
@@ -72,6 +77,11 @@ public class ExplorationExample {
 		 */
 		paramBuilder.setRestrictExplorationToFoundConcepts(true);
 
+		
+		Set<RestrictedField> fields = new HashSet<>();
+		fields.add(new RestrictedField("deathYear", true));
+		InvestigationRestriction i = new InvestigationRestriction(SoccerPlayer.class,fields ,true);
+		paramBuilder.setDefaultTrainInvestigationRestriction(i );
 		/**
 		 * Finalize the parameter set.
 		 */
@@ -163,7 +173,7 @@ public class ExplorationExample {
 	 * @return
 	 */
 	private static Builder getStandardParameter() {
-		Builder paramBuilder = SoccerPlayerParameterQuickAccess.getREParameter();
+		Builder paramBuilder = SoccerPlayerParameterQuickAccess.getBaseParameter();
 
 		paramBuilder.setProjectEnvironment(SoccerPlayerProjectEnvironment.getInstance());
 		paramBuilder.setOntologyEnvironment(SoccerPlayerOntologyEnvironment.getInstance());

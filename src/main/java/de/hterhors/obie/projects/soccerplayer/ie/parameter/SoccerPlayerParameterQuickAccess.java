@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import de.hterhors.obie.core.ontology.InvestigationRestriction;
+import de.hterhors.obie.core.ontology.InvestigationRestriction.RestrictedField;
 import de.hterhors.obie.ml.corpus.distributor.AbstractCorpusDistributor;
 import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor;
 import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor.Builder.EMode;
@@ -16,7 +18,6 @@ import de.hterhors.obie.ml.evaluation.evaluator.IOBIEEvaluator;
 import de.hterhors.obie.ml.explorer.AbstractOBIEExplorer;
 import de.hterhors.obie.ml.explorer.SlotCardinalityExplorer;
 import de.hterhors.obie.ml.explorer.SlotFillerExplorer;
-import de.hterhors.obie.ml.run.InvestigationRestriction;
 import de.hterhors.obie.ml.run.param.EInstantiationType;
 import de.hterhors.obie.ml.run.param.IInitializeNumberOfObjects;
 import de.hterhors.obie.ml.run.param.RunParameter.Builder;
@@ -47,7 +48,7 @@ public class SoccerPlayerParameterQuickAccess {
 	 */
 	final private static Class<? extends ISoccerPlayerThing> searchType = corpusType;
 
-	public static Builder getREParameter() {
+	public static Builder getBaseParameter() {
 
 		/**
 		 * Some personal notes to this run.
@@ -111,6 +112,12 @@ public class SoccerPlayerParameterQuickAccess {
 		 */
 		final int maxNumberOfDataTypeElements = 3;
 
+		Set<RestrictedField> fields = new HashSet<>();
+		fields.add(new RestrictedField("birthYear", true));
+		fields.add(new RestrictedField("deathYear", true));
+		fields.add(new RestrictedField("positionAmerican_football_positions", true));
+
+		InvestigationRestriction testInv = new InvestigationRestriction(searchType, fields, true);
 		/**
 		 * Use this class to specify a fine grained investigation restriction that
 		 * affects not only the evaluation but also the sampling procedure.
@@ -122,7 +129,9 @@ public class SoccerPlayerParameterQuickAccess {
 		 * todos.
 		 * 
 		 */
-		final InvestigationRestriction investigationRestiction = InvestigationRestriction.noRestrictionInstance;
+		final InvestigationRestriction defaultTrainInvestigationRestriction = InvestigationRestriction.noRestrictionInstance;
+//		testInv;//
+		final InvestigationRestriction defaultTestInvestigationRestriction =  InvestigationRestriction.noRestrictionInstance;
 
 		/**
 		 * Fix the randomization of the sampling procedure.
@@ -153,8 +162,9 @@ public class SoccerPlayerParameterQuickAccess {
 //				ignoreEmptyInstancesOnEvaluation);
 
 		final IOBIEEvaluator evaluator = new CartesianSearchEvaluator(enableEvaluationCaching, maxEvaluationDepth,
-				penalizeCardinality, investigationRestiction, l -> false, maxNumberOfEntityElements,
-				ignoreEmptyInstancesOnEvaluation);
+				penalizeCardinality,
+//				investigationRestiction,
+				l -> false, maxNumberOfEntityElements, ignoreEmptyInstancesOnEvaluation);
 
 		/**
 		 * The exploration strategies.
@@ -205,7 +215,9 @@ public class SoccerPlayerParameterQuickAccess {
 				.setMaxNumberOfEntityElements(maxNumberOfEntityElements)
 				.setMaxNumberOfDataTypeElements(maxNumberOfDataTypeElements).setRandomForSampling(rndForSampling)
 				.setExploreOnOntologyLevel(exploreOnOntologyLevel)
-				.setRestrictExplorationToFoundConcepts(restrictExplorationToFoundConcepts);
+				.setRestrictExplorationToFoundConcepts(restrictExplorationToFoundConcepts)
+				.setDefaultTrainInvestigationRestriction(defaultTrainInvestigationRestriction)
+				.setDefaultTestInvestigationRestriction(defaultTestInvestigationRestriction).setEnableDiscourseProgression(false);
 
 	}
 

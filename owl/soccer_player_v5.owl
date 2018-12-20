@@ -458,8 +458,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Scotland_national_under-19_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -895,8 +895,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Nepal_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -1247,8 +1247,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Saint_Lucia_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -1883,8 +1883,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Jordan_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -2539,8 +2539,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Italy_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -2860,8 +2860,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Germany_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -4641,8 +4641,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Denmark_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -5157,8 +5157,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Belgium_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -5578,8 +5578,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Armenia_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -5619,8 +5619,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Sierra_Leone_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -5835,8 +5835,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/England_national_under-21_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -5991,8 +5991,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Cameroon_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -6437,8 +6437,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Angola_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -7444,8 +7444,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Netherlands_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -7970,8 +7970,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Ivory_Coast_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -7986,8 +7986,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Mexico_women's_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -8327,8 +8327,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Guatemala_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -8358,8 +8358,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Panama_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -8459,8 +8459,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Scotland_women's_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -10041,8 +10041,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Switzerland_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -10342,8 +10342,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Sweden_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -10458,8 +10458,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Argentina_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -11689,8 +11689,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/England_national_futsal_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -11930,9 +11930,6 @@
 	</owl:NamedIndividual>
 
 
-
-
-
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Zimbabwe">
 			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 
@@ -11943,22 +11940,6 @@
 			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 
 	</owl:NamedIndividual>
-
-
-	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Uganda">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-
-	</owl:NamedIndividual>
-
-
-
-	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Uganda">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-
-	</owl:NamedIndividual>
-
-
-
 
 
 <owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Saint_Lucia">
@@ -12092,7 +12073,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Norway_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -12723,7 +12703,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Colombia_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -13249,7 +13228,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/India_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -13325,7 +13303,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Finland_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -14766,7 +14743,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Soviet_Union_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -14922,7 +14898,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Bloxwich">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -16663,7 +16638,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Genoa">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -17674,7 +17648,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/New_Zealand_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -17780,7 +17753,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Djibouti_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -18341,7 +18313,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/United_States_men's_national_soccer_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -18362,7 +18333,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Australia_national_association_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -18518,7 +18488,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Turkey_women's_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -18624,7 +18593,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Canada_women's_national_soccer_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -19156,7 +19124,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Northern_Ireland_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -20587,7 +20554,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/United_States_women's_national_soccer_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -20908,7 +20874,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Bermuda_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -22510,7 +22475,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Costa_Rica_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -22601,7 +22565,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Zimbabwe_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -22632,7 +22595,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/France_women's_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -24000,7 +23962,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Australia_women's_national_association_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -24156,7 +24117,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/England_national_under-20_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -24697,7 +24657,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Republic_of_Ireland_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -24873,7 +24832,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/South_Africa_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -24889,7 +24847,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Brazil_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -25305,7 +25262,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Central_African_Republic_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -25796,7 +25752,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Uruguay_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -25997,7 +25952,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Guadeloupe_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -27426,7 +27380,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Mexico_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -27502,7 +27455,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/England_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -29564,7 +29516,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Algeria_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -30452,7 +30403,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Malta_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -32195,7 +32145,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Spain_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -32301,7 +32250,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Qatar_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -32552,7 +32500,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/England_national_under-16_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -33194,7 +33141,6 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Guinea_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
 		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
 
 	</owl:NamedIndividual>
@@ -33320,8 +33266,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Liechtenstein_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -34887,8 +34833,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Canada_men's_national_soccer_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -35724,8 +35670,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Israel_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -36566,8 +36512,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Uganda_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -36893,8 +36839,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Peru_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -38773,8 +38719,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Ecuador_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -39089,8 +39035,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/France_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -40605,8 +40551,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Austria_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -41408,8 +41354,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Paraguay_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -41629,8 +41575,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/England_women's_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -41900,8 +41846,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Honduras_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -42286,8 +42232,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Nigeria_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -42667,8 +42613,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Haiti_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -44019,8 +43965,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Wales_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -44120,8 +44066,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Senegal_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -44626,8 +44572,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Zambia_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -45933,8 +45879,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Jamaica_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -46540,8 +46486,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Bulgaria_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -48712,8 +48658,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Scotland_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -48728,8 +48674,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Chile_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -48889,8 +48835,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Tunisia_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -48900,8 +48846,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Estonia_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -49806,8 +49752,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Ghana_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -51502,8 +51448,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Morocco_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -52845,8 +52791,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Russia_national_beach_soccer_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -52891,8 +52837,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Luxembourg_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -53558,8 +53504,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Singapore_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -53714,8 +53660,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Spain_women's_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -55034,8 +54980,8 @@
 
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Solomon_Islands_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -55375,8 +55321,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Wales_women's_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -57794,8 +57740,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/England_national_under-17_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 
@@ -58035,8 +57981,8 @@
 	</owl:NamedIndividual>
 
 	<owl:NamedIndividual rdf:about="http://dbpedia.org/resource/Portugal_national_football_team">
-			<rdf:type rdf:resource="http://dbpedia.org/ontology/Place"/>
-		<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+					<rdf:type rdf:resource="http://dbpedia.org/ontology/SoccerClub"/>
+
 
 	</owl:NamedIndividual>
 

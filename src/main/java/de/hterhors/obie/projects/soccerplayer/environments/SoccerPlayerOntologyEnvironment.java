@@ -20,7 +20,7 @@ public class SoccerPlayerOntologyEnvironment extends AbstractOntologyEnvironment
 
 	private final String ontologyBasePackage = "de.hterhors.obie.projects.soccerplayer.ontology.";
 
-	final public static int version = 4;
+	final public static int version = 5;
 	public static final File ONTOLOGY_FILE = new File("owl/soccer_player_v" + version + ".owl");
 	public static final String DEFAULT_DATA_NAMESPACE = "http://psink/soccerPlayer/";
 	public static final String ONTOLOGY_NAME = "SoccerPlayer";
