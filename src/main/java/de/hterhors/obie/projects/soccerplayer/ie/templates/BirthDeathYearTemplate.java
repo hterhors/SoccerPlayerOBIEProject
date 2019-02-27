@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.hterhors.obie.ml.ner.NERLClassAnnotation;
+import de.hterhors.obie.ml.run.AbstractRunner;
 import de.hterhors.obie.ml.run.param.RunParameter;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
 import de.hterhors.obie.ml.variables.OBIEInstance;
@@ -43,8 +44,8 @@ public class BirthDeathYearTemplate extends AbstractOBIETemplate<Scope> {
 
 	private static Logger log = LogManager.getFormatterLogger(BirthDeathYearTemplate.class.getName());
 
-	public BirthDeathYearTemplate(RunParameter parameter) {
-		super(parameter);
+	public BirthDeathYearTemplate(AbstractRunner runner) {
+		super(runner);
 	}
 
 	private static enum YearType {

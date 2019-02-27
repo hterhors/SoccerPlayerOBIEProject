@@ -117,7 +117,7 @@ public class SoccerPlayerParameterQuickAccess {
 		fields.add(new RestrictedField("deathYear", true));
 		fields.add(new RestrictedField("positionAmerican_football_positions", true));
 
-		InvestigationRestriction testInv = new InvestigationRestriction(searchType, fields, true);
+		InvestigationRestriction testInv = new InvestigationRestriction(fields, true);
 		/**
 		 * Use this class to specify a fine grained investigation restriction that
 		 * affects not only the evaluation but also the sampling procedure.
@@ -231,7 +231,7 @@ public class SoccerPlayerParameterQuickAccess {
 		 * @return
 		 */
 		public static AbstractCorpusDistributor shuffleDist(final float fraction) {
-			return new ShuffleCorpusDistributor.Builder().setTrainingProportion(80).setDevelopmentProportion(0)
+			return new ShuffleCorpusDistributor.Builder().setSeed(200L).setTrainingProportion(80).setDevelopmentProportion(0)
 					.setCorpusSizeFraction(fraction).setTestProportion(20).build();
 		}
 

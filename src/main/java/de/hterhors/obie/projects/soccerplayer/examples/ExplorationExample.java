@@ -20,7 +20,6 @@ import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerProjectEn
 import de.hterhors.obie.projects.soccerplayer.ie.parameter.SoccerPlayerParameterQuickAccess;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.BirthDeathYearTemplate;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.BirthYear;
-import de.hterhors.obie.projects.soccerplayer.ontology.classes.SoccerPlayer;
 
 /**
  * This class contains example code for different exploration strategies that
@@ -80,7 +79,7 @@ public class ExplorationExample {
 		
 		Set<RestrictedField> fields = new HashSet<>();
 		fields.add(new RestrictedField("deathYear", true));
-		InvestigationRestriction i = new InvestigationRestriction(SoccerPlayer.class,fields ,true);
+		InvestigationRestriction i = new InvestigationRestriction(fields,true);
 		paramBuilder.setDefaultTrainInvestigationRestriction(i );
 		/**
 		 * Finalize the parameter set.

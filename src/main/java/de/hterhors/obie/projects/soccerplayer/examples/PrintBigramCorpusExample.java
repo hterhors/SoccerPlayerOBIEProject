@@ -51,11 +51,13 @@ public class PrintBigramCorpusExample {
 
 		for (OBIEInstance instance : corpusProvider.getFullCorpus().getInternalInstances()) {
 
-//			if (!instance.getName().endsWith("Elliott_Whitehouse"))
-//				continue;
+			if (!instance.getName().endsWith("Vincenzo_Zinna"))
+				continue;
 
 			System.out.println("________" + instance.getName() + "________");
 			System.out.println(instance.getContent());
+			System.out.println(instance.getGoldAnnotation().getTemplateAnnotations());
+			System.out.println(instance.getGoldAnnotation().getTemplateAnnotations().iterator().next().getThing());
 			System.out.println("____________Template Annotation(s)____________");
 
 			for (Class<? extends IOBIEThing> annotatedClass : instance.getNamedEntityLinkingAnnotations()

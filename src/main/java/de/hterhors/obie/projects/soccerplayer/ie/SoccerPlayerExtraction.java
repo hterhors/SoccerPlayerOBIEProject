@@ -43,17 +43,16 @@ import de.hterhors.obie.ml.corpus.BigramInternalCorpus;
 import de.hterhors.obie.ml.corpus.distributor.AbstractCorpusDistributor;
 import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor;
 import de.hterhors.obie.ml.corpus.distributor.FoldCrossCorpusDistributor;
+import de.hterhors.obie.ml.corpus.distributor.ShuffleCorpusDistributor;
 import de.hterhors.obie.ml.run.AbstractRunner;
 import de.hterhors.obie.ml.run.DefaultSlotFillingRunner;
 import de.hterhors.obie.ml.run.eval.EvaluatePrediction;
 import de.hterhors.obie.ml.run.param.RunParameter;
 import de.hterhors.obie.ml.run.param.RunParameter.Builder;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
-import de.hterhors.obie.ml.templates.CooccurrenceTemplate;
-import de.hterhors.obie.ml.templates.FrequencyTemplate;
-import de.hterhors.obie.ml.templates.GenericMainTemplatePriorTemplate;
 import de.hterhors.obie.ml.templates.InBetweenContextTemplate;
 import de.hterhors.obie.ml.templates.InterTokenTemplate;
+import de.hterhors.obie.ml.templates.KnowledgeBaseTemplate;
 import de.hterhors.obie.ml.templates.LocalTemplate;
 import de.hterhors.obie.ml.templates.SlotIsFilledTemplate;
 import de.hterhors.obie.ml.templates.TokenContextTemplate;
@@ -98,14 +97,18 @@ public class SoccerPlayerExtraction {
 	final private ETemplateMode templateMode;
 
 	enum ETemplateMode {
-		SS, PS, BOTH, NONE;
+		KB, LING;
+	}
+
+	enum EQueryType {
+		Q1, Q2, Q3, Q4, Q5, ALL;
 	}
 
 	public static void main(String[] args) throws Exception {
 
 		if (args == null || args.length == 0)
 //			args = new String[] { "varianceResults", "variance" };
-			args = new String[] { "randomResults", "random", "100", "1", "NONE" };
+			args = new String[] { "randomResults", "random", "100", "1", "KB", "ALL" };
 //			args = new String[] { "marginResults", "margin" };
 //			args = new String[] { "lengthResults", "length" };
 //			args = new String[] { "rndFillerResults", "rndFiller" };
@@ -119,7 +122,8 @@ public class SoccerPlayerExtraction {
 				"2) argument: mode of active learning, \"random\"(default), \"entropy\", \"entropyAtomic\", \"objective\", \"model\", \"margin\", \"length\" or \"variance\"");
 		log.info("3) argument: Random inital seed");
 		log.info("4) argument: Number of N-best documents for entropy");
-		log.info("5) argument: mode of templates, one of \"SS\", \"PS\", \"BOTH\" or \"NONE\"");
+		log.info("5) argument: mode of templates, one of \"KB\", or \"LING\"");
+		log.info("6) argument: mode of KB queries, one of \"1\", \"2\",\"3\",\"4\", or \"5\", \"ALL\"");
 
 		new SoccerPlayerExtraction(args);
 
@@ -146,6 +150,8 @@ public class SoccerPlayerExtraction {
 	final String acMode;
 	final long seed;
 
+	EQueryType queryType;
+
 	public SoccerPlayerExtraction(String[] args) throws Exception {
 
 		printResults = new File(args.length < 1 ? DEFAULT_RESULT_FILE_NAME : args[0]);
@@ -156,6 +162,7 @@ public class SoccerPlayerExtraction {
 			FullDocumentEntropyRanker.N = Integer.parseInt(args[3]);
 		}
 		templateMode = ETemplateMode.valueOf(args[4]);
+		queryType = EQueryType.valueOf(args[5]);
 
 		log.info("Store results into: " + printResults);
 		log.info("Active Learning Modus: " + acMode);
@@ -179,7 +186,7 @@ public class SoccerPlayerExtraction {
 		/*
 		 * Created new standard Relation Extraction runner.
 		 */
-		AbstractRunner runner = new DefaultSlotFillingRunner(parameter);
+		AbstractRunner runner = new DefaultSlotFillingRunner(parameter, false);
 
 		/**
 		 * Whether you want to run the prediction of new texts or train and test a model
@@ -238,15 +245,15 @@ public class SoccerPlayerExtraction {
 		 * documents before and redistribute to train (80%), dev(0%) and test(20%). (You
 		 * may change that distribution by building your own distributor...
 		 */
-		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.predefinedDistributor
-				.originDist(1F);
+//		final AbstractCorpusDistributor corpusDistributor = SoccerPlayerParameterQuickAccess.predefinedDistributor
+//				.shuffleDist(1F);
 
 //		final AbstractCorpusDistributor corpusDistributor = new FoldCrossCorpusDistributor.Builder().setN(10)
 //		.setSeed(seed).setCorpusSizeFraction(1F).build();
 
-//		final AbstractCorpusDistributor corpusDistributor = new ShuffleCorpusDistributor.Builder().setSeed(seed)
-//				.setTrainingProportion(80).setDevelopmentProportion(0).setCorpusSizeFraction(1F).setTestProportion(20)
-//				.build();
+		final AbstractCorpusDistributor corpusDistributor = new ShuffleCorpusDistributor.Builder().setSeed(seed)
+				.setTrainingProportion(80).setDevelopmentProportion(0).setCorpusSizeFraction(1F).setTestProportion(20)
+				.build();
 
 //		final AbstractCorpusDistributor corpusDistributor = new ActiveLearningDistributor.Builder()
 //				.setMode(EMode.PERCENTAGE).setBPercentage(0.051f).setSeed(seed).setCorpusSizeFraction(1F)
@@ -296,21 +303,37 @@ public class SoccerPlayerExtraction {
 
 			templates.add(BirthDeathYearTemplate.class);
 			templates.add(BirthDeathYearPairTemplate.class);
-////		templates.add(SoccerPlayerPriorTemplate.class);
-			templates.add(GenericMainTemplatePriorTemplate.class);
+//			templates.add(GenericMainTemplatePriorTemplate.class);
 
 			// TODO: Add your own templates
 
-//			templates.add(KnowledgeBaseTemplate.class);
+			if (templateMode == ETemplateMode.KB) {
 
-			templates.add(CooccurrenceTemplate.class);
-//		templates.add(DocumentClassificationTemplate.class);
-//		templates.add(LevenshteinTemplate.class);
+				templates.add(KnowledgeBaseTemplate.class);
 
+				if (queryType == EQueryType.Q1) {
+					KnowledgeBaseTemplate.useQuery1 = false;
+				} else if (queryType == EQueryType.Q2) {
+					KnowledgeBaseTemplate.useQuery2 = false;
+				} else if (queryType == EQueryType.Q3) {
+					KnowledgeBaseTemplate.useQuery3 = false;
+				} else if (queryType == EQueryType.Q4) {
+					KnowledgeBaseTemplate.useQuery4 = false;
+				} else if (queryType == EQueryType.Q5) {
+					KnowledgeBaseTemplate.useQuery5 = false;
+				}
+			}
+
+			// templates.add(TrainAsKnowledgeBaseTemplate.class);
+
+//			templates.add(CooccurrenceTemplate.class);
+//			templates.add(DocumentClassificationTemplate.class);
+//			templates.add(LevenshteinTemplate.class);
 			/*
 			 * Predefined generic templates:
 			 */
-			templates.add(FrequencyTemplate.class);
+//			templates.add(FrequencyTemplate.class);
+
 			templates.add(TokenContextTemplate.class);
 			templates.add(InterTokenTemplate.class);
 			templates.add(InBetweenContextTemplate.class);
@@ -322,16 +345,15 @@ public class SoccerPlayerExtraction {
 			 */
 			templates.add(SlotIsFilledTemplate.class);
 		} else {
-
 			/*
 			 * DBPedia generic templates:
 			 */
-			if (templateMode == ETemplateMode.SS || templateMode == ETemplateMode.BOTH)
-				templates.add(GenericMainTemplatePriorTemplate.class);
-
-			// TODO: Add your own templates for specific ontologies
-			if (templateMode == ETemplateMode.PS || templateMode == ETemplateMode.BOTH)
-				templates.add(CooccurrenceTemplate.class);
+//			if (templateMode == ETemplateMode.SS || templateMode == ETemplateMode.BOTH)
+//				templates.add(GenericMainTemplatePriorTemplate.class);
+//
+//			// TODO: Add your own templates for specific ontologies
+//			if (templateMode == ETemplateMode.PS || templateMode == ETemplateMode.BOTH)
+//				templates.add(CooccurrenceTemplate.class);
 
 			/*
 			 * Predefined generic templates:
@@ -393,7 +415,7 @@ public class SoccerPlayerExtraction {
 	 * @param runner
 	 * @throws Exception
 	 */
-	private  void trainTest(AbstractRunner runner) throws Exception {
+	private void trainTest(AbstractRunner runner) throws Exception {
 		log.info("Start training / testing of a model with a given corpus...");
 		final long testTime;
 		final long trainingTime;
@@ -456,7 +478,6 @@ public class SoccerPlayerExtraction {
 		EvaluatePrediction.evaluatePerSlotPredictions(runner.objectiveFunction, predictions,
 				runner.getParameter().evaluator, detailedOutput);
 
-		
 		PrintStream resultPrintStream = new PrintStream(new FileOutputStream(printResults, true));
 		resultPrintStream.println("############Performances: " + runID + "############");
 		resultPrintStream.println("#Model\tPrecision\tRecall\tF1");
@@ -465,7 +486,7 @@ public class SoccerPlayerExtraction {
 		resultPrintStream.println(logPerformance);
 
 		resultPrintStream.close();
-		
+
 		final long tet = (System.currentTimeMillis() - testTime);
 		log.info("--------------" + runID + "---------------");
 

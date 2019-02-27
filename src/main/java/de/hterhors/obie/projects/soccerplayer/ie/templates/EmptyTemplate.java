@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import de.hterhors.obie.ml.run.AbstractRunner;
 import de.hterhors.obie.ml.run.param.RunParameter;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
 import de.hterhors.obie.ml.variables.OBIEState;
@@ -30,8 +31,8 @@ public class EmptyTemplate extends AbstractOBIETemplate<Scope> {
 
 	private static Logger log = LogManager.getFormatterLogger(EmptyTemplate.class.getName());
 
-	public EmptyTemplate(RunParameter parameter) {
-		super(parameter);
+	public EmptyTemplate(AbstractRunner runner) {
+		super(runner);
 	}
 
 	/**

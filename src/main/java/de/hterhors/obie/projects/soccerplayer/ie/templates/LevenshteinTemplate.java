@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import de.hterhors.obie.core.ontology.AbstractIndividual;
 import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
 import de.hterhors.obie.ml.metrics.LevenShteinSimilarities;
+import de.hterhors.obie.ml.run.AbstractRunner;
 import de.hterhors.obie.ml.run.param.RunParameter;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
 import de.hterhors.obie.ml.variables.OBIEState;
@@ -33,8 +34,8 @@ public class LevenshteinTemplate extends AbstractOBIETemplate<Scope> {
 
 	private static Logger log = LogManager.getFormatterLogger(LevenshteinTemplate.class.getName());
 
-	public LevenshteinTemplate(RunParameter parameter) {
-		super(parameter);
+	public LevenshteinTemplate(AbstractRunner runner) {
+		super(runner);
 	}
 
 	/**

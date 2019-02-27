@@ -21,7 +21,7 @@ import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerProjectEn
  *
  * @See BigramCorpusCreator
  */
-public class PrinRawCorpusExample {
+public class PrintRawCorpusExample {
 
 	public static void main(String[] args) {
 
@@ -33,19 +33,28 @@ public class PrinRawCorpusExample {
 		final OBIECorpus rawCorpus = OBIECorpus
 				.readRawCorpusData(SoccerPlayerProjectEnvironment.getInstance().getRawCorpusFile());
 
+		double length = 0;
+		
 		for (Instance instance : rawCorpus.getInstances().values()) {
 
+			length +=instance.content.length();
+			
 			System.out.println("________" + instance.name + "________");
 			System.out.println(instance.content);
+			System.out.println(instance.content.length());
 			System.out.println("____________Template Annotation(s)____________");
 
 			for (List<IOBIEThing> templateAnnotations : instance.annotations.values()) {
 				for (IOBIEThing templateAnnotation : templateAnnotations) {
 					System.out.println(OBIEClassFormatter.format(templateAnnotation));
+					System.out.println(templateAnnotation);
 				}
 
 			}
 
 		}
+		
+		System.out.println("Average length = "+ (length/rawCorpus.getInstances().size()));
+		
 	}
 }

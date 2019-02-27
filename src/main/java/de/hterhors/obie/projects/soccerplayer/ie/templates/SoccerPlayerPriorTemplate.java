@@ -1,7 +1,6 @@
 package de.hterhors.obie.projects.soccerplayer.ie.templates;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 import de.hterhors.obie.core.ontology.AbstractIndividual;
 import de.hterhors.obie.core.ontology.ReflectionUtils;
 import de.hterhors.obie.core.ontology.interfaces.IDatatype;
-import de.hterhors.obie.ml.run.param.RunParameter;
+import de.hterhors.obie.ml.run.AbstractRunner;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
 import de.hterhors.obie.ml.variables.OBIEState;
 import de.hterhors.obie.ml.variables.TemplateAnnotation;
@@ -62,8 +61,8 @@ public class SoccerPlayerPriorTemplate extends AbstractOBIETemplate<Scope> {
 
 //	private static final String PLAYER_NUMBER_PROPERTY_IDENTIFIER = "playerNumber";
 
-	public SoccerPlayerPriorTemplate(RunParameter parameter) {
-		super(parameter);
+	public SoccerPlayerPriorTemplate(AbstractRunner runner) {
+		super(runner);
 	}
 
 	class Scope extends FactorScope {
