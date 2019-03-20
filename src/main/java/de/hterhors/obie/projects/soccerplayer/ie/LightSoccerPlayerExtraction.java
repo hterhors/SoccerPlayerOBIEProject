@@ -43,7 +43,7 @@ import de.hterhors.obie.ml.corpus.BigramInternalCorpus;
 import de.hterhors.obie.ml.corpus.distributor.AbstractCorpusDistributor;
 import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor;
 import de.hterhors.obie.ml.corpus.distributor.FoldCrossCorpusDistributor;
-import de.hterhors.obie.ml.run.AbstractRunner;
+import de.hterhors.obie.ml.run.AbstractOBIERunner;
 import de.hterhors.obie.ml.run.DefaultSlotFillingRunner;
 import de.hterhors.obie.ml.run.eval.EvaluatePrediction;
 import de.hterhors.obie.ml.run.param.RunParameter;
@@ -138,7 +138,7 @@ public class LightSoccerPlayerExtraction {
 		/*
 		 * Created new standard Relation Extraction runner.
 		 */
-		AbstractRunner runner = new DefaultSlotFillingRunner(parameter);
+		AbstractOBIERunner runner = new DefaultSlotFillingRunner(parameter);
 
 		/**
 		 * Whether you want to run the prediction of new documents (online mode) or
@@ -243,7 +243,7 @@ public class LightSoccerPlayerExtraction {
 		paramBuilder.setTemplates(templates);
 	}
 
-	private void predict(AbstractRunner runner, final List<File> filesToPredict) throws IOException {
+	private void predict(AbstractOBIERunner runner, final List<File> filesToPredict) throws IOException {
 		log.info("Start prediction of new documents...");
 		/*
 		 * Load model if exists
@@ -285,7 +285,7 @@ public class LightSoccerPlayerExtraction {
 	 * @param runner
 	 * @throws Exception
 	 */
-	private void trainTest(AbstractRunner runner) throws Exception {
+	private void trainTest(AbstractOBIERunner runner) throws Exception {
 		log.info("Start training / testing of a model with a given corpus...");
 		final long testTime;
 		final long trainingTime;
@@ -325,7 +325,7 @@ public class LightSoccerPlayerExtraction {
 		 *
 		 * // final PRF1Container overallPRF1 = runner.evaluateOnTest();
 		 */
-		final PRF1 overallPRF1 = EvaluatePrediction.evaluateREPredictions(runner.objectiveFunction, predictions,
+		final PRF1 overallPRF1 = EvaluatePrediction.evaluateSlotFillingPredictions(runner.objectiveFunction, predictions,
 				runner.getParameter().evaluator);
 
 		log.info("Evaluation results on test data:\n" + overallPRF1);

@@ -1,31 +1,42 @@
 package de.hterhors.obie.projects.soccerplayer.ontology.classes;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Resource;
-
-import de.hterhors.obie.core.ontology.AbstractIndividual;
-import de.hterhors.obie.core.ontology.IndividualFactory;
-import de.hterhors.obie.core.ontology.InvestigationRestriction;
-import de.hterhors.obie.core.ontology.annotations.AssignableSubClasses;
-import de.hterhors.obie.core.ontology.annotations.DirectInterface;
-import de.hterhors.obie.core.ontology.annotations.DirectSiblings;
+import java.lang.NoSuchMethodException;
+import de.hterhors.obie.core.ontology.interfaces.IDatatype;
+import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.*;
 import de.hterhors.obie.core.ontology.annotations.SuperRootClasses;
-import de.hterhors.obie.core.ontology.annotations.TextMention;
 import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IPlace;
-import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
+import java.util.HashMap;
+import de.hterhors.obie.core.ontology.annotations.OntologyModelContent;
+import java.util.ArrayList;
+import org.apache.jena.rdf.model.Model;
+import de.hterhors.obie.core.ontology.annotations.AssignableSubInterfaces;
+import de.hterhors.obie.core.ontology.annotations.ImplementationClass;
+import org.apache.jena.rdf.model.Resource;
+import java.util.Map;
+import java.lang.InstantiationException;
+import java.lang.SecurityException;
+import de.hterhors.obie.core.ontology.InvestigationRestriction;
+import de.hterhors.obie.core.ontology.annotations.DirectSiblings;
+import java.lang.IllegalAccessException;
+import de.hterhors.obie.core.ontology.annotations.AssignableSubClasses;
+import de.hterhors.obie.core.ontology.IndividualFactory;
+import de.hterhors.obie.core.ontology.annotations.DirectInterface;
+import de.hterhors.obie.core.ontology.annotations.RelationTypeCollection;
+import de.hterhors.obie.core.ontology.annotations.DatatypeProperty;
+import java.lang.IllegalArgumentException;
+import de.hterhors.obie.core.ontology.annotations.TextMention;
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import org.apache.jena.rdf.model.ModelFactory;
+import de.hterhors.obie.core.ontology.AbstractIndividual;
 
 /**
 *
 * @author hterhors
 *
 *
-*Jan 8, 2019
+*Mar 5, 2019
 */
 
 @DirectSiblings(get={})
@@ -167,6 +178,10 @@ return ISoccerPlayerThing.RDF_MODEL_NAMESPACE + resourceName;}
 @Override
 	public String getTextMention(){
 		return textMention;}
+	/***/
+@Override
+	public IOBIEThing getThis(){
+		return this;}
 	/***/
 @Override
 	public int hashCode(){

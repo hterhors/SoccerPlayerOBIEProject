@@ -10,7 +10,7 @@ import de.hterhors.obie.ml.run.param.RunParameter;
 import de.hterhors.obie.ml.run.param.RunParameter.Builder;
 import de.hterhors.obie.ml.utils.OBIEClassFormatter;
 import de.hterhors.obie.ml.variables.OBIEInstance;
-import de.hterhors.obie.ml.variables.TemplateAnnotation;
+import de.hterhors.obie.ml.variables.IETmplateAnnotation;
 import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerOntologyEnvironment;
 import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerProjectEnvironment;
 import de.hterhors.obie.projects.soccerplayer.ie.parameter.SoccerPlayerParameterQuickAccess;
@@ -56,27 +56,27 @@ public class PrintBigramCorpusExample {
 
 			System.out.println("________" + instance.getName() + "________");
 			System.out.println(instance.getContent());
-			System.out.println(instance.getGoldAnnotation().getTemplateAnnotations());
-			System.out.println(instance.getGoldAnnotation().getTemplateAnnotations().iterator().next().getThing());
+			System.out.println(instance.getGoldAnnotation().getAnnotations());
+			System.out.println(instance.getGoldAnnotation().getAnnotations().iterator().next().getThing());
 			System.out.println("____________Template Annotation(s)____________");
 
-			for (Class<? extends IOBIEThing> annotatedClass : instance.getNamedEntityLinkingAnnotations()
+			for (Class<? extends IOBIEThing> annotatedClass : instance.getEntityAnnotations()
 					.getAvailableClassTypes()) {
-				for (NERLClassAnnotation classNERLAnnotation : instance.getNamedEntityLinkingAnnotations()
+				for (NERLClassAnnotation classNERLAnnotation : instance.getEntityAnnotations()
 						.getClassAnnotations(annotatedClass)) {
 					System.out.println(classNERLAnnotation);
 				}
 			}
 
-			for (AbstractIndividual annotatedIndividual : instance.getNamedEntityLinkingAnnotations()
+			for (AbstractIndividual annotatedIndividual : instance.getEntityAnnotations()
 					.getAvailableIndividualTypes()) {
-				for (NERLIndividualAnnotation individualNERLAnnotation : instance.getNamedEntityLinkingAnnotations()
+				for (NERLIndividualAnnotation individualNERLAnnotation : instance.getEntityAnnotations()
 						.getIndividualAnnotations(annotatedIndividual)) {
 					System.out.println(individualNERLAnnotation);
 				}
 			}
 
-			for (TemplateAnnotation templateAnnotation : instance.getGoldAnnotation().getTemplateAnnotations()) {
+			for (IETmplateAnnotation templateAnnotation : instance.getGoldAnnotation().getAnnotations()) {
 				System.out.println(OBIEClassFormatter.format(templateAnnotation.getThing()));
 			}
 			break;

@@ -44,7 +44,7 @@ import de.hterhors.obie.ml.corpus.distributor.AbstractCorpusDistributor;
 import de.hterhors.obie.ml.corpus.distributor.ActiveLearningDistributor;
 import de.hterhors.obie.ml.corpus.distributor.FoldCrossCorpusDistributor;
 import de.hterhors.obie.ml.corpus.distributor.ShuffleCorpusDistributor;
-import de.hterhors.obie.ml.run.AbstractRunner;
+import de.hterhors.obie.ml.run.AbstractOBIERunner;
 import de.hterhors.obie.ml.run.DefaultSlotFillingRunner;
 import de.hterhors.obie.ml.run.eval.EvaluatePrediction;
 import de.hterhors.obie.ml.run.param.RunParameter;
@@ -186,7 +186,7 @@ public class SoccerPlayerExtraction {
 		/*
 		 * Created new standard Relation Extraction runner.
 		 */
-		AbstractRunner runner = new DefaultSlotFillingRunner(parameter, false);
+		AbstractOBIERunner runner = new DefaultSlotFillingRunner(parameter, false);
 
 		/**
 		 * Whether you want to run the prediction of new texts or train and test a model
@@ -373,7 +373,7 @@ public class SoccerPlayerExtraction {
 		paramBuilder.setTemplates(templates);
 	}
 
-	private void predict(AbstractRunner runner, final List<File> filesToPredict) throws IOException {
+	private void predict(AbstractOBIERunner runner, final List<File> filesToPredict) throws IOException {
 		log.info("Start prediction of new documents...");
 		/*
 		 * Load model if exists
@@ -415,7 +415,7 @@ public class SoccerPlayerExtraction {
 	 * @param runner
 	 * @throws Exception
 	 */
-	private void trainTest(AbstractRunner runner) throws Exception {
+	private void trainTest(AbstractOBIERunner runner) throws Exception {
 		log.info("Start training / testing of a model with a given corpus...");
 		final long testTime;
 		final long trainingTime;
@@ -455,7 +455,7 @@ public class SoccerPlayerExtraction {
 		 *
 		 * // final PRF1Container overallPRF1 = runner.evaluateOnTest();
 		 */
-		final PRF1 overallPRF1 = EvaluatePrediction.evaluateREPredictions(runner.objectiveFunction, predictions,
+		final PRF1 overallPRF1 = EvaluatePrediction.evaluateSlotFillingPredictions(runner.objectiveFunction, predictions,
 				runner.getParameter().evaluator);
 
 		log.info("Evaluation results on test data:\n" + overallPRF1);
@@ -497,7 +497,7 @@ public class SoccerPlayerExtraction {
 
 	}
 
-	private void activeLearning(AbstractRunner runner) throws Exception {
+	private void activeLearning(AbstractOBIERunner runner) throws Exception {
 
 		runID = acMode + new Random().nextInt();
 
@@ -572,10 +572,10 @@ public class SoccerPlayerExtraction {
 			log.info("Apply current model to test data...");
 
 			Level trainerLevel = LogManager.getFormatterLogger(Trainer.class.getName()).getLevel();
-			Level runnerLevel = LogManager.getFormatterLogger(AbstractRunner.class).getLevel();
+			Level runnerLevel = LogManager.getFormatterLogger(AbstractOBIERunner.class).getLevel();
 
 			Configurator.setLevel(Trainer.class.getName(), Level.FATAL);
-			Configurator.setLevel(AbstractRunner.class.getName(), Level.FATAL);
+			Configurator.setLevel(AbstractOBIERunner.class.getName(), Level.FATAL);
 
 			List<SampledInstance<OBIEInstance, InstanceTemplateAnnotations, OBIEState>> predictions = runner
 					.testOnTest();
@@ -589,9 +589,9 @@ public class SoccerPlayerExtraction {
 					.forEach(s -> log.info(c + "_TEST\t" + s.getName()));
 
 			Configurator.setLevel(Trainer.class.getName(), trainerLevel);
-			Configurator.setLevel(AbstractRunner.class.getName(), runnerLevel);
+			Configurator.setLevel(AbstractOBIERunner.class.getName(), runnerLevel);
 
-			PRF1 prf1 = EvaluatePrediction.evaluateREPredictions(runner.getObjectiveFunction(), predictions,
+			PRF1 prf1 = EvaluatePrediction.evaluateSlotFillingPredictions(runner.getObjectiveFunction(), predictions,
 					runner.getParameter().evaluator);
 
 			final String logPerformance = iterationCounter + "\t"
@@ -624,7 +624,7 @@ public class SoccerPlayerExtraction {
 	 * @param runner
 	 * @throws Exception
 	 */
-	private void reverseEngeneerACLearning(AbstractRunner runner) throws Exception {
+	private void reverseEngeneerACLearning(AbstractOBIERunner runner) throws Exception {
 
 		final List<OBIEInstance> memTrain = new ArrayList<>(
 				runner.corpusProvider.getTrainingCorpus().getInternalInstances());
@@ -669,18 +669,18 @@ public class SoccerPlayerExtraction {
 			runner.train();
 
 			Level trainerLevel = LogManager.getFormatterLogger(Trainer.class.getName()).getLevel();
-			Level runnerLevel = LogManager.getFormatterLogger(AbstractRunner.class).getLevel();
+			Level runnerLevel = LogManager.getFormatterLogger(AbstractOBIERunner.class).getLevel();
 
 			Configurator.setLevel(Trainer.class.getName(), Level.FATAL);
-			Configurator.setLevel(AbstractRunner.class.getName(), Level.FATAL);
+			Configurator.setLevel(AbstractOBIERunner.class.getName(), Level.FATAL);
 
 			List<SampledInstance<OBIEInstance, InstanceTemplateAnnotations, OBIEState>> predictions = runner
 					.testOnTest();
 
 			Configurator.setLevel(Trainer.class.getName(), trainerLevel);
-			Configurator.setLevel(AbstractRunner.class.getName(), runnerLevel);
+			Configurator.setLevel(AbstractOBIERunner.class.getName(), runnerLevel);
 
-			PRF1 prf1 = EvaluatePrediction.evaluateREPredictions(runner.getObjectiveFunction(), predictions,
+			PRF1 prf1 = EvaluatePrediction.evaluateSlotFillingPredictions(runner.getObjectiveFunction(), predictions,
 					runner.getParameter().evaluator);
 
 			final String logPerformance = runner.corpusProvider.getTrainingCorpus().getInternalInstances().size() + "\t"
@@ -704,7 +704,7 @@ public class SoccerPlayerExtraction {
 
 	}
 
-	private void nFoldCrossValidation(AbstractRunner runner) throws Exception {
+	private void nFoldCrossValidation(AbstractOBIERunner runner) throws Exception {
 		PRF1 mean = new PRF1(0, 0, 0);
 
 		long allTime = System.currentTimeMillis();
@@ -739,7 +739,7 @@ public class SoccerPlayerExtraction {
 			List<SampledInstance<OBIEInstance, InstanceTemplateAnnotations, OBIEState>> predictions = runner
 					.testOnTest();
 
-			PRF1 prf1 = EvaluatePrediction.evaluateREPredictions(runner.getObjectiveFunction(), predictions,
+			PRF1 prf1 = EvaluatePrediction.evaluateSlotFillingPredictions(runner.getObjectiveFunction(), predictions,
 					runner.getParameter().evaluator);
 
 			mean.add(prf1);

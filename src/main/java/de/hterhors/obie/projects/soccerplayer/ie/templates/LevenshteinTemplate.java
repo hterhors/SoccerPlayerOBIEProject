@@ -9,11 +9,11 @@ import org.apache.logging.log4j.Logger;
 import de.hterhors.obie.core.ontology.AbstractIndividual;
 import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
 import de.hterhors.obie.ml.metrics.LevenShteinSimilarities;
-import de.hterhors.obie.ml.run.AbstractRunner;
+import de.hterhors.obie.ml.run.AbstractOBIERunner;
 import de.hterhors.obie.ml.run.param.RunParameter;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
 import de.hterhors.obie.ml.variables.OBIEState;
-import de.hterhors.obie.ml.variables.TemplateAnnotation;
+import de.hterhors.obie.ml.variables.IETmplateAnnotation;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.LevenshteinTemplate.Scope;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
 import factors.Factor;
@@ -34,7 +34,7 @@ public class LevenshteinTemplate extends AbstractOBIETemplate<Scope> {
 
 	private static Logger log = LogManager.getFormatterLogger(LevenshteinTemplate.class.getName());
 
-	public LevenshteinTemplate(AbstractRunner runner) {
+	public LevenshteinTemplate(AbstractOBIERunner runner) {
 		super(runner);
 	}
 
@@ -66,7 +66,7 @@ public class LevenshteinTemplate extends AbstractOBIETemplate<Scope> {
 		/*
 		 * For all soccer player in the document create a new scope.
 		 */
-		for (TemplateAnnotation templateAnnotation : state.getCurrentTemplateAnnotations().getTemplateAnnotations()) {
+		for (IETmplateAnnotation templateAnnotation : state.getCurrentIETemplateAnnotations().getAnnotations()) {
 
 			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) templateAnnotation.getThing());
 

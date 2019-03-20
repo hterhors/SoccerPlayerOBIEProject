@@ -3,7 +3,7 @@ package de.hterhors.obie.projects.soccerplayer.ie.baseline;
 import de.hterhors.obie.core.evaluation.PRF1;
 import de.hterhors.obie.core.ontology.OntologyInitializer;
 import de.hterhors.obie.ml.corpus.distributor.FoldCrossCorpusDistributor;
-import de.hterhors.obie.ml.run.AbstractRunner;
+import de.hterhors.obie.ml.run.AbstractOBIERunner;
 import de.hterhors.obie.ml.run.DefaultSlotFillingRunner;
 import de.hterhors.obie.ml.run.param.RunParameter;
 import de.hterhors.obie.ml.run.param.RunParameter.Builder;
@@ -33,7 +33,7 @@ public class ComputeHighFreqBaseline {
 		paramBuilder.setProjectEnvironment(SoccerPlayerProjectEnvironment.getInstance());
 
 		RunParameter param = paramBuilder.build();
-		AbstractRunner runner = new DefaultSlotFillingRunner(param);
+		AbstractOBIERunner runner = new DefaultSlotFillingRunner(param);
 
 		while (runner.corpusProvider.nextFold()) {
 

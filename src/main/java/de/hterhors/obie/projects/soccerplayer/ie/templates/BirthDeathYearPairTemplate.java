@@ -9,12 +9,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.hterhors.obie.ml.ner.NERLClassAnnotation;
-import de.hterhors.obie.ml.run.AbstractRunner;
+import de.hterhors.obie.ml.run.AbstractOBIERunner;
 import de.hterhors.obie.ml.run.param.RunParameter;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
 import de.hterhors.obie.ml.variables.OBIEInstance;
 import de.hterhors.obie.ml.variables.OBIEState;
-import de.hterhors.obie.ml.variables.TemplateAnnotation;
+import de.hterhors.obie.ml.variables.IETmplateAnnotation;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.BirthDeathYearPairTemplate.Scope;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.BirthYear;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.DeathYear;
@@ -44,7 +44,7 @@ public class BirthDeathYearPairTemplate extends AbstractOBIETemplate<Scope> {
 
 	private static Logger log = LogManager.getFormatterLogger(BirthDeathYearPairTemplate.class.getName());
 
-	public BirthDeathYearPairTemplate(AbstractRunner runner) {
+	public BirthDeathYearPairTemplate(AbstractOBIERunner runner) {
 		super(runner);
 	}
 
@@ -78,7 +78,7 @@ public class BirthDeathYearPairTemplate extends AbstractOBIETemplate<Scope> {
 		 * In the lecture corpus there is only one soccer player per document.
 		 *
 		 */
-		for (TemplateAnnotation entityAnnotation : state.getCurrentTemplateAnnotations().getTemplateAnnotations()) {
+		for (IETmplateAnnotation entityAnnotation : state.getCurrentIETemplateAnnotations().getAnnotations()) {
 
 			IDeathYear deathYear = ((ISoccerPlayer) entityAnnotation.getThing()).getDeathYear();
 

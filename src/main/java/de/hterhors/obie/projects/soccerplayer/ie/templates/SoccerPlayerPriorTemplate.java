@@ -11,10 +11,10 @@ import org.apache.logging.log4j.Logger;
 import de.hterhors.obie.core.ontology.AbstractIndividual;
 import de.hterhors.obie.core.ontology.ReflectionUtils;
 import de.hterhors.obie.core.ontology.interfaces.IDatatype;
-import de.hterhors.obie.ml.run.AbstractRunner;
+import de.hterhors.obie.ml.run.AbstractOBIERunner;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
 import de.hterhors.obie.ml.variables.OBIEState;
-import de.hterhors.obie.ml.variables.TemplateAnnotation;
+import de.hterhors.obie.ml.variables.IETmplateAnnotation;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.SoccerPlayerPriorTemplate.Scope;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IAmerican_football_positions;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.IPlace;
@@ -61,7 +61,7 @@ public class SoccerPlayerPriorTemplate extends AbstractOBIETemplate<Scope> {
 
 //	private static final String PLAYER_NUMBER_PROPERTY_IDENTIFIER = "playerNumber";
 
-	public SoccerPlayerPriorTemplate(AbstractRunner runner) {
+	public SoccerPlayerPriorTemplate(AbstractOBIERunner runner) {
 		super(runner);
 	}
 
@@ -92,7 +92,7 @@ public class SoccerPlayerPriorTemplate extends AbstractOBIETemplate<Scope> {
 		 * For all soccer player in the document create an individual factor scope.
 		 *
 		 */
-		for (TemplateAnnotation entityAnnotation : state.getCurrentTemplateAnnotations().getTemplateAnnotations()) {
+		for (IETmplateAnnotation entityAnnotation : state.getCurrentIETemplateAnnotations().getAnnotations()) {
 
 			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) entityAnnotation.getThing());
 

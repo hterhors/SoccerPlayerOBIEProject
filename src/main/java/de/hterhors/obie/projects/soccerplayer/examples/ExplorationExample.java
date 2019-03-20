@@ -114,7 +114,7 @@ public class ExplorationExample {
 		 * will find those BirthYear in the proposal states that are generated during
 		 * exploration.
 		 */
-		instance.getNamedEntityLinkingAnnotations().getClassAnnotations(BirthYear.class).forEach(System.out::println);
+		instance.getEntityAnnotations().getClassAnnotations(BirthYear.class).forEach(System.out::println);
 
 		/*
 		 * Exemplary chose one explorer.
@@ -134,7 +134,7 @@ public class ExplorationExample {
 		System.out.println("===========================");
 		OBIEState state = new OBIEState(instance, param);
 		System.out.println(OBIEClassFormatter.format(
-				state.getCurrentTemplateAnnotations().getTemplateAnnotations().iterator().next().getThing()));
+				state.getCurrentIETemplateAnnotations().getAnnotations().iterator().next().getThing()));
 		System.out.println("===========================");
 
 		/**

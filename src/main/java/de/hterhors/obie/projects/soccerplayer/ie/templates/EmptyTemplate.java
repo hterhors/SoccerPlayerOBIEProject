@@ -6,11 +6,11 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.hterhors.obie.ml.run.AbstractRunner;
+import de.hterhors.obie.ml.run.AbstractOBIERunner;
 import de.hterhors.obie.ml.run.param.RunParameter;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
 import de.hterhors.obie.ml.variables.OBIEState;
-import de.hterhors.obie.ml.variables.TemplateAnnotation;
+import de.hterhors.obie.ml.variables.IETmplateAnnotation;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.EmptyTemplate.Scope;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayer;
 import factors.Factor;
@@ -31,7 +31,7 @@ public class EmptyTemplate extends AbstractOBIETemplate<Scope> {
 
 	private static Logger log = LogManager.getFormatterLogger(EmptyTemplate.class.getName());
 
-	public EmptyTemplate(AbstractRunner runner) {
+	public EmptyTemplate(AbstractOBIERunner runner) {
 		super(runner);
 	}
 
@@ -60,7 +60,7 @@ public class EmptyTemplate extends AbstractOBIETemplate<Scope> {
 		/*
 		 * For all soccer player in the document create a new scope.
 		 */
-		for (TemplateAnnotation templateAnnotation : state.getCurrentTemplateAnnotations().getTemplateAnnotations()) {
+		for (IETmplateAnnotation templateAnnotation : state.getCurrentIETemplateAnnotations().getAnnotations()) {
 
 			ISoccerPlayer soccerPlayer = ((ISoccerPlayer) templateAnnotation.getThing());
 			/*

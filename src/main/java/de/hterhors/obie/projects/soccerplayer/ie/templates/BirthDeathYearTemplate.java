@@ -9,12 +9,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.hterhors.obie.ml.ner.NERLClassAnnotation;
-import de.hterhors.obie.ml.run.AbstractRunner;
+import de.hterhors.obie.ml.run.AbstractOBIERunner;
 import de.hterhors.obie.ml.run.param.RunParameter;
 import de.hterhors.obie.ml.templates.AbstractOBIETemplate;
 import de.hterhors.obie.ml.variables.OBIEInstance;
 import de.hterhors.obie.ml.variables.OBIEState;
-import de.hterhors.obie.ml.variables.TemplateAnnotation;
+import de.hterhors.obie.ml.variables.IETmplateAnnotation;
 import de.hterhors.obie.projects.soccerplayer.ie.templates.BirthDeathYearTemplate.Scope;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.BirthYear;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.DeathYear;
@@ -44,7 +44,7 @@ public class BirthDeathYearTemplate extends AbstractOBIETemplate<Scope> {
 
 	private static Logger log = LogManager.getFormatterLogger(BirthDeathYearTemplate.class.getName());
 
-	public BirthDeathYearTemplate(AbstractRunner runner) {
+	public BirthDeathYearTemplate(AbstractOBIERunner runner) {
 		super(runner);
 	}
 
@@ -97,7 +97,7 @@ public class BirthDeathYearTemplate extends AbstractOBIETemplate<Scope> {
 		 * In the lecture corpus there is only one soccer player per document.
 		 *
 		 */
-		for (TemplateAnnotation entityAnnotation : state.getCurrentTemplateAnnotations().getTemplateAnnotations()) {
+		for (IETmplateAnnotation entityAnnotation : state.getCurrentIETemplateAnnotations().getAnnotations()) {
 
 			IBirthYear birthYear = ((ISoccerPlayer) entityAnnotation.getThing()).getBirthYear();
 
@@ -143,7 +143,7 @@ public class BirthDeathYearTemplate extends AbstractOBIETemplate<Scope> {
 
 	private void addBirthYearFactor(Factor<Scope> factor) {
 		final Set<NERLClassAnnotation> possibleBirthYearAnnotations = factor.getFactorScope().currentInstance
-				.getNamedEntityLinkingAnnotations().getClassAnnotationsBySemanticValues(BirthYear.class);
+				.getEntityAnnotations().getClassAnnotationsBySemanticValues(BirthYear.class);
 
 		final int assignedYear = factor.getFactorScope().assignedYear;
 
@@ -173,7 +173,7 @@ public class BirthDeathYearTemplate extends AbstractOBIETemplate<Scope> {
 	private void addDeathYearFactor(Factor<Scope> factor) {
 
 		final Set<NERLClassAnnotation> possibleBirthYearAnnotations = factor.getFactorScope().currentInstance
-				.getNamedEntityLinkingAnnotations().getClassAnnotationsBySemanticValues(DeathYear.class);
+				.getEntityAnnotations().getClassAnnotationsBySemanticValues(DeathYear.class);
 
 		final int assignedYear = factor.getFactorScope().assignedYear;
 
