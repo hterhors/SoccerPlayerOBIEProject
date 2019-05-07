@@ -50,7 +50,7 @@ public class SoccerPlayerProjectEnvironment extends AbstractProjectEnvironment<I
 	}
 
 	@Override
-	public String getCorpusPrefix() {
+	public String getCorpusName() {
 		return corpusPrefix;
 	}
 

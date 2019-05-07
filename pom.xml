@@ -79,7 +79,11 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
-
+		<dependency>
+			<groupId>de.hterhors.semanticmr</groupId>
+			<artifactId>SemanticMR-Core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 
 
