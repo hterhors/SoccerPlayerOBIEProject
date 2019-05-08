@@ -2,6 +2,7 @@ package de.hterhors.obie.projects.soccerplayer.rawcorpus;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -11,6 +12,7 @@ import de.hterhors.dbpedia.obie.corpus.GenericCorpusExtractor.IInstanceRestricti
 import de.hterhors.dbpedia.obie.infobox.DBPediaInfoBoxReaderConfig;
 import de.hterhors.dbpedia.obie.wikipage.WikiPageReaderConfig;
 import de.hterhors.obie.core.ontology.AbstractOntologyEnvironment;
+import de.hterhors.obie.core.ontology.ReflectionUtils;
 import de.hterhors.obie.core.ontology.annotations.RelationTypeCollection;
 import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
 import de.hterhors.obie.core.tools.corpus.OBIECorpus;
@@ -20,7 +22,17 @@ import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerOntologyE
 import de.hterhors.obie.projects.soccerplayer.ie.dtinterpreter.SoccerPlayerInterpreter;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.SoccerPlayer;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
+import de.hterhors.semanticmr.corpus.EInstanceContext;
+import de.hterhors.semanticmr.crf.structure.annotations.AbstractAnnotation;
+import de.hterhors.semanticmr.crf.structure.annotations.AnnotationBuilder;
+import de.hterhors.semanticmr.crf.structure.annotations.EntityTemplate;
+import de.hterhors.semanticmr.crf.structure.slots.SlotType;
+import de.hterhors.semanticmr.crf.variables.Annotations;
+import de.hterhors.semanticmr.crf.variables.Document;
+import de.hterhors.semanticmr.crf.variables.DocumentToken;
+import de.hterhors.semanticmr.exce.DocumentLinkedAnnotationMismatchException;
 import de.hterhors.semanticmr.init.specifications.SystemScope;
+import de.hterhors.semanticmr.tokenizer.DefaultDocumentTokenizer;
 
 public class SoccerPlayerRawCorpusExtractor {
 
@@ -101,38 +113,15 @@ public class SoccerPlayerRawCorpusExtractor {
 
 		c.distributeInstances(new Random(100L), 80, 20, 20, -1);
 
-		OBIECorpus corpus = c.getCorpus();
-	
-		SystemScope.Builder.getSpecsHandler()
-		/**
-		 * We add a scope reader that reads and interprets the 4 specification files.
-		 */
-		.addScopeSpecification(SoccerPlayerSpecs.systemsScopeReader)
-		/**
-		 * We apply the scope, so that we can add normalization functions for various
-		 * literal entity types, if necessary.
-		 */
-		.apply()
-		/**
-		 * Finally, we build the systems scope.
-		 */
-		.build();
-		
-		for (Entry<String, Instance> train : corpus.getTrainingInstances().entrySet()) {
+//		OBIECorpus corpus = c.getCorpus();
 
-			for (Entry<Class<? extends IOBIEThing>, List<IOBIEThing>> a : train.getValue().annotations.entrySet()) {
+//		writeCorpusAsJson(corpus);
 
-				System.out.println(a.getKey());
-				System.out.println(a.getValue());
-
-			}
-
-		}
-
-//		c.storeCorpusJavaSerialization(
-//				new File(
-//						"corpus/raw_corpus_soccerPlayer4To6Prop_v" + ontologyEnvironment.getOntologyVersion() + ".bin"),
-//				"SoccerPlayer corpus with 4 To 5 properties.");
+		c.storeCorpusJavaSerialization(
+				new File(
+						"corpus/raw_corpus_soccerPlayer4To6Prop_v" + ontologyEnvironment.getOntologyVersion() + ".bin"),
+				"SoccerPlayer corpus with 4 To 5 properties.");
 	}
 
+	
 }
