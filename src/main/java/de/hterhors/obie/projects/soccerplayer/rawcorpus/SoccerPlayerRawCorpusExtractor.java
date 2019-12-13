@@ -2,9 +2,7 @@ package de.hterhors.obie.projects.soccerplayer.rawcorpus;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Random;
 
 import de.hterhors.dbpedia.obie.corpus.GenericCorpusExtractor;
@@ -12,27 +10,13 @@ import de.hterhors.dbpedia.obie.corpus.GenericCorpusExtractor.IInstanceRestricti
 import de.hterhors.dbpedia.obie.infobox.DBPediaInfoBoxReaderConfig;
 import de.hterhors.dbpedia.obie.wikipage.WikiPageReaderConfig;
 import de.hterhors.obie.core.ontology.AbstractOntologyEnvironment;
-import de.hterhors.obie.core.ontology.ReflectionUtils;
 import de.hterhors.obie.core.ontology.annotations.RelationTypeCollection;
 import de.hterhors.obie.core.ontology.interfaces.IOBIEThing;
-import de.hterhors.obie.core.tools.corpus.OBIECorpus;
-import de.hterhors.obie.core.tools.corpus.OBIECorpus.Instance;
 import de.hterhors.obie.ml.dtinterpreter.IDatatypeInterpreter;
 import de.hterhors.obie.projects.soccerplayer.environments.SoccerPlayerOntologyEnvironment;
 import de.hterhors.obie.projects.soccerplayer.ie.dtinterpreter.SoccerPlayerInterpreter;
 import de.hterhors.obie.projects.soccerplayer.ontology.classes.SoccerPlayer;
 import de.hterhors.obie.projects.soccerplayer.ontology.interfaces.ISoccerPlayerThing;
-import de.hterhors.semanticmr.corpus.EInstanceContext;
-import de.hterhors.semanticmr.crf.structure.annotations.AbstractAnnotation;
-import de.hterhors.semanticmr.crf.structure.annotations.AnnotationBuilder;
-import de.hterhors.semanticmr.crf.structure.annotations.EntityTemplate;
-import de.hterhors.semanticmr.crf.structure.slots.SlotType;
-import de.hterhors.semanticmr.crf.variables.Annotations;
-import de.hterhors.semanticmr.crf.variables.Document;
-import de.hterhors.semanticmr.crf.variables.DocumentToken;
-import de.hterhors.semanticmr.exce.DocumentLinkedAnnotationMismatchException;
-import de.hterhors.semanticmr.init.specifications.SystemScope;
-import de.hterhors.semanticmr.tokenizer.DefaultDocumentTokenizer;
 
 public class SoccerPlayerRawCorpusExtractor {
 
